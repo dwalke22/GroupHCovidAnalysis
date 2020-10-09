@@ -214,7 +214,7 @@ namespace Covid19Analysis.DataHandling
             return output;
         }
 
-        private string formatDay(CovidData covidData)
+        private string formatDayOrdinals(CovidData covidData)
         {
             var dayString = covidData.Date.Day.ToString();
             if (dayString.Equals("11|12|13"))
@@ -246,28 +246,28 @@ namespace Covid19Analysis.DataHandling
         {
             var highest = monthData.FindHighestNumberOfPositiveCasesInSingleDay();
             return
-                $"Highest Positive Cases: {highest.PositiveCasesIncrease:n0} occurred on the {this.formatDay(highest)}{Environment.NewLine}";
+                $"Highest Positive Cases: {highest.PositiveCasesIncrease:n0} occurred on the {this.formatDayOrdinals(highest)}{Environment.NewLine}";
         }
 
         private string formatMonthlyLowestPositive(CovidDataCollection monthData)
         {
             var lowest = monthData.FindLowestPositiveCases();
             return
-                $"Lowest Positive Cases: {lowest.PositiveCasesIncrease:n0} occurred on {this.formatDay(lowest)}{Environment.NewLine}";
+                $"Lowest Positive Cases: {lowest.PositiveCasesIncrease:n0} occurred on {this.formatDayOrdinals(lowest)}{Environment.NewLine}";
         }
 
         private string formatMonthlyMostTestInDay(CovidDataCollection monthData)
         {
             var mostTest = monthData.FindHighestNumberOfTests();
             return
-                $"Most Test In Single Day: {mostTest.TotalTest:n0} occurred on {this.formatDay(mostTest)}{Environment.NewLine}";
+                $"Most Test In Single Day: {mostTest.TotalTest:n0} occurred on {this.formatDayOrdinals(mostTest)}{Environment.NewLine}";
         }
 
         private string formatLeastTestInDay(CovidDataCollection monthData)
         {
             var leastTest = monthData.FindLowestTotalCases();
             return
-                $"Least Test in Single Day: {leastTest.TotalTest:n0} occurred on {this.formatDay(leastTest)}{Environment.NewLine}";
+                $"Least Test in Single Day: {leastTest.TotalTest:n0} occurred on {this.formatDayOrdinals(leastTest)}{Environment.NewLine}";
         }
 
         private string formatMonthlyAverageTestPerDay(CovidDataCollection monthData)
