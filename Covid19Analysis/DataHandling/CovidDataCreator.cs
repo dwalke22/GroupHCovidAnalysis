@@ -27,6 +27,13 @@ namespace Covid19Analysis.DataHandling
         /// </summary>
         public Dictionary<int, string> ErrorLines { get; set; }
 
+        private const int DateField = 0;
+        private const int StateField = 1;
+        private const int PositiveIncreaseField = 2;
+        private const int NegativeIncreaseFiled = 3;
+        private const int DeathNumberField = 4;
+        private const int HospitalizedField = 5;
+
         #endregion
 
         #region Constructors
@@ -59,12 +66,12 @@ namespace Covid19Analysis.DataHandling
                 try
                 {
                     var covidData = new CovidData(
-                        DateTime.ParseExact(line[0], "yyyyMMdd", CultureInfo.InvariantCulture),
-                        line[1],
-                        this.FixNegativeInput(int.Parse(line[2])),
-                        this.FixNegativeInput(int.Parse(line[3])),
-                        this.FixNegativeInput(int.Parse(line[4])),
-                        this.FixNegativeInput(int.Parse(line[5])));
+                        DateTime.ParseExact(line[DateField], "yyyyMMdd", CultureInfo.InvariantCulture),
+                        line[StateField],
+                        this.FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
+                        this.FixNegativeInput(int.Parse(line[NegativeIncreaseFiled])),
+                        this.FixNegativeInput(int.Parse(line[DeathNumberField])),
+                        this.FixNegativeInput(int.Parse(line[HospitalizedField])));
                     this.CovidData.Add(covidData);
                 }
                 catch (Exception)
