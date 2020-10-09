@@ -121,10 +121,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataHandling\CovidDataCreator.cs" />
-    <Compile Include="GetBoundariesContentDialog.xaml.cs">
+    <Compile Include="View\GetBoundariesContentDialog.xaml.cs">
       <DependentUpon>GetBoundariesContentDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\CovidData.cs" />
@@ -154,11 +154,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="GetBoundariesContentDialog.xaml">
+    <Page Include="View\GetBoundariesContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="View\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
