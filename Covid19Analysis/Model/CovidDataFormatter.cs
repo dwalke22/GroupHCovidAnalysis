@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using Covid19Analysis.Model;
+using Covid19Analysis.DataHandling;
 
-namespace Covid19Analysis.DataHandling
+namespace Covid19Analysis.Model
 
 {
     /// <summary>

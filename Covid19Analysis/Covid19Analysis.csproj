@@ -128,7 +128,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\CovidData.cs" />
-    <Compile Include="DataHandling\CovidDataFormatter.cs" />
+    <Compile Include="Model\CovidDataFormatter.cs" />
     <Compile Include="Model\CovidDataCollection.cs" />
     <Compile Include="Model\MonthlyCovidDataCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
