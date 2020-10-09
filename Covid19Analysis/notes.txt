@@ -1,0 +1,6 @@
+﻿1. Kept getting an Inspection Error in App.xaml.cs for Redundancies in symbol Declarations
+that I could get to go away
+
+2. Duplicate Files do not merge
+
+3. Multipule days in summary are not added
