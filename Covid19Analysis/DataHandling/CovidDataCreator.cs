@@ -100,16 +100,16 @@ namespace Covid19Analysis.DataHandling
         /// </returns>
         public CovidDataCollection GetStateCovidData(string state)
         {
-            var gaData = new CovidDataCollection();
+            var stateData = new CovidDataCollection();
             foreach (var currData in this.CovidData)
             {
-                if (currData.State == "GA")
+                if (currData.State == state)
                 {
-                    gaData.Add(currData);
+                    stateData.Add(currData);
                 }
             }
 
-            return gaData;
+            return stateData;
         }
 
         /// <summary>
