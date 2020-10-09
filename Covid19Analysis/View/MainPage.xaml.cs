@@ -100,8 +100,8 @@ namespace Covid19Analysis.View
         private async Task processFile(StorageFile file)
         {
             var lines = await getFileLines(file);
-            var dataCreator = new CovidDataCreator(lines);
-            dataCreator.CreateCovidData();
+            var dataCreator = new CovidDataCreator();
+            dataCreator.CreateCovidData(lines);
             this.showErrorDialog(dataCreator);
             var gaCovidData = dataCreator.GetStateCovidData("GA");
             var gaMonthData = new MonthlyCovidDataCollection(gaCovidData);

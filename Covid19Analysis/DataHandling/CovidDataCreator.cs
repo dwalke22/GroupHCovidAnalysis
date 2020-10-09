@@ -13,11 +13,6 @@ namespace Covid19Analysis.DataHandling
         #region Properties
 
         /// <summary>
-        ///     The File lines read from the file
-        /// </summary>
-        public string[] FileLines { get; }
-
-        /// <summary>
         ///     The list of <see cref="CovidData" />
         /// </summary>
         public List<CovidData> CovidData { get; }
@@ -41,12 +36,8 @@ namespace Covid19Analysis.DataHandling
         /// <summary>
         ///     Instantiates a new <see cref="CovidDataCreator" /> class object
         /// </summary>
-        /// <param name="fileLines">
-        ///     The lines read from the file
-        /// </param>
-        public CovidDataCreator(string[] fileLines)
+        public CovidDataCreator()
         {
-            this.FileLines = fileLines ?? throw new ArgumentNullException(nameof(fileLines));
             this.CovidData = new List<CovidData>();
             this.ErrorLines = new Dictionary<int, string>();
         }
@@ -58,11 +49,19 @@ namespace Covid19Analysis.DataHandling
         /// <summary>
         ///     Creates CovidData from a .csv file
         /// </summary>
-        public void CreateCovidData()
+        /// <param name="fileLines">
+        ///     The lines of the files to be converted
+        ///     Precondition: filelines != null
+        /// </param>
+        public void CreateCovidData(string[] fileLines)
         {
-            for (var i = 1; i < this.FileLines.Length; i++)
+            if (fileLines == null)
             {
-                var line = this.FileLines[i].Split(",");
+                throw new ArgumentException(nameof(fileLines));
+            }
+            for (var i = 1; i < fileLines.Length; i++)
+            {
+                var line = fileLines[i].Split(",");
                 try
                 {
                     var covidData = new CovidData(
@@ -76,7 +75,7 @@ namespace Covid19Analysis.DataHandling
                 }
                 catch (Exception)
                 {
-                    this.ErrorLines.Add(i, this.FileLines[i]);
+                    this.ErrorLines.Add(i, fileLines[i]);
                 }
             }
         }
