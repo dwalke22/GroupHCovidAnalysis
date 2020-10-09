@@ -80,7 +80,7 @@ namespace Covid19Analysis.Model
                     return this.PositiveCasesIncrease;
                 }
 
-                return this.PositiveCasesIncrease / this.TotalTest;
+                return Convert.ToDouble(this.PositiveCasesIncrease) / this.TotalTest;
             }
         }
 
