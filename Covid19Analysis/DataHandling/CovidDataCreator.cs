@@ -112,23 +112,6 @@ namespace Covid19Analysis.DataHandling
             return stateData;
         }
 
-        /// <summary>
-        ///     Returns the error lines in a string
-        /// </summary>
-        /// <returns>
-        ///     The Error lines in a string
-        /// </returns>
-        public string ErrorLinesToString()
-        {
-            var output = "";
-            foreach (var currkey in this.ErrorLines.Keys)
-            {
-                output += $"Line {currkey}: {this.ErrorLines[currkey]}{Environment.NewLine}";
-            }
-
-            return output;
-        }
-
         #endregion
     }
 }

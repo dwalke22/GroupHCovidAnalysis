@@ -39,6 +39,31 @@ namespace Covid19Analysis.DataHandling
         #region Mehtods
 
         /// <summary>
+        ///     Returns the error lines in a string
+        /// </summary>
+        /// <param name="creator">
+        ///     The CovidDataCrator that holds the error lines
+        ///     Precondition: creator != null
+        /// </param>
+        /// <returns>
+        ///     The Error lines in a string
+        /// </returns>
+        public string ErrorLinesToString(CovidDataCreator creator)
+        {
+            if (creator == null)
+            {
+                throw new ArgumentException(nameof(creator));
+            }
+            var output = "";
+            foreach (var currkey in creator.ErrorLines.Keys)
+            {
+                output += $"Line {currkey}: {creator.ErrorLines[currkey]}{Environment.NewLine}";
+            }
+
+            return output;
+        }
+
+        /// <summary>
         ///     Formats general data about a <see cref="CovidDataCollection" /> object
         /// </summary>
         /// <param name="upperBoundary">the upper boundary of the threshold</param>

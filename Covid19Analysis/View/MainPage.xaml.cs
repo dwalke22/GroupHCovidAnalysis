@@ -102,21 +102,21 @@ namespace Covid19Analysis.View
             var lines = await getFileLines(file);
             var dataCreator = new CovidDataCreator();
             dataCreator.CreateCovidData(lines);
-            this.showErrorDialog(dataCreator);
             var gaCovidData = dataCreator.GetStateCovidData("GA");
             var gaMonthData = new MonthlyCovidDataCollection(gaCovidData);
             var covidFormatter = new CovidDataFormatter(gaCovidData);
+            this.showErrorDialog(dataCreator, covidFormatter);
             this.SummaryTextBox.Text = covidFormatter.FormatGeneralData(this.UpperBoundaryLimit, this.LowerBoundaryLimit);
             this.SummaryTextBox.Text += covidFormatter.FormatMonthlyData(gaMonthData);
         }
 
-        private async void showErrorDialog(CovidDataCreator dataCreator)
+        private async void showErrorDialog(CovidDataCreator dataCreator, CovidDataFormatter formatter)
         {
             if (dataCreator.ErrorLines.Count != 0)
             {
                 var errorDialog = new ContentDialog {
                     Title = "Lines With Errors",
-                    Content = dataCreator.ErrorLinesToString(),
+                    Content = formatter.ErrorLinesToString(dataCreator),
                     PrimaryButtonText = "Close"
                 };
 
