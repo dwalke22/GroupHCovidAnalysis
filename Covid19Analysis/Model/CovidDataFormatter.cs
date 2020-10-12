@@ -269,9 +269,25 @@ namespace Covid19Analysis.Model
 
         private string formatMonthlyHighestPositiveDay(CovidDataCollection monthData)
         {
-            var highest = monthData.FindHighestNumberOfPositiveCasesInSingleDay();
+            var highestPositive = monthData.FindHighestNumberOfPositiveCasesInSingleDay().PositiveCasesIncrease;
+            var daysWithHighest = monthData.CovidRecords
+                .Where(covidData => covidData.PositiveCasesIncrease == highestPositive)
+                .Select(covidData => covidData).ToList();
+            var daysString = string.Empty;
+            foreach (var day in daysWithHighest)
+            {
+                var index = daysWithHighest.IndexOf(day);
+                if (index == daysWithHighest.Count - 1)
+                {
+                    daysString += $"{this.formatDayOrdinals(day)}";
+                }
+                else
+                {
+                    daysString += $"{this.formatDayOrdinals(day)}, ";
+                }
+            }
             return
-                $"Highest Positive Cases: {highest.PositiveCasesIncrease:n0} occurred on the {this.formatDayOrdinals(highest)}{Environment.NewLine}";
+                $"Highest Positive Cases: {highestPositive:n0} occurred on the {daysString}{Environment.NewLine}";
         }
 
         private string formatMonthlyLowestPositive(CovidDataCollection monthData)
