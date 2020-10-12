@@ -59,7 +59,7 @@ namespace Covid19Analysis.Model
         /// </returns>
         public DateTime FindFirstPositiveTest()
         {
-            var earliestDate = this.CovidRecords.OrderBy(covidData => covidData.Date).First().Date;
+            var earliestDate = this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0).OrderBy(covidData => covidData.Date).First().Date;
             return earliestDate;
         }
 
