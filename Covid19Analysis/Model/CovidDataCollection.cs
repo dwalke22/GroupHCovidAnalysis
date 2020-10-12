@@ -59,7 +59,8 @@ namespace Covid19Analysis.Model
         /// </returns>
         public DateTime FindFirstPositiveTest()
         {
-            var earliestDate = this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0).OrderBy(covidData => covidData.Date).First().Date;
+            var earliestDate = this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0)
+                .OrderBy(covidData => covidData.Date).First().Date;
             return earliestDate;
         }
 
@@ -73,8 +74,8 @@ namespace Covid19Analysis.Model
         /// </returns>
         public CovidData FindHighestNumberOfPositiveCasesInSingleDay()
         {
-            var highestPositive = this.CovidRecords.OrderByDescending(covidData => covidData.PositiveCasesIncrease)
-                                      .First();
+            var highestPositive = this.CovidRecords.Where(covidData => covidData.OverallPositivePercentage > 0)
+                .OrderByDescending(covidData => covidData.PositiveCasesIncrease).First();
             return highestPositive;
         }
 

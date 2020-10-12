@@ -77,7 +77,7 @@ namespace Covid19Analysis.Model
             {
                 if (this.TotalTest == 0)
                 {
-                    return this.PositiveCasesIncrease;
+                    return Convert.ToDouble(this.PositiveCasesIncrease);
                 }
 
                 return Convert.ToDouble(this.PositiveCasesIncrease) / this.TotalTest;
