@@ -190,7 +190,8 @@ namespace Covid19Analysis.Model
         /// </returns>
         public int FindNumberOfDaysWithCasesUnderLowerThreshold(int casesThreshold)
         {
-            return this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0).Count(data => data.PositiveCasesIncrease < casesThreshold);
+            return this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0)
+                .Count(data => data.PositiveCasesIncrease < casesThreshold);
         }
 
         /// <summary>
