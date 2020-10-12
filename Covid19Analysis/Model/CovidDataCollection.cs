@@ -20,8 +20,6 @@ namespace Covid19Analysis.Model
 
         #region Constructors
 
-        #region Constructor
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="CovidDataCollection" /> class
         /// </summary>
@@ -29,8 +27,6 @@ namespace Covid19Analysis.Model
         {
             this.CovidRecords = new List<CovidData>();
         }
-
-        #endregion
 
         #endregion
 
@@ -248,8 +244,8 @@ namespace Covid19Analysis.Model
             }
 
             var maxPositive = this.FindHighestNumberOfPositiveCasesInSingleDay().PositiveCasesIncrease;
-            var celing = (double) maxPositive / segmentRange;
-            var segments = (int) Math.Ceiling(celing);
+            var ceiling = (double) maxPositive / segmentRange;
+            var segments = (int) Math.Ceiling(ceiling);
 
             var positiveCount = new int[segments];
 

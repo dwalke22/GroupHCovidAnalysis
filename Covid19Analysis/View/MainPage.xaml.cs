@@ -27,6 +27,7 @@ namespace Covid19Analysis.View
         {
             this.InitializeComponent();
             this.FilePath = "";
+            this.LoadedDataCollection = new CovidDataCollection();
             this.UpperBoundaryLimit = GetBoundariesContentDialog.UpperBoundaryDefault;
             this.LowerBoundaryLimit = GetBoundariesContentDialog.LowerBoundaryDefault;
 
@@ -49,6 +50,13 @@ namespace Covid19Analysis.View
             {
                 this.UpperBoundaryLimit = boundaryContentDialog.UpperBoundary;
                 this.LowerBoundaryLimit = boundaryContentDialog.LowerBoundary;
+                if (this.LoadedDataCollection.CovidRecords.Count > 0)
+                {
+                    var formatter = new CovidDataFormatter(this.LoadedDataCollection);
+                    var stateMonthData = new MonthlyCovidDataCollection(this.LoadedDataCollection);
+                    this.SummaryTextBox.Text = formatter.FormatGeneralData(this.UpperBoundaryLimit, this.LowerBoundaryLimit);
+                    this.SummaryTextBox.Text += formatter.FormatMonthlyData(stateMonthData);
+                }
             }
         }
 
@@ -102,12 +110,13 @@ namespace Covid19Analysis.View
             var lines = await getFileLines(file);
             var dataCreator = new CovidDataCreator();
             dataCreator.CreateCovidData(lines);
-            var gaCovidData = dataCreator.GetStateCovidData("GA");
-            var gaMonthData = new MonthlyCovidDataCollection(gaCovidData);
-            var covidFormatter = new CovidDataFormatter(gaCovidData);
+            var stateCovidData = dataCreator.GetStateCovidData(DefaualtStateSelector);
+            this.LoadedDataCollection = stateCovidData;
+            var stateMonthData = new MonthlyCovidDataCollection(stateCovidData);
+            var covidFormatter = new CovidDataFormatter(stateCovidData);
             this.showErrorDialog(dataCreator, covidFormatter);
             this.SummaryTextBox.Text = covidFormatter.FormatGeneralData(this.UpperBoundaryLimit, this.LowerBoundaryLimit);
-            this.SummaryTextBox.Text += covidFormatter.FormatMonthlyData(gaMonthData);
+            this.SummaryTextBox.Text += covidFormatter.FormatMonthlyData(stateMonthData);
         }
 
         private async void showErrorDialog(CovidDataCreator dataCreator, CovidDataFormatter formatter)
@@ -146,6 +155,11 @@ namespace Covid19Analysis.View
         public const int ApplicationWidth = 625;
 
         /// <summary>
+        ///     The default State selector to get from a covid collection
+        /// </summary>
+        public const string DefaualtStateSelector = "GA";
+
+        /// <summary>
         ///     The file loaded into the application
         /// </summary>
         public string FilePath { get; private set; }
@@ -159,6 +173,11 @@ namespace Covid19Analysis.View
         ///     the lower boundary limit of the threshold
         /// </summary>
         public int LowerBoundaryLimit { get; set; }
+
+        /// <summary>
+        ///     The CovidData Collection that is loaded into the app
+        /// </summary>
+        public CovidDataCollection LoadedDataCollection { get; set; }
 
         #endregion
 
