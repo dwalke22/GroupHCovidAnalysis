@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Covid19Analysis.DataHandling;
@@ -134,7 +135,7 @@ namespace Covid19Analysis.Model
             var positive = this.CovidRecords.FindHighestPositivePercentage();
             return
                 "Highest Positive Test Percentage in Single Day: " +
-                $"{positive.Date.ToShortDateString()} with {Convert.ToDecimal($"{positive.OverallPositivePercentage:0.00}")}%" +
+                $"{positive.Date.ToShortDateString()} with {Convert.ToDecimal($"{positive.OverallPositivePercentage:0.00}"):n0}%" +
                 $"{Environment.NewLine}";
         }
 
@@ -143,13 +144,13 @@ namespace Covid19Analysis.Model
             var average = this.CovidRecords.FindAveragePositiveCasesSinceFirstPositive();
             return
                 "Average Positive Test Per Day Since First Positive: " +
-                $"{Convert.ToDecimal($"{average: 0.00}")} cases per day{Environment.NewLine}";
+                $"{Convert.ToDecimal($"{average: 0.00}"):n0} cases per day{Environment.NewLine}";
         }
 
         private string formatOverAllPositivityRate()
         {
             var rate = this.CovidRecords.FindOverallPositivityRate();
-            return $"Overall Positive rate: {Convert.ToDecimal($"{rate:0.00}")}%{Environment.NewLine}";
+            return $"Overall Positive rate: {Convert.ToDecimal($"{rate:0.00}"):n0}%{Environment.NewLine}";
         }
 
         private string formatBoundaries(int upperLimit, int lowerLimit)
@@ -273,49 +274,68 @@ namespace Covid19Analysis.Model
             var daysWithHighest = monthData.CovidRecords
                 .Where(covidData => covidData.PositiveCasesIncrease == highestPositive)
                 .Select(covidData => covidData).ToList();
+            var daysString = formatMultipuleDays(daysWithHighest);
+            return
+                $"Highest Positive Cases: {highestPositive:n0} occurred on the {daysString}{Environment.NewLine}";
+        }
+
+        private string formatMultipuleDays(List<CovidData> days)
+        {
             var daysString = string.Empty;
-            foreach (var day in daysWithHighest)
+            foreach (var day in days)
             {
-                var index = daysWithHighest.IndexOf(day);
-                if (index == daysWithHighest.Count - 1)
+                var index = days.IndexOf(day);
+                if (index == days.Count - 1)
                 {
-                    daysString += $"{this.formatDayOrdinals(day)}";
+                    daysString += $"and {this.formatDayOrdinals(day)}";
                 }
                 else
                 {
                     daysString += $"{this.formatDayOrdinals(day)}, ";
                 }
             }
-            return
-                $"Highest Positive Cases: {highestPositive:n0} occurred on the {daysString}{Environment.NewLine}";
+
+            return daysString;
         }
 
         private string formatMonthlyLowestPositive(CovidDataCollection monthData)
         {
-            var lowest = monthData.FindLowestPositiveCases();
+            var lowestPositives = monthData.FindLowestPositiveCases().PositiveCasesIncrease;
+            var daysWithLowest = monthData.CovidRecords
+                .Where(covidData => covidData.PositiveCasesIncrease == lowestPositives)
+                .Select(covidData => covidData).ToList();
+            var daysString = this.formatMultipuleDays(daysWithLowest);
             return
-                $"Lowest Positive Cases: {lowest.PositiveCasesIncrease:n0} occurred on {this.formatDayOrdinals(lowest)}{Environment.NewLine}";
+                $"Lowest Positive Cases: {lowestPositives:n0} occurred on {daysString}{Environment.NewLine}";
         }
 
         private string formatMonthlyMostTestInDay(CovidDataCollection monthData)
         {
-            var mostTest = monthData.FindHighestNumberOfTests();
+            var mostTest = monthData.FindHighestNumberOfTests().TotalTest;
+            var daysWithMostTests = monthData.CovidRecords
+                .Where(covidData => covidData.TotalTest == mostTest)
+                .Select(covidData => covidData).ToList();
+            var daysString = this.formatMultipuleDays(daysWithMostTests);
             return
-                $"Most Test In Single Day: {mostTest.TotalTest:n0} occurred on {this.formatDayOrdinals(mostTest)}{Environment.NewLine}";
+                $"Most Test In Single Day: {mostTest:n0} occurred on {daysString}{Environment.NewLine}";
         }
 
         private string formatLeastTestInDay(CovidDataCollection monthData)
         {
-            var leastTest = monthData.FindLowestTotalCases();
+            var leastTest = monthData.FindLowestTotalCases().TotalTest;
+            var daysWithLeastTests = monthData.CovidRecords
+                .Where(covidData => covidData.TotalTest == leastTest)
+                .Select(covidData => covidData).ToList();
+            var daysString = this.formatMultipuleDays(daysWithLeastTests);
             return
-                $"Least Test in Single Day: {leastTest.TotalTest:n0} occurred on {this.formatDayOrdinals(leastTest)}{Environment.NewLine}";
+                $"Least Test in Single Day: {leastTest:n0} occurred on {daysString}{Environment.NewLine}";
         }
 
         private string formatMonthlyAverageTestPerDay(CovidDataCollection monthData)
         {
             var average = monthData.FindAveragePositiveCasesSinceFirstPositive();
             return
-                $"Average Positive Test Per Day Since First Positive: {Convert.ToDecimal($"{average: 0.00}")} cases per day" +
+                $"Average Positive Test Per Day Since First Positive: {Convert.ToDecimal($"{average: 0.00}"):n0} cases per day" +
                 $"{Environment.NewLine}";
         }
 
@@ -323,7 +343,7 @@ namespace Covid19Analysis.Model
         {
             var average = monthData.FindAverageNumberOfTestPerDay();
             return
-                $"Average Number of Test Per Day: {Convert.ToDecimal($"{average:0.00}")} test per day{Environment.NewLine}";
+                $"Average Number of Test Per Day: {Convert.ToDecimal($"{average:0.00}"):n0} test per day{Environment.NewLine}";
         }
 
         #endregion
