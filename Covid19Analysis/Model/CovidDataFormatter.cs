@@ -135,7 +135,7 @@ namespace Covid19Analysis.Model
             var positive = this.CovidRecords.FindHighestPositivePercentage();
             return
                 "Highest Positive Test Percentage in Single Day: " +
-                $"{positive.Date.ToShortDateString()} with {Convert.ToDecimal($"{positive.OverallPositivePercentage:0.00}"):n0}%" +
+                $"{positive.Date.ToShortDateString()} with {Convert.ToDecimal($"{positive.OverallPositivePercentage:0.00}")}%" +
                 $"{Environment.NewLine}";
         }
 
