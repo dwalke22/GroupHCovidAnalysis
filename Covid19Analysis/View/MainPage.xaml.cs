@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -26,7 +27,7 @@ namespace Covid19Analysis.View
         public MainPage()
         {
             this.InitializeComponent();
-            this.FilePath = "";
+            this.DataCreator = new CovidDataCreator();
             this.LoadedDataCollection = new CovidDataCollection();
             this.UpperBoundaryLimit = GetBoundariesContentDialog.UpperBoundaryDefault;
             this.LowerBoundaryLimit = GetBoundariesContentDialog.LowerBoundaryDefault;
@@ -68,15 +69,7 @@ namespace Covid19Analysis.View
             var file = await openPicker.PickSingleFileAsync();
             if (file != null)
             {
-                if (this.FilePath.Equals(file.Path))
-                {
-                    await this.handleDuplicateFile(file);
-                }
-                else
-                {
-                    this.FilePath = file.Path;
-                    await this.processFile(file);
-                }
+                await this.processFile(file);
             }
             else
             {
@@ -84,10 +77,28 @@ namespace Covid19Analysis.View
             }
         }
 
-        private async Task handleDuplicateFile(StorageFile file)
+        private async Task processFile(StorageFile file)
         {
-            var loadingDialog = new ContentDialog() {
-                Title = "File Already In Use",
+            this.DataCreator.ErrorLines.Clear();
+            var lines = await getFileLines(file);
+            this.DataCreator.CreateCovidData(lines);
+            var stateCovidData = this.DataCreator.GetStateCovidData(DefaualtStateSelector);
+            if (this.LoadedDataCollection.CovidRecords.Any())
+            {
+                this.handleExistingFileLoading(stateCovidData);
+            }
+            else
+            {
+                this.LoadedDataCollection = stateCovidData;
+            }
+            this.CreateNewReportSummary();
+        }
+
+        private async void handleExistingFileLoading(CovidDataCollection covidCollection)
+        {
+            var loadingDialog = new ContentDialog()
+            {
+                Title = "There Is Already A File Loaded",
                 Content = "Do You Wish To Replace Or Merge This File?",
                 PrimaryButtonText = "Replace",
                 SecondaryButtonText = "Merge"
@@ -95,23 +106,21 @@ namespace Covid19Analysis.View
 
             var result = await loadingDialog.ShowAsync();
 
-            if (result == ContentDialogResult.Primary)
+            if (result == Replace)
             {
-                this.FilePath = file.Path;
-                await this.processFile(file);
+                this.LoadedDataCollection = covidCollection;
+                this.CreateNewReportSummary();
+            }
+
+            if (result == Merge)
+            {
+                this.mergeFile(covidCollection);
             }
         }
 
-        private async Task processFile(StorageFile file)
+        private void mergeFile(CovidDataCollection covidCollection)
         {
-            var lines = await getFileLines(file);
-            var dataCreator = new CovidDataCreator();
-            dataCreator.CreateCovidData(lines);
-            var stateCovidData = dataCreator.GetStateCovidData(DefaualtStateSelector);
-            this.LoadedDataCollection = stateCovidData;
-            var covidFormatter = new CovidDataFormatter(stateCovidData);
-            this.showErrorDialog(dataCreator, covidFormatter);
-            this.CreateNewReportSummary();
+
         }
 
         private void CreateNewReportSummary()
@@ -122,13 +131,25 @@ namespace Covid19Analysis.View
             this.SummaryTextBox.Text += covidFormatter.FormatMonthlyData(stateMonthData);
         }
 
-        private async void showErrorDialog(CovidDataCreator dataCreator, CovidDataFormatter formatter)
+        private async void errorLines_Click(object sender, RoutedEventArgs e)
         {
-            if (dataCreator.ErrorLines.Count != 0)
+            if (this.DataCreator.ErrorLines.Count == 0)
             {
-                var errorDialog = new ContentDialog {
+                var errorDialog = new ContentDialog
+                {
                     Title = "Lines With Errors",
-                    Content = formatter.ErrorLinesToString(dataCreator),
+                    Content = "No Lines With Errors",
+                    PrimaryButtonText = "Close"
+                };
+
+                await errorDialog.ShowAsync();
+            }
+            else
+            {
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Lines With Errors",
+                    Content = new CovidDataFormatter(this.LoadedDataCollection).ErrorLinesToString(this.DataCreator),
                     PrimaryButtonText = "Close"
                 };
 
@@ -163,11 +184,6 @@ namespace Covid19Analysis.View
         public const string DefaualtStateSelector = "GA";
 
         /// <summary>
-        ///     The file loaded into the application
-        /// </summary>
-        public string FilePath { get; private set; }
-
-        /// <summary>
         ///     The upper boundary limit of the threshold
         /// </summary>
         public int UpperBoundaryLimit { get; set; }
@@ -182,7 +198,15 @@ namespace Covid19Analysis.View
         /// </summary>
         public CovidDataCollection LoadedDataCollection { get; set; }
 
-        #endregion
+        /// <summary>
+        ///     The DataCreator for the application
+        /// </summary>
+        public CovidDataCreator DataCreator { get; set; }
 
+        private const ContentDialogResult Replace = ContentDialogResult.Primary;
+
+        private const ContentDialogResult Merge = ContentDialogResult.Secondary;
+
+        #endregion
     }
 }

@@ -14,6 +14,7 @@
             </CommandBar.Content>
             <AppBarButton Icon="OpenFile" Label="Load File" Click="loadFile_Click" />
             <AppBarButton Icon="Setting" Label="Change Boundaries" Click="changeBoundaries_Click" />
+            <AppBarButton Icon="List" Label="Error Lines" Click="errorLines_Click" />
         </CommandBar>
         <TextBox x:Name="SummaryTextBox" HorizontalAlignment="Left" Margin="12,67,0,0" VerticalAlignment="Top"
                  TextWrapping="Wrap" Text="Summary" Height="276" Width="600" IsReadOnly="True"
