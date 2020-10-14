@@ -117,19 +117,19 @@ namespace Covid19Analysis.View
             }
         }
 
-        private void mergeFile(CovidDataCollection covidCollection)
+        private async void mergeFile(CovidDataCollection covidCollection)
         {
             foreach (var currCovidData in covidCollection.CovidRecords)
             {
                 if (this.LoadedDataCollection.CovidRecords.Any(covidData => covidData.Date == currCovidData.Date))
                 {
-                    var result = showDuplicateDayDialog();
+                    var result = await showDuplicateDayDialog();
 
-                    if (result.GetResults() == Replace)
+                    if (result == Replace)
                     {
                         this.replaceDuplicateDay(currCovidData);
                     }
-                    else if (result.GetResults() == Merge)
+                    else if (result == Merge)
                     {
                         this.mergeDuplicateDay(currCovidData);
                     }
@@ -139,6 +139,7 @@ namespace Covid19Analysis.View
                     this.LoadedDataCollection.Add(currCovidData);
                 }
             }
+            this.CreateNewReportSummary();
         }
 
         private void replaceDuplicateDay(CovidData currCovidData)
