@@ -127,6 +127,7 @@ namespace Covid19Analysis.View
         {
             var stateMonthData = new MonthlyCovidDataCollection(this.LoadedDataCollection);
             var covidFormatter = new CovidDataFormatter(this.LoadedDataCollection);
+            this.SummaryTextBox.Text = "";
             this.SummaryTextBox.Text = covidFormatter.FormatGeneralData(this.UpperBoundaryLimit, this.LowerBoundaryLimit);
             this.SummaryTextBox.Text += covidFormatter.FormatMonthlyData(stateMonthData);
         }

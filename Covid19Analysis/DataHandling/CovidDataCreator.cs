@@ -59,6 +59,7 @@ namespace Covid19Analysis.DataHandling
             {
                 throw new ArgumentException(nameof(fileLines));
             }
+            this.CovidData.Clear();
             for (var i = 1; i < fileLines.Length; i++)
             {
                 var line = fileLines[i].Split(",");
