@@ -79,7 +79,6 @@ namespace Covid19Analysis.View
 
         private async Task processFile(StorageFile file)
         {
-            this.DataCreator.ErrorLines.Clear();
             var lines = await getFileLines(file);
             this.DataCreator.CreateCovidData(lines);
             var stateCovidData = this.DataCreator.GetStateCovidData(DefaualtStateSelector);
@@ -120,7 +119,45 @@ namespace Covid19Analysis.View
 
         private void mergeFile(CovidDataCollection covidCollection)
         {
+            foreach (var currCovidData in covidCollection.CovidRecords)
+            {
+                if (this.LoadedDataCollection.CovidRecords.Any(covidData => covidData.Date == currCovidData.Date))
+                {
+                    var result = showDuplicateDayDialog();
 
+                    if (result.GetResults() == Replace)
+                    {
+                        this.replaceDuplicateDay(currCovidData);
+                    }
+                }
+                else
+                {
+                    this.LoadedDataCollection.Add(currCovidData);
+                }
+            }
+        }
+
+        private void replaceDuplicateDay(CovidData currCovidData)
+        {
+            var duplicateDay = currCovidData.Date;
+            var day = this.LoadedDataCollection.CovidRecords.First(covidData =>
+                covidData.Date == duplicateDay);
+            var index = this.LoadedDataCollection.CovidRecords.IndexOf(day);
+            this.LoadedDataCollection.CovidRecords[index] = currCovidData;
+        }
+
+        private static IAsyncOperation<ContentDialogResult> showDuplicateDayDialog()
+        {
+            var duplicateDayDialog = new ContentDialog()
+            {
+                Title = "Duplicate Day Found",
+                Content = "Do you want to replace day data or merge?",
+                PrimaryButtonText = "Replace",
+                SecondaryButtonText = "Merge"
+            };
+
+            var result = duplicateDayDialog.ShowAsync();
+            return result;
         }
 
         private void CreateNewReportSummary()
