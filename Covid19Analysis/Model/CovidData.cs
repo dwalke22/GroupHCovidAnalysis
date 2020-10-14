@@ -31,7 +31,7 @@ namespace Covid19Analysis.Model
         /// <value>
         ///     The number of positive cases
         /// </value>
-        public int PositiveCasesIncrease { get; }
+        public int PositiveCasesIncrease { get; set; }
 
         /// <summary>
         ///     Gets the number of negative cases
@@ -39,7 +39,7 @@ namespace Covid19Analysis.Model
         /// <value>
         ///     The number of negative cases
         /// </value>
-        public int NegativeCasesIncrease { get; }
+        public int NegativeCasesIncrease { get; set; }
 
         /// <summary>
         ///     Gets the number of deaths for the date
@@ -47,7 +47,7 @@ namespace Covid19Analysis.Model
         /// <value>
         ///     The number of deaths
         /// </value>
-        public int DeathNumbers { get; }
+        public int DeathNumbers { get; set; }
 
         /// <summary>
         ///     Gets the number of hospitalized cases
@@ -55,7 +55,7 @@ namespace Covid19Analysis.Model
         /// <value>
         ///     The number of hospitalized cases
         /// </value>
-        public int HospitalizedNumbers { get; }
+        public int HospitalizedNumbers { get; set; }
 
         /// <summary>
         ///     Gets the total number of tests

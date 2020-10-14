@@ -129,6 +129,10 @@ namespace Covid19Analysis.View
                     {
                         this.replaceDuplicateDay(currCovidData);
                     }
+                    else if (result.GetResults() == Merge)
+                    {
+                        this.mergeDuplicateDay(currCovidData);
+                    }
                 }
                 else
                 {
@@ -144,6 +148,19 @@ namespace Covid19Analysis.View
                 covidData.Date == duplicateDay);
             var index = this.LoadedDataCollection.CovidRecords.IndexOf(day);
             this.LoadedDataCollection.CovidRecords[index] = currCovidData;
+        }
+
+        private void mergeDuplicateDay(CovidData currCovidData)
+        {
+            var duplicateDay = currCovidData.Date;
+            var day = this.LoadedDataCollection.CovidRecords.First(covidData => covidData.Date == duplicateDay);
+            var index = this.LoadedDataCollection.CovidRecords.IndexOf(day);
+            day.PositiveCasesIncrease += currCovidData.PositiveCasesIncrease;
+            day.NegativeCasesIncrease += currCovidData.NegativeCasesIncrease;
+            day.DeathNumbers += currCovidData.DeathNumbers;
+            day.HospitalizedNumbers += currCovidData.HospitalizedNumbers;
+            this.LoadedDataCollection.CovidRecords[index] = day;
+
         }
 
         private static IAsyncOperation<ContentDialogResult> showDuplicateDayDialog()

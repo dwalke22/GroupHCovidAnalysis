@@ -61,7 +61,7 @@ namespace Covid19Analysis.DataHandling
             }
             this.CovidData.Clear();
             this.ErrorLines.Clear();
-            for (var i = 1; i < fileLines.Length; i++)
+            for (var i = 0; i < fileLines.Length; i++)
             {
                 var line = fileLines[i].Split(",");
                 try

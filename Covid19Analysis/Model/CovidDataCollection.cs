@@ -249,12 +249,21 @@ namespace Covid19Analysis.Model
             var segments = (int) Math.Ceiling(ceiling);
 
             var positiveCount = new int[segments];
+            int startCases = 0;
+            int endCases = segmentRange;
 
-            foreach (var currData in this.CovidRecords)
+            for (int i = 0; i < positiveCount.Length; i++)
             {
-                var currPositive = currData.PositiveCasesIncrease;
-                var segmentNumber = currPositive / segmentRange;
-                positiveCount[segmentNumber]++;
+                foreach (var currData in this.CovidRecords)
+                {
+                    if (startCases <= currData.PositiveCasesIncrease && currData.PositiveCasesIncrease <= endCases)
+                    {
+                        positiveCount[i]++;
+                    }
+                }
+
+                startCases = endCases + 1;
+                endCases = segmentRange * (i + 2);
             }
 
             return positiveCount;
