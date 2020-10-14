@@ -81,7 +81,7 @@ namespace Covid19Analysis.View
         {
             var lines = await getFileLines(file);
             this.DataCreator.CreateCovidData(lines);
-            var stateCovidData = this.DataCreator.GetStateCovidData(DefaualtStateSelector);
+            var stateCovidData = this.DataCreator.GetStateCovidData(DefaultStateSelector);
             if (this.LoadedDataCollection.Count > 0)
             {
                 this.handleExistingFileLoading(stateCovidData);
@@ -237,7 +237,7 @@ namespace Covid19Analysis.View
         /// <summary>
         ///     The default State selector to get from a covid collection
         /// </summary>
-        public const string DefaualtStateSelector = "GA";
+        public const string DefaultStateSelector = "GA";
 
         /// <summary>
         ///     The upper boundary limit of the threshold
