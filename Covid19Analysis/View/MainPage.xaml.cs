@@ -51,7 +51,7 @@ namespace Covid19Analysis.View
             {
                 this.UpperBoundaryLimit = boundaryContentDialog.UpperBoundary;
                 this.LowerBoundaryLimit = boundaryContentDialog.LowerBoundary;
-                if (this.LoadedDataCollection.CovidRecords.Count > 0)
+                if (this.LoadedDataCollection.Count > 0)
                 {
                     this.CreateNewReportSummary();
                 }
@@ -82,7 +82,7 @@ namespace Covid19Analysis.View
             var lines = await getFileLines(file);
             this.DataCreator.CreateCovidData(lines);
             var stateCovidData = this.DataCreator.GetStateCovidData(DefaualtStateSelector);
-            if (this.LoadedDataCollection.CovidRecords.Any())
+            if (this.LoadedDataCollection.Count > 0)
             {
                 this.handleExistingFileLoading(stateCovidData);
             }

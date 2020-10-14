@@ -16,6 +16,11 @@ namespace Covid19Analysis.Model
         /// </summary>
         public IList<CovidData> CovidRecords { get; set; }
 
+        /// <summary>
+        ///     The Count for the number of records in the collection
+        /// </summary>
+        public int Count => this.CovidRecords.Count;
+
         #endregion
 
         #region Constructors
@@ -34,6 +39,10 @@ namespace Covid19Analysis.Model
 
         /// <summary>
         ///     Adds a <see cref="CovidData" /> CovidData object to the list
+        ///     Precondition:
+        ///         data != null
+        ///     PostCondition:
+        ///         Count = Count@prev + 1 
         /// </summary>
         /// <param name="data">The data object to be added</param>
         /// <exception cref="NullReferenceException">data</exception>

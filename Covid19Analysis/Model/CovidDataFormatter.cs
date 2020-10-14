@@ -221,7 +221,7 @@ namespace Covid19Analysis.Model
                 {
                     output +=
                         $"{Environment.NewLine}{Environment.NewLine}{DateTimeFormatInfo.InvariantInfo.AbbreviatedMonthNames[i]} {monthlyData.Year} " +
-                        $"({monthData.CovidRecords.Count} days of date):{Environment.NewLine}";
+                        $"({monthData.Count} days of date):{Environment.NewLine}";
                     output += this.formatMonthlyHighestPositiveDay(monthData);
                     output += this.formatMonthlyLowestPositive(monthData);
                     output += this.formatMonthlyMostTestInDay(monthData);
