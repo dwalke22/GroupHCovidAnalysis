@@ -4,6 +4,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CovidAppTests.CovidCollectionTest
 {
+    /// <summary>
+    ///     Input                   Expected Output
+    ///     EmptyList               InvalidOperationException
+    ///     One Item (10/14/2020)   10/14/2020
+    ///     DateInMiddle            10/14/2020
+    ///     DateAtEnd               10/14/2020
+    /// </summary>
     [TestClass]
     public class FindFirstPositiveTest
     {

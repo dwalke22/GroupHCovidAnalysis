@@ -4,6 +4,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CovidAppTests.CovidCollectionTest
 {
+    /// <summary>
+    ///     Input           Expected Output
+    ///     null            ArgumentNullException
+    ///     validData       1
+    ///     validData(3)    3
+    /// </summary>
     [TestClass]
     public class AddTest
     {
@@ -12,12 +18,7 @@ namespace CovidAppTests.CovidCollectionTest
         {
             var dataCollection = new CovidDataCollection();
 
-            var validData = new CovidData(new DateTime(2020, 10, 14),
-                "GA",
-                10,
-                10,
-                10,
-                10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 10, 10, 10, 10);
 
             dataCollection.Add(validData);
 
@@ -32,30 +33,15 @@ namespace CovidAppTests.CovidCollectionTest
         }
 
         [TestMethod]
-        public void TestMultipuleAdds()
+        public void TestMultipleAdds()
         {
             var dataCollection = new CovidDataCollection();
 
-            var validData = new CovidData(new DateTime(2020, 10, 14),
-                "GA",
-                10,
-                10,
-                10,
-                10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 10, 10, 10, 10);
 
-            var validData2 = new CovidData(new DateTime(2020, 10, 15),
-                "GA",
-                10,
-                10,
-                10,
-                10);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 10, 10, 10, 10);
 
-            var validData3 = new CovidData(new DateTime(2020, 10, 16),
-                "GA",
-                10,
-                10,
-                10,
-                10);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 10, 10, 10, 10);
 
             dataCollection.Add(validData);
             dataCollection.Add(validData2);
