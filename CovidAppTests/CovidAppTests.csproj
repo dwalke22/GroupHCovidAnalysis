@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CovidCollectionTest\FindAverageNumberOfTestPerDayTest.cs" />
+    <Compile Include="CovidCollectionTest\FindHighestPositivePercentageTest.cs" />
     <Compile Include="CovidCollectionTest\FindOverallPositivityRateTest.cs" />
     <Compile Include="CovidCollectionTest\FindFirstPositiveTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
