@@ -299,7 +299,7 @@ namespace Covid19Analysis.Model
         public double FindAverageNumberOfTestPerDay()
         {
             this.CheckCollectionIsPopulated();
-            var averageTotalTest = this.CovidRecords.Average(covidData => covidData.TotalTest);
+            var averageTotalTest = this.CovidRecords.Where(covidData => covidData.TotalTest > 0).Average(covidData => covidData.TotalTest);
             return averageTotalTest;
         }
 
