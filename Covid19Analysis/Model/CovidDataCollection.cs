@@ -50,7 +50,7 @@ namespace Covid19Analysis.Model
         {
             if (data == null)
             {
-                throw new NullReferenceException(nameof(data));
+                throw new ArgumentNullException(nameof(data));
             }
 
             this.CovidRecords.Add(data);
