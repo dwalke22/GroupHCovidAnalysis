@@ -64,6 +64,10 @@ namespace Covid19Analysis.Model
         /// </returns>
         public DateTime FindFirstPositiveTest()
         {
+            if (this.Count == 0)
+            {
+                throw new InvalidOperationException("Collection contains no elements");
+            }
             var earliestDate = this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0)
                 .OrderBy(covidData => covidData.Date).First().Date;
             return earliestDate;
