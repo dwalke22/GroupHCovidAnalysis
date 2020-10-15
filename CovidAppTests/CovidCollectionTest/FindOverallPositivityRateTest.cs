@@ -7,19 +7,20 @@ namespace CovidAppTests.CovidCollectionTest
     /// <summary>
     ///     Input                   Expected Output
     ///     EmptyList               InvalidOperationException
-    ///     One Item (10/14/2020)   10/14/2020
-    ///     DateInMiddle            10/14/2020
-    ///     DateAtEnd               10/14/2020
+    ///     One Item (10.0)         0.5
+    ///     Multiple (10.0)         0.5
     /// </summary>
     [TestClass]
     public class FindOverallPositivityRateTest
     {
+        private const double Delta = 0.0000001;
+
         [TestMethod]
         public void TestEmptyList()
         {
             var dataCollection = new CovidDataCollection();
 
-            Assert.ThrowsException<InvalidOperationException>(() => dataCollection.FindFirstPositiveTest());
+            Assert.ThrowsException<InvalidOperationException>(() => dataCollection.FindOverallPositivityRate());
         }
 
        [TestMethod]
@@ -31,11 +32,11 @@ namespace CovidAppTests.CovidCollectionTest
 
             dataCollection.Add(validData);
 
-            Assert.AreEqual(validData.Date, dataCollection.FindFirstPositiveTest());
+            Assert.AreEqual(validData.OverallPositivePercentage, dataCollection.FindOverallPositivityRate(), Delta);
        }
 
        [TestMethod]
-       public void TestDateInMiddleOfList()
+       public void TestDateMultiple()
        {
            var dataCollection = new CovidDataCollection();
 
@@ -45,29 +46,15 @@ namespace CovidAppTests.CovidCollectionTest
 
            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 10, 10, 10, 10);
 
-            dataCollection.Add(validData2);
-            dataCollection.Add(validData);
-            dataCollection.Add(validData3);
+           dataCollection.Add(validData2);
+           dataCollection.Add(validData);
+           dataCollection.Add(validData3);
 
-           Assert.AreEqual(validData.Date, dataCollection.FindFirstPositiveTest());
+           var expected = (validData.OverallPositivePercentage + validData2.OverallPositivePercentage +
+                           validData3.OverallPositivePercentage) / 3;
+
+           Assert.AreEqual(expected, dataCollection.FindOverallPositivityRate(), Delta);
        }
 
-       [TestMethod]
-       public void TestDateAtEndOfList()
-       {
-           var dataCollection = new CovidDataCollection();
-
-           var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 10, 10, 10, 10);
-
-           var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 10, 10, 10, 10);
-
-           var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 10, 10, 10, 10);
-
-           dataCollection.Add(validData2);
-           dataCollection.Add(validData3);
-           dataCollection.Add(validData);
-
-           Assert.AreEqual(validData.Date, dataCollection.FindFirstPositiveTest());
-        }
     }
 }
