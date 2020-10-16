@@ -23,9 +23,9 @@ namespace CovidAppTests.CovidCollectionTest
             Assert.ThrowsException<InvalidOperationException>(() => dataCollection.FindOverallPositivityRate());
         }
 
-       [TestMethod]
-       public void TestSingleDataInList()
-       {
+        [TestMethod]
+        public void TestSingleDataInList()
+        {
             var dataCollection = new CovidDataCollection();
 
             var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 10, 10, 10, 10);
@@ -33,28 +33,27 @@ namespace CovidAppTests.CovidCollectionTest
             dataCollection.Add(validData);
 
             Assert.AreEqual(validData.OverallPositivePercentage, dataCollection.FindOverallPositivityRate(), Delta);
-       }
+        }
 
-       [TestMethod]
-       public void TestDateMultiple()
-       {
-           var dataCollection = new CovidDataCollection();
+        [TestMethod]
+        public void TestDateMultiple()
+        {
+            var dataCollection = new CovidDataCollection();
 
-           var validData = new CovidData(new DateTime(2020, 10, 14),"GA", 10, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 10, 10, 10, 10);
 
-           var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 10, 10, 10, 10);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 10, 10, 10, 10);
 
-           var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 10, 10, 10, 10);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 10, 10, 10, 10);
 
-           dataCollection.Add(validData2);
-           dataCollection.Add(validData);
-           dataCollection.Add(validData3);
+            dataCollection.Add(validData2);
+            dataCollection.Add(validData);
+            dataCollection.Add(validData3);
 
-           var expected = (validData.OverallPositivePercentage + validData2.OverallPositivePercentage +
-                           validData3.OverallPositivePercentage) / 3;
+            var expected = (validData.OverallPositivePercentage + validData2.OverallPositivePercentage +
+                            validData3.OverallPositivePercentage) / 3;
 
-           Assert.AreEqual(expected, dataCollection.FindOverallPositivityRate(), Delta);
-       }
-
+            Assert.AreEqual(expected, dataCollection.FindOverallPositivityRate(), Delta);
+        }
     }
 }

@@ -10,6 +10,18 @@ namespace Covid19Analysis.View
     /// </summary>
     public sealed partial class GetBoundariesContentDialog
     {
+        #region Constructors
+
+        /// <summary>
+        ///     Instantiates a new <see cref="GetBoundariesContentDialog" /> object
+        /// </summary>
+        public GetBoundariesContentDialog()
+        {
+            InitializeComponent();
+        }
+
+        #endregion
+
         #region Data members
 
         /// <summary>
@@ -38,48 +50,28 @@ namespace Covid19Analysis.View
 
         #endregion
 
-        #region Constructors
-
-        /// <summary>
-        ///     Instantiates a new <see cref="GetBoundariesContentDialog" /> object
-        /// </summary>
-        public GetBoundariesContentDialog()
-        {
-            this.InitializeComponent();
-        }
-
-        #endregion
-
         #region Methods
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            var upperBoundary = this.UpperBoundaryTextBox.Text;
-            var lowerBoundary = this.LowerBoundaryTextBox.Text;
+            var upperBoundary = UpperBoundaryTextBox.Text;
+            var lowerBoundary = LowerBoundaryTextBox.Text;
             var numberRegex = new Regex("\\d+");
             if (string.IsNullOrEmpty(upperBoundary) | !numberRegex.IsMatch(upperBoundary))
-            {
-                this.UpperBoundary = UpperBoundaryDefault;
-            }
+                UpperBoundary = UpperBoundaryDefault;
             else
-            {
-                this.UpperBoundary = int.Parse(this.UpperBoundaryTextBox.Text);
-            }
+                UpperBoundary = int.Parse(UpperBoundaryTextBox.Text);
 
             if (string.IsNullOrEmpty(lowerBoundary) | !numberRegex.IsMatch(lowerBoundary))
-            {
-                this.LowerBoundary = LowerBoundaryDefault;
-            }
+                LowerBoundary = LowerBoundaryDefault;
             else
-            {
-                this.LowerBoundary = int.Parse(this.LowerBoundaryTextBox.Text);
-            }
+                LowerBoundary = int.Parse(LowerBoundaryTextBox.Text);
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            this.UpperBoundary = UpperBoundaryDefault;
-            this.LowerBoundary = LowerBoundaryDefault;
+            UpperBoundary = UpperBoundaryDefault;
+            LowerBoundary = LowerBoundaryDefault;
         }
 
         #endregion

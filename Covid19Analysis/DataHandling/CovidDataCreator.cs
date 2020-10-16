@@ -10,6 +10,19 @@ namespace Covid19Analysis.DataHandling
     /// </summary>
     public class CovidDataCreator
     {
+        #region Constructors
+
+        /// <summary>
+        ///     Instantiates a new <see cref="CovidDataCreator" /> class object
+        /// </summary>
+        public CovidDataCreator()
+        {
+            CovidData = new List<CovidData>();
+            ErrorLines = new Dictionary<int, string>();
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -31,19 +44,6 @@ namespace Covid19Analysis.DataHandling
 
         #endregion
 
-        #region Constructors
-
-        /// <summary>
-        ///     Instantiates a new <see cref="CovidDataCreator" /> class object
-        /// </summary>
-        public CovidDataCreator()
-        {
-            this.CovidData = new List<CovidData>();
-            this.ErrorLines = new Dictionary<int, string>();
-        }
-
-        #endregion
-
         #region Methods
 
         /// <summary>
@@ -55,12 +55,9 @@ namespace Covid19Analysis.DataHandling
         /// </param>
         public void CreateCovidData(string[] fileLines)
         {
-            if (fileLines == null)
-            {
-                throw new ArgumentException(nameof(fileLines));
-            }
-            this.CovidData.Clear();
-            this.ErrorLines.Clear();
+            if (fileLines == null) throw new ArgumentException(nameof(fileLines));
+            CovidData.Clear();
+            ErrorLines.Clear();
             for (var i = 0; i < fileLines.Length; i++)
             {
                 var line = fileLines[i].Split(",");
@@ -69,15 +66,15 @@ namespace Covid19Analysis.DataHandling
                     var covidData = new CovidData(
                         DateTime.ParseExact(line[DateField], "yyyyMMdd", CultureInfo.InvariantCulture),
                         line[StateField],
-                        this.FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
-                        this.FixNegativeInput(int.Parse(line[NegativeIncreaseFiled])),
-                        this.FixNegativeInput(int.Parse(line[DeathNumberField])),
-                        this.FixNegativeInput(int.Parse(line[HospitalizedField])));
-                    this.CovidData.Add(covidData);
+                        FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
+                        FixNegativeInput(int.Parse(line[NegativeIncreaseFiled])),
+                        FixNegativeInput(int.Parse(line[DeathNumberField])),
+                        FixNegativeInput(int.Parse(line[HospitalizedField])));
+                    CovidData.Add(covidData);
                 }
                 catch (Exception)
                 {
-                    this.ErrorLines.Add(i, fileLines[i]);
+                    ErrorLines.Add(i, fileLines[i]);
                 }
             }
         }
@@ -85,10 +82,7 @@ namespace Covid19Analysis.DataHandling
         private int FixNegativeInput(int number)
         {
             var fixedNumber = number;
-            if (fixedNumber < 0)
-            {
-                fixedNumber = Math.Abs(fixedNumber);
-            }
+            if (fixedNumber < 0) fixedNumber = Math.Abs(fixedNumber);
 
             return fixedNumber;
         }
@@ -103,13 +97,9 @@ namespace Covid19Analysis.DataHandling
         public CovidDataCollection GetStateCovidData(string state)
         {
             var stateData = new CovidDataCollection();
-            foreach (var currData in this.CovidData)
-            {
+            foreach (var currData in CovidData)
                 if (currData.State == state)
-                {
                     stateData.Add(currData);
-                }
-            }
 
             return stateData;
         }
