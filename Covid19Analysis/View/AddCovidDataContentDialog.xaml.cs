@@ -53,6 +53,8 @@ namespace Covid19Analysis.View
         /// </summary>
         public int HospitalizedNumbers { get; private set; }
 
+        private Regex numberRegex => new Regex("\\d+");
+
         #endregion
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -73,8 +75,12 @@ namespace Covid19Analysis.View
 
         private void PositiveCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Regex numberRegex = new Regex("\\d+");
-            if (!numberRegex.IsMatch(this.PositiveCasesTextBox.Text))
+            this.CheckForPositiveNumbers(this.PositiveCasesTextBox.Text);
+        }
+
+        private void CheckForPositiveNumbers(string numberString)
+        {
+            if (!numberRegex.IsMatch(numberString))
             {
                 this.ErrorLabel.Visibility = Visibility.Visible;
                 this.ErrorLabel.Text = "Numbers must be greater than or equal to zero";
@@ -83,6 +89,21 @@ namespace Covid19Analysis.View
             {
                 this.ErrorLabel.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void NegativeCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.CheckForPositiveNumbers(this.NegativeCasesTextBox.Text);
+        }
+
+        private void DeathsTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.CheckForPositiveNumbers(this.DeathsTextBox.Text);
+        }
+
+        private void HospitalizedTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.CheckForPositiveNumbers(this.HospitalizedTextBox.Text);
         }
     }
 }

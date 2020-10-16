@@ -55,11 +55,31 @@ namespace Covid19Analysis.View
             }
         }
 
-        private void addData_Click(object sender, RoutedEventArgs e)
+        private async void addData_Click(object sender, RoutedEventArgs e)
         {
             var addDataContentDialog = new AddCovidDataContentDialog();
 
             var result = addDataContentDialog.ShowAsync();
+
+            if (result.GetResults() == ContentDialogResult.Primary)
+            {
+                CovidData data = new CovidData(addDataContentDialog.DateDate, 
+                    addDataContentDialog.State, addDataContentDialog.PositiveCaseIncrease, 
+                    addDataContentDialog.NegativeCaseIncrease, 
+                    addDataContentDialog.DeathNumbers, 
+                    addDataContentDialog.HospitalizedNumbers);
+
+                if (this.LoadedDataCollection.CovidRecords.Any(covidData => covidData.Date == data.Date))
+                {
+                    await this.handleDuplicateDay(data);
+                }
+                else
+                {
+                    this.LoadedDataCollection.Add(data);
+                }
+
+                CreateNewReportSummary();
+            }
         }
 
         private async void loadFile_Click(object sender, RoutedEventArgs e)
@@ -122,11 +142,7 @@ namespace Covid19Analysis.View
             foreach (var currCovidData in covidCollection.CovidRecords)
                 if (LoadedDataCollection.CovidRecords.Any(covidData => covidData.Date == currCovidData.Date))
                 {
-                    var result = await showDuplicateDayDialog();
-
-                    if (result == Replace)
-                        replaceDuplicateDay(currCovidData);
-                    else if (result == Merge) mergeDuplicateDay(currCovidData);
+                    await handleDuplicateDay(currCovidData);
                 }
                 else
                 {
@@ -134,6 +150,15 @@ namespace Covid19Analysis.View
                 }
 
             CreateNewReportSummary();
+        }
+
+        private async Task handleDuplicateDay(CovidData currCovidData)
+        {
+            var result = await showDuplicateDayDialog();
+
+            if (result == Replace)
+                replaceDuplicateDay(currCovidData);
+            else if (result == Merge) mergeDuplicateDay(currCovidData);
         }
 
         private void replaceDuplicateDay(CovidData currCovidData)
