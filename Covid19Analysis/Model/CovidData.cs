@@ -35,7 +35,7 @@ namespace Covid19Analysis.Model
         #region Methods
 
         /// <summary>
-        ///     Converts to a string
+        ///     Converts to a string for file writing
         /// </summary>
         /// <returns>
         ///     A <see cref="System.String" /> that represents this instance object
@@ -43,9 +43,8 @@ namespace Covid19Analysis.Model
         public override string ToString()
         {
             return
-                $"{Date.ToShortDateString()} {State}: Number of Positive Cases: {PositiveCasesIncrease}, Number of " +
-                $"Negative Cases: {NegativeCasesIncrease}, Deaths: {DeathNumbers}, Hospitalized: " +
-                $"{HospitalizedNumbers}";
+                $"{Date.Year}{Date.Month}{Date.Day}, {State}, {PositiveCasesIncrease}, {NegativeCasesIncrease}, " +
+                $"{DeathNumbers}, {HospitalizedNumbers}";
         }
 
         #endregion

@@ -14,6 +14,7 @@
             </CommandBar.Content>
             <AppBarButton Icon="OpenFile" Label="Load File" Click="LoadFile_Click" />
             <AppBarButton Icon="Delete" Label="Clear Data" Click="ClearData_Click" />
+            <AppBarButton Label="Save Data" Click="SaveData_Click" Icon="Save" />
             <AppBarButton Icon="Add" Label="Add Data" Click="AddData_Click" />
             <AppBarButton Icon="Setting" Label="Change Boundaries" Click="ChangeBoundaries_Click" />
             <AppBarButton Icon="List" Label="Error Lines" Click="ErrorLines_Click" />

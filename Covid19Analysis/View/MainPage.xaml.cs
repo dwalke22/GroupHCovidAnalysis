@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -81,6 +82,28 @@ namespace Covid19Analysis.View
         {
             LoadedDataCollection.CovidRecords.Clear();
             SummaryTextBox.Text = "";
+        }
+
+        private async void SaveData_Click(object sender, RoutedEventArgs e)
+        {
+            var savePicker = new FileSavePicker
+            {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+            };
+            savePicker.FileTypeChoices.Add("CSV", new List<string>() {".csv"});
+            savePicker.SuggestedFileName = "New Document";
+
+            var file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                CachedFileManager.DeferUpdates(file);
+                var text = FileHeader + Environment.NewLine;
+                foreach (var currData in this.LoadedDataCollection.CovidRecords)
+                {
+                    text += currData + Environment.NewLine;
+                }
+                await FileIO.WriteTextAsync(file, text);
+            }
         }
 
         private async void LoadFile_Click(object sender, RoutedEventArgs e)
@@ -271,6 +294,8 @@ namespace Covid19Analysis.View
         private const ContentDialogResult Replace = ContentDialogResult.Primary;
 
         private const ContentDialogResult Merge = ContentDialogResult.Secondary;
+
+        private const string FileHeader = "date, state, positiveCases, negativeCases, death, hospitalized";
 
         #endregion
     }
