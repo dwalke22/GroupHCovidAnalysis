@@ -12,11 +12,11 @@
             <CommandBar.Content>
                 <Grid />
             </CommandBar.Content>
-            <AppBarButton Icon="OpenFile" Label="Load File" Click="loadFile_Click" />
-            <AppBarButton Icon="Delete" Label="Clear Data" Click="loadFile_Click" />
-            <AppBarButton Icon="Add" Label="Add Data" Click="addData_Click" />
-            <AppBarButton Icon="Setting" Label="Change Boundaries" Click="changeBoundaries_Click" />
-            <AppBarButton Icon="List" Label="Error Lines" Click="errorLines_Click" />
+            <AppBarButton Icon="OpenFile" Label="Load File" Click="LoadFile_Click" />
+            <AppBarButton Icon="Delete" Label="Clear Data" Click="ClearData_Click" />
+            <AppBarButton Icon="Add" Label="Add Data" Click="AddData_Click" />
+            <AppBarButton Icon="Setting" Label="Change Boundaries" Click="ChangeBoundaries_Click" />
+            <AppBarButton Icon="List" Label="Error Lines" Click="ErrorLines_Click" />
         </CommandBar>
         <TextBox x:Name="SummaryTextBox" HorizontalAlignment="Left" Margin="12,67,0,0" VerticalAlignment="Top"
                  TextWrapping="Wrap" Text="Summary" Height="276" Width="600" IsReadOnly="True"

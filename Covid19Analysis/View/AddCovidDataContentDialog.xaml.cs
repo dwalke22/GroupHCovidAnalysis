@@ -14,11 +14,64 @@ namespace Covid19Analysis.View
     public sealed partial class AddCovidDataContentDialog
     {
         /// <summary>
-        ///     Instantiates a new <see cref="AddCovidDataContentDialog"/> object
+        ///     Instantiates a new <see cref="AddCovidDataContentDialog" /> object
         /// </summary>
         public AddCovidDataContentDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            DateDate = new DateTime();
+            State = string.Empty;
+            PositiveCaseIncrease = 0;
+            NegativeCaseIncrease = 0;
+            DeathNumbers = 0;
+            HospitalizedNumbers = 0;
+        }
+
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            DateDate = DataDatePicker.Date.Date;
+            State = StateTextBox.Text;
+            PositiveCaseIncrease = int.Parse(PositiveCasesTextBox.Text);
+            NegativeCaseIncrease = int.Parse(NegativeCasesTextBox.Text);
+            DeathNumbers = int.Parse(DeathsTextBox.Text);
+            HospitalizedNumbers = int.Parse(HospitalizedTextBox.Text);
+        }
+
+        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+        }
+
+        private void PositiveCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CheckForPositiveNumbers(PositiveCasesTextBox.Text);
+        }
+
+        private void CheckForPositiveNumbers(string numberString)
+        {
+            if (!NumberRegex.IsMatch(numberString))
+            {
+                ErrorLabel.Visibility = Visibility.Visible;
+                ErrorLabel.Text = "Numbers must be greater than or equal to zero";
+            }
+            else
+            {
+                ErrorLabel.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void NegativeCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CheckForPositiveNumbers(NegativeCasesTextBox.Text);
+        }
+
+        private void DeathsTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CheckForPositiveNumbers(DeathsTextBox.Text);
+        }
+
+        private void HospitalizedTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CheckForPositiveNumbers(HospitalizedTextBox.Text);
         }
 
         #region Properties
@@ -53,57 +106,8 @@ namespace Covid19Analysis.View
         /// </summary>
         public int HospitalizedNumbers { get; private set; }
 
-        private Regex numberRegex => new Regex("\\d+");
+        private Regex NumberRegex => new Regex("\\d+");
 
         #endregion
-
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-
-            this.DateDate = this.DataDatePicker.Date.Date;
-            this.State = this.StateTextBox.Text;
-            this.PositiveCaseIncrease = int.Parse(this.PositiveCasesTextBox.Text);
-            this.NegativeCaseIncrease = int.Parse(this.NegativeCasesTextBox.Text);
-            this.DeathNumbers = int.Parse(this.DeathsTextBox.Text);
-            this.HospitalizedNumbers = int.Parse(this.HospitalizedTextBox.Text);
-
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
-        private void PositiveCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.CheckForPositiveNumbers(this.PositiveCasesTextBox.Text);
-        }
-
-        private void CheckForPositiveNumbers(string numberString)
-        {
-            if (!numberRegex.IsMatch(numberString))
-            {
-                this.ErrorLabel.Visibility = Visibility.Visible;
-                this.ErrorLabel.Text = "Numbers must be greater than or equal to zero";
-            }
-            else
-            {
-                this.ErrorLabel.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void NegativeCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.CheckForPositiveNumbers(this.NegativeCasesTextBox.Text);
-        }
-
-        private void DeathsTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.CheckForPositiveNumbers(this.DeathsTextBox.Text);
-        }
-
-        private void HospitalizedTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.CheckForPositiveNumbers(this.HospitalizedTextBox.Text);
-        }
     }
 }

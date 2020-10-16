@@ -41,7 +41,7 @@ namespace Covid19Analysis.View
 
         #region Methods
 
-        private async void changeBoundaries_Click(object sender, RoutedEventArgs e)
+        private async void ChangeBoundaries_Click(object sender, RoutedEventArgs e)
         {
             var boundaryContentDialog = new GetBoundariesContentDialog();
 
@@ -55,34 +55,35 @@ namespace Covid19Analysis.View
             }
         }
 
-        private async void addData_Click(object sender, RoutedEventArgs e)
+        private async void AddData_Click(object sender, RoutedEventArgs e)
         {
             var addDataContentDialog = new AddCovidDataContentDialog();
 
-            var result = addDataContentDialog.ShowAsync();
+            var result = await addDataContentDialog.ShowAsync();
 
-            if (result.GetResults() == ContentDialogResult.Primary)
+            if (result == ContentDialogResult.Primary)
             {
-                CovidData data = new CovidData(addDataContentDialog.DateDate, 
-                    addDataContentDialog.State, addDataContentDialog.PositiveCaseIncrease, 
-                    addDataContentDialog.NegativeCaseIncrease, 
-                    addDataContentDialog.DeathNumbers, 
+                var data = new CovidData(addDataContentDialog.DateDate,
+                    addDataContentDialog.State, addDataContentDialog.PositiveCaseIncrease,
+                    addDataContentDialog.NegativeCaseIncrease,
+                    addDataContentDialog.DeathNumbers,
                     addDataContentDialog.HospitalizedNumbers);
-
-                if (this.LoadedDataCollection.CovidRecords.Any(covidData => covidData.Date == data.Date))
-                {
-                    await this.handleDuplicateDay(data);
-                }
+                if (LoadedDataCollection.CovidRecords.Any(covidData => covidData.Date == data.Date))
+                    await handleDuplicateDay(data);
                 else
-                {
-                    this.LoadedDataCollection.Add(data);
-                }
+                    LoadedDataCollection.Add(data);
 
                 CreateNewReportSummary();
             }
         }
 
-        private async void loadFile_Click(object sender, RoutedEventArgs e)
+        private void ClearData_Click(object sender, RoutedEventArgs e)
+        {
+            LoadedDataCollection.CovidRecords.Clear();
+            SummaryTextBox.Text = "";
+        }
+
+        private async void LoadFile_Click(object sender, RoutedEventArgs e)
         {
             var openPicker = new FileOpenPicker
             {
@@ -110,12 +111,6 @@ namespace Covid19Analysis.View
             CreateNewReportSummary();
         }
 
-        private void clearData_Click(object sender, RoutedEventArgs e)
-        {
-            LoadedDataCollection.CovidRecords.Clear();
-            SummaryTextBox.Text = "";
-        }
-
         private async void handleExistingFileLoading(CovidDataCollection covidCollection)
         {
             var loadingDialog = new ContentDialog
@@ -141,13 +136,9 @@ namespace Covid19Analysis.View
         {
             foreach (var currCovidData in covidCollection.CovidRecords)
                 if (LoadedDataCollection.CovidRecords.Any(covidData => covidData.Date == currCovidData.Date))
-                {
                     await handleDuplicateDay(currCovidData);
-                }
                 else
-                {
                     LoadedDataCollection.Add(currCovidData);
-                }
 
             CreateNewReportSummary();
         }
@@ -205,7 +196,7 @@ namespace Covid19Analysis.View
             SummaryTextBox.Text += covidFormatter.FormatMonthlyData(stateMonthData);
         }
 
-        private async void errorLines_Click(object sender, RoutedEventArgs e)
+        private async void ErrorLines_Click(object sender, RoutedEventArgs e)
         {
             if (DataCreator.ErrorLines.Count == 0)
             {
