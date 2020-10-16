@@ -82,7 +82,10 @@ namespace Covid19Analysis.DataHandling
         private int FixNegativeInput(int number)
         {
             var fixedNumber = number;
-            if (fixedNumber < 0) fixedNumber = Math.Abs(fixedNumber);
+            if (fixedNumber < 0)
+            {
+                fixedNumber = Math.Abs(fixedNumber);
+            }
 
             return fixedNumber;
         }

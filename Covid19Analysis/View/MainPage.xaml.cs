@@ -55,6 +55,13 @@ namespace Covid19Analysis.View
             }
         }
 
+        private void addData_Click(object sender, RoutedEventArgs e)
+        {
+            var addDataContentDialog = new AddCovidDataContentDialog();
+
+            var result = addDataContentDialog.ShowAsync();
+        }
+
         private async void loadFile_Click(object sender, RoutedEventArgs e)
         {
             var openPicker = new FileOpenPicker

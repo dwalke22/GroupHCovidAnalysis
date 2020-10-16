@@ -1,0 +1,29 @@
+﻿<ContentDialog
+    x:Class="Covid19Analysis.View.AddCovidDataContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Add New Covid Data"
+    PrimaryButtonText="Add"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick" Width="4000" Height="2500">
+
+    <Grid Height="240" Width="400">
+        <DatePicker x:Name="DataDatePicker" Margin="6,10,0,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="6,58,0,0" Text="State" TextWrapping="Wrap" VerticalAlignment="Top" Width="37"/>
+        <TextBox x:Name="StateTextBox" HorizontalAlignment="Left" Margin="189,51,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. &quot;GA&quot;"/>
+        <TextBox x:Name="PositiveCasesTextBox" HorizontalAlignment="Left" Margin="189,88,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" InputScope="Number" TextChanged="PositiveCasesTextBox_TextChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="6,91,0,0" Text="Positive Cases Increase" TextWrapping="Wrap" VerticalAlignment="Top" Height="18" FontSize="14"/>
+        <TextBox x:Name="NegativeCasesTextBox" HorizontalAlignment="Left" Margin="189,128,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" InputScope="Number"/>
+        <TextBlock HorizontalAlignment="Right" Margin="0,136,240,0" Text="Negative Cases Increase" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" FontSize="14" Width="154"/>
+        <TextBox x:Name="DeathsTextBox" HorizontalAlignment="Left" Margin="189,167,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" InputScope="Number"/>
+        <TextBlock HorizontalAlignment="Left" Margin="6,175,0,0" Text="Death Numbers" TextWrapping="Wrap" VerticalAlignment="Top" Height="18" FontSize="14"/>
+        <TextBox x:Name="HospitalizedTextBox" HorizontalAlignment="Left" Margin="189,206,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" InputScope="Number"/>
+        <TextBlock HorizontalAlignment="Left" Margin="6,214,0,0" Text="Hospitalized Numbers" TextWrapping="Wrap" VerticalAlignment="Top" Height="18" FontSize="14"/>
+        <TextBlock x:Name="ErrorLabel" HorizontalAlignment="Left" Margin="265,85,0,0" Text="TextBlock" TextWrapping="WrapWholeWords" VerticalAlignment="Top" Height="78" Width="127" Visibility="Collapsed"/>
+
+    </Grid>
+</ContentDialog>
