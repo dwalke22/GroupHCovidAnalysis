@@ -11,6 +11,26 @@ namespace Covid19Analysis.View
     /// </summary>
     public sealed partial class BinChangerContentDialog
     {
+        #region Data members
+
+        /// <summary>
+        ///     The default bin size
+        /// </summary>
+        public const int DefaultBinSize = 500;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     The BinSize to be used for formatting
+        /// </summary>
+        public int BinSize { get; private set; }
+
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         ///     Instantiates a new BinChangerContentDialog
         /// </summary>
@@ -20,15 +40,9 @@ namespace Covid19Analysis.View
             this.BinSize = DefaultBinSize;
         }
 
-        /// <summary>
-        ///     The default bin size
-        /// </summary>
-        public const int DefaultBinSize = 500;
+        #endregion
 
-        /// <summary>
-        ///     The BinSize to be used for formatting
-        /// </summary>
-        public int BinSize { get; private set; }
+        #region Methods
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
@@ -53,5 +67,7 @@ namespace Covid19Analysis.View
                 this.ErrorLabel.Visibility = Visibility.Collapsed;
             }
         }
+
+        #endregion
     }
 }

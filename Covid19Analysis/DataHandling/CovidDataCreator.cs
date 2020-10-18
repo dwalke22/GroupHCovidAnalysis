@@ -10,16 +10,14 @@ namespace Covid19Analysis.DataHandling
     /// </summary>
     public class CovidDataCreator
     {
-        #region Constructors
+        #region Data members
 
-        /// <summary>
-        ///     Instantiates a new <see cref="CovidDataCreator" /> class object
-        /// </summary>
-        public CovidDataCreator()
-        {
-            CovidData = new List<CovidData>();
-            ErrorLines = new Dictionary<int, string>();
-        }
+        private const int DateField = 0;
+        private const int StateField = 1;
+        private const int PositiveIncreaseField = 2;
+        private const int NegativeIncreaseFiled = 3;
+        private const int DeathNumberField = 4;
+        private const int HospitalizedField = 5;
 
         #endregion
 
@@ -35,12 +33,18 @@ namespace Covid19Analysis.DataHandling
         /// </summary>
         public Dictionary<int, string> ErrorLines { get; set; }
 
-        private const int DateField = 0;
-        private const int StateField = 1;
-        private const int PositiveIncreaseField = 2;
-        private const int NegativeIncreaseFiled = 3;
-        private const int DeathNumberField = 4;
-        private const int HospitalizedField = 5;
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        ///     Instantiates a new <see cref="CovidDataCreator" /> class object
+        /// </summary>
+        public CovidDataCreator()
+        {
+            this.CovidData = new List<CovidData>();
+            this.ErrorLines = new Dictionary<int, string>();
+        }
 
         #endregion
 
@@ -55,9 +59,13 @@ namespace Covid19Analysis.DataHandling
         /// </param>
         public void CreateCovidData(string[] fileLines)
         {
-            if (fileLines == null) throw new ArgumentException(nameof(fileLines));
-            CovidData.Clear();
-            ErrorLines.Clear();
+            if (fileLines == null)
+            {
+                throw new ArgumentException(nameof(fileLines));
+            }
+
+            this.CovidData.Clear();
+            this.ErrorLines.Clear();
             for (var i = 1; i < fileLines.Length; i++)
             {
                 var line = fileLines[i].Split(",");
@@ -65,16 +73,15 @@ namespace Covid19Analysis.DataHandling
                 {
                     var covidData = new CovidData(
                         DateTime.ParseExact(line[DateField], "yyyyMMdd", CultureInfo.InvariantCulture),
-                        line[StateField],
-                        FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
-                        FixNegativeInput(int.Parse(line[NegativeIncreaseFiled])),
-                        FixNegativeInput(int.Parse(line[DeathNumberField])),
-                        FixNegativeInput(int.Parse(line[HospitalizedField])));
-                    CovidData.Add(covidData);
+                        line[StateField], this.FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
+                        this.FixNegativeInput(int.Parse(line[NegativeIncreaseFiled])),
+                        this.FixNegativeInput(int.Parse(line[DeathNumberField])),
+                        this.FixNegativeInput(int.Parse(line[HospitalizedField])));
+                    this.CovidData.Add(covidData);
                 }
                 catch (Exception)
                 {
-                    ErrorLines.Add(i, fileLines[i]);
+                    this.ErrorLines.Add(i, fileLines[i]);
                 }
             }
         }
@@ -100,9 +107,13 @@ namespace Covid19Analysis.DataHandling
         public CovidDataCollection GetStateCovidData(string state)
         {
             var stateData = new CovidDataCollection();
-            foreach (var currData in CovidData)
+            foreach (var currData in this.CovidData)
+            {
                 if (currData.State == state)
+                {
                     stateData.Add(currData);
+                }
+            }
 
             return stateData;
         }

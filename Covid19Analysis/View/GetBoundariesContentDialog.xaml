@@ -12,13 +12,13 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick" Height="2000" Width="2000">
 
     <Grid Height="86" VerticalAlignment="Top" Margin="0,19,0,0">
-        <TextBox x:Name="UpperBoundaryTextBox" HorizontalAlignment="Left" Margin="140,-6,0,0" Text=""
+        <TextBox x:Name="upperBoundaryTextBox" HorizontalAlignment="Left" Margin="140,-6,0,0" Text=""
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="144" PlaceholderText="i.e. 2500" />
         <TextBlock HorizontalAlignment="Left" Margin="0,1,0,0" Text="Upper Boundary" TextWrapping="Wrap"
                    VerticalAlignment="Top" />
         <TextBlock HorizontalAlignment="Left" Margin="1,47,0,0" Text="Lower Boundary" TextWrapping="Wrap"
                    VerticalAlignment="Top" RenderTransformOrigin="0.52,1.579" />
-        <TextBox x:Name="LowerBoundaryTextBox" HorizontalAlignment="Left" Margin="140,39,0,0" Text=""
+        <TextBox x:Name="lowerBoundaryTextBox" HorizontalAlignment="Left" Margin="140,39,0,0" Text=""
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="144" PlaceholderText="i.e. 1000" />
         <TextBlock HorizontalAlignment="Left" Margin="29,-30,0,0" Text="Default is 2500 and 1000 Respectively"
                    TextWrapping="Wrap" VerticalAlignment="Top" />

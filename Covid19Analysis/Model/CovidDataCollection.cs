@@ -9,18 +9,6 @@ namespace Covid19Analysis.Model
     /// </summary>
     public class CovidDataCollection
     {
-        #region Constructors
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="CovidDataCollection" /> class
-        /// </summary>
-        public CovidDataCollection()
-        {
-            CovidRecords = new List<CovidData>();
-        }
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -31,7 +19,19 @@ namespace Covid19Analysis.Model
         /// <summary>
         ///     The Count for the number of records in the collection
         /// </summary>
-        public int Count => CovidRecords.Count;
+        public int Count => this.CovidRecords.Count;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CovidDataCollection" /> class
+        /// </summary>
+        public CovidDataCollection()
+        {
+            this.CovidRecords = new List<CovidData>();
+        }
 
         #endregion
 
@@ -48,9 +48,12 @@ namespace Covid19Analysis.Model
         /// <exception cref="NullReferenceException">data</exception>
         public void Add(CovidData data)
         {
-            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
 
-            CovidRecords.Add(data);
+            this.CovidRecords.Add(data);
         }
 
         /// <summary>
@@ -63,15 +66,18 @@ namespace Covid19Analysis.Model
         /// </returns>
         public DateTime FindFirstPositiveTest()
         {
-            CheckCollectionIsPopulated();
-            var earliestDate = CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0)
-                .OrderBy(covidData => covidData.Date).First().Date;
+            this.CheckCollectionIsPopulated();
+            var earliestDate = this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0)
+                                   .OrderBy(covidData => covidData.Date).First().Date;
             return earliestDate;
         }
 
         private void CheckCollectionIsPopulated()
         {
-            if (Count <= 0) throw new InvalidOperationException("Collection contains no elements");
+            if (this.Count <= 0)
+            {
+                throw new InvalidOperationException("Collection contains no elements");
+            }
         }
 
         /// <summary>
@@ -86,9 +92,9 @@ namespace Covid19Analysis.Model
         /// </returns>
         public CovidData FindHighestNumberOfPositiveCasesInSingleDay()
         {
-            CheckCollectionIsPopulated();
-            var highestPositive = CovidRecords.Where(covidData => covidData.OverallPositivePercentage > 0)
-                .OrderByDescending(covidData => covidData.PositiveCasesIncrease).First();
+            this.CheckCollectionIsPopulated();
+            var highestPositive = this.CovidRecords.Where(covidData => covidData.OverallPositivePercentage > 0)
+                                      .OrderByDescending(covidData => covidData.PositiveCasesIncrease).First();
             return highestPositive;
         }
 
@@ -104,9 +110,9 @@ namespace Covid19Analysis.Model
         /// </returns>
         public CovidData FindHighestNumberOfNegativeCasesInSingleDay()
         {
-            CheckCollectionIsPopulated();
-            var highestNegatives = CovidRecords.OrderByDescending(covidData => covidData.NegativeCasesIncrease)
-                .First();
+            this.CheckCollectionIsPopulated();
+            var highestNegatives = this.CovidRecords.OrderByDescending(covidData => covidData.NegativeCasesIncrease)
+                                       .First();
             return highestNegatives;
         }
 
@@ -120,8 +126,8 @@ namespace Covid19Analysis.Model
         /// </returns>
         public CovidData FindHighestNumberOfTests()
         {
-            CheckCollectionIsPopulated();
-            var highestTest = CovidRecords.OrderByDescending(covidData => covidData.TotalTest).First();
+            this.CheckCollectionIsPopulated();
+            var highestTest = this.CovidRecords.OrderByDescending(covidData => covidData.TotalTest).First();
             return highestTest;
         }
 
@@ -135,8 +141,8 @@ namespace Covid19Analysis.Model
         /// </returns>
         public CovidData FindHighestNumberOfDeaths()
         {
-            CheckCollectionIsPopulated();
-            var highestDeaths = CovidRecords.OrderByDescending(covidData => covidData.DeathNumbers).First();
+            this.CheckCollectionIsPopulated();
+            var highestDeaths = this.CovidRecords.OrderByDescending(covidData => covidData.DeathNumbers).First();
             return highestDeaths;
         }
 
@@ -150,9 +156,9 @@ namespace Covid19Analysis.Model
         /// </returns>
         public CovidData FindHighestNumberOfHospitalizations()
         {
-            CheckCollectionIsPopulated();
+            this.CheckCollectionIsPopulated();
             var highestHospitalized =
-                CovidRecords.OrderByDescending(covidData => covidData.HospitalizedNumbers).First();
+                this.CovidRecords.OrderByDescending(covidData => covidData.HospitalizedNumbers).First();
             return highestHospitalized;
         }
 
@@ -167,9 +173,9 @@ namespace Covid19Analysis.Model
         /// </returns>
         public CovidData FindHighestPositivePercentage()
         {
-            CheckCollectionIsPopulated();
-            var highestPositive = CovidRecords.OrderByDescending(covidData => covidData.OverallPositivePercentage)
-                .First();
+            this.CheckCollectionIsPopulated();
+            var highestPositive = this.CovidRecords.OrderByDescending(covidData => covidData.OverallPositivePercentage)
+                                      .First();
             return highestPositive;
         }
 
@@ -183,8 +189,8 @@ namespace Covid19Analysis.Model
         /// </returns>
         public double FindAveragePositiveCasesSinceFirstPositive()
         {
-            CheckCollectionIsPopulated();
-            var averagePositive = CovidRecords.Average(covidData => covidData.PositiveCasesIncrease);
+            this.CheckCollectionIsPopulated();
+            var averagePositive = this.CovidRecords.Average(covidData => covidData.PositiveCasesIncrease);
             return averagePositive;
         }
 
@@ -198,8 +204,8 @@ namespace Covid19Analysis.Model
         /// </returns>
         public double FindOverallPositivityRate()
         {
-            CheckCollectionIsPopulated();
-            var averageRate = CovidRecords.Average(covidData => covidData.OverallPositivePercentage);
+            this.CheckCollectionIsPopulated();
+            var averageRate = this.CovidRecords.Average(covidData => covidData.OverallPositivePercentage);
             return averageRate;
         }
 
@@ -216,8 +222,8 @@ namespace Covid19Analysis.Model
         /// </returns>
         public int FindNumberOfDaysWithCasesOverThreshold(int casesThreshold)
         {
-            CheckCollectionIsPopulated();
-            return CovidRecords.Count(data => data.PositiveCasesIncrease > casesThreshold);
+            this.CheckCollectionIsPopulated();
+            return this.CovidRecords.Count(data => data.PositiveCasesIncrease > casesThreshold);
         }
 
         /// <summary>
@@ -233,9 +239,9 @@ namespace Covid19Analysis.Model
         /// </returns>
         public int FindNumberOfDaysWithCasesUnderLowerThreshold(int casesThreshold)
         {
-            CheckCollectionIsPopulated();
-            return CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0)
-                .Count(data => data.PositiveCasesIncrease < casesThreshold);
+            this.CheckCollectionIsPopulated();
+            return this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0)
+                       .Count(data => data.PositiveCasesIncrease < casesThreshold);
         }
 
         /// <summary>
@@ -248,8 +254,8 @@ namespace Covid19Analysis.Model
         /// </returns>
         public CovidData FindLowestPositiveCases()
         {
-            CheckCollectionIsPopulated();
-            var lowestPositive = CovidRecords.OrderBy(covidData => covidData.PositiveCasesIncrease).First();
+            this.CheckCollectionIsPopulated();
+            var lowestPositive = this.CovidRecords.OrderBy(covidData => covidData.PositiveCasesIncrease).First();
             return lowestPositive;
         }
 
@@ -263,8 +269,8 @@ namespace Covid19Analysis.Model
         /// </returns>
         public CovidData FindLowestTotalCases()
         {
-            CheckCollectionIsPopulated();
-            var lowestTotalCases = CovidRecords.OrderBy(covidData => covidData.TotalTest).First();
+            this.CheckCollectionIsPopulated();
+            var lowestTotalCases = this.CovidRecords.OrderBy(covidData => covidData.TotalTest).First();
             return lowestTotalCases;
         }
 
@@ -278,9 +284,9 @@ namespace Covid19Analysis.Model
         /// </returns>
         public double FindAverageNumberOfTestPerDay()
         {
-            CheckCollectionIsPopulated();
-            var averageTotalTest = CovidRecords.Where(covidData => covidData.TotalTest > 0)
-                .Average(covidData => covidData.TotalTest);
+            this.CheckCollectionIsPopulated();
+            var averageTotalTest = this.CovidRecords.Where(covidData => covidData.TotalTest > 0)
+                                       .Average(covidData => covidData.TotalTest);
             return averageTotalTest;
         }
 
@@ -295,9 +301,13 @@ namespace Covid19Analysis.Model
         /// </returns>
         public int[] CountDaysByPositiveCasesSegments(int segmentRange)
         {
-            if (segmentRange < 1) throw new ArgumentOutOfRangeException();
-            CheckCollectionIsPopulated();
-            var maxPositive = FindHighestNumberOfPositiveCasesInSingleDay().PositiveCasesIncrease;
+            if (segmentRange < 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            this.CheckCollectionIsPopulated();
+            var maxPositive = this.FindHighestNumberOfPositiveCasesInSingleDay().PositiveCasesIncrease;
             var ceiling = (double) maxPositive / segmentRange;
             var segments = (int) Math.Ceiling(ceiling);
 
@@ -307,9 +317,13 @@ namespace Covid19Analysis.Model
 
             for (var i = 0; i < positiveCount.Length; i++)
             {
-                foreach (var currData in CovidRecords)
+                foreach (var currData in this.CovidRecords)
+                {
                     if (startCases <= currData.PositiveCasesIncrease && currData.PositiveCasesIncrease <= endCases)
+                    {
                         positiveCount[i]++;
+                    }
+                }
 
                 startCases = endCases + 1;
                 endCases = segmentRange * (i + 2);
