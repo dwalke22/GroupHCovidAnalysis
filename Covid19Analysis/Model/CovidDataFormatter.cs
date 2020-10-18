@@ -210,7 +210,7 @@ namespace Covid19Analysis.Model
             for (var i = 0; i < monthlyData.MonthlyCollection.Length; i++)
             {
                 var monthData = monthlyData.MonthlyCollection[i];
-                if (monthData.CovidRecords.Any())
+                if (monthData.Count > 0)
                 {
                     output +=
                         $"{Environment.NewLine}{Environment.NewLine}{DateTimeFormatInfo.InvariantInfo.AbbreviatedMonthNames[i]} {monthlyData.Year} " +
@@ -221,12 +221,6 @@ namespace Covid19Analysis.Model
                     output += formatLeastTestInDay(monthData);
                     output += formatMonthlyAverageTestPerDay(monthData);
                     output += formatAverageNumberOfTestPerDay(monthData);
-                }
-                else
-                {
-                    output +=
-                        $"{Environment.NewLine}{Environment.NewLine}{DateTimeFormatInfo.InvariantInfo.AbbreviatedMonthNames[i]}" +
-                        $"{Environment.NewLine}";
                 }
             }
 
