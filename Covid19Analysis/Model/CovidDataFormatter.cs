@@ -64,10 +64,11 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="upperBoundary">the upper boundary of the threshold</param>
         /// <param name="lowerBoundary">the lower boundary of the threshold</param>
+        /// <param name="binsize">the size of the bin for histogram</param>
         /// <returns>
         ///     Formatted string about general <see cref="CovidDataCollection" /> information
         /// </returns>
-        public string FormatGeneralData(int upperBoundary, int lowerBoundary)
+        public string FormatGeneralData(int upperBoundary, int lowerBoundary, int binsize)
         {
             var output = "";
             output +=
@@ -81,7 +82,7 @@ namespace Covid19Analysis.Model
             output += formatAveragePositiveTest();
             output += formatOverAllPositivityRate();
             output += formatBoundaries(upperBoundary, lowerBoundary);
-            output += formatSegmentData(500);
+            output += formatSegmentData(binsize);
             return output;
         }
 

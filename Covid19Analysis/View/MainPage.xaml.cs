@@ -32,6 +32,7 @@ namespace Covid19Analysis.View
             LoadedDataCollection = new CovidDataCollection();
             UpperBoundaryLimit = GetBoundariesContentDialog.UpperBoundaryDefault;
             LowerBoundaryLimit = GetBoundariesContentDialog.LowerBoundaryDefault;
+            BinSize = BinChangerContentDialog.DefaultBinSize;
 
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
@@ -52,6 +53,19 @@ namespace Covid19Analysis.View
             {
                 UpperBoundaryLimit = boundaryContentDialog.UpperBoundary;
                 LowerBoundaryLimit = boundaryContentDialog.LowerBoundary;
+                if (LoadedDataCollection.Count > 0) CreateNewReportSummary();
+            }
+        }
+
+        private async void ChangeBinSize_Click(object sender, RoutedEventArgs e)
+        {
+            var binChangerContentDialog = new BinChangerContentDialog();
+
+            var result = await binChangerContentDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                this.BinSize = binChangerContentDialog.BinSize;
                 if (LoadedDataCollection.Count > 0) CreateNewReportSummary();
             }
         }
@@ -215,7 +229,7 @@ namespace Covid19Analysis.View
             var stateMonthData = new MonthlyCovidDataCollection(LoadedDataCollection);
             var covidFormatter = new CovidDataFormatter(LoadedDataCollection);
             SummaryTextBox.Text = "";
-            SummaryTextBox.Text = covidFormatter.FormatGeneralData(UpperBoundaryLimit, LowerBoundaryLimit);
+            SummaryTextBox.Text = covidFormatter.FormatGeneralData(UpperBoundaryLimit, LowerBoundaryLimit, BinSize);
             SummaryTextBox.Text += covidFormatter.FormatMonthlyData(stateMonthData);
         }
 
@@ -290,6 +304,11 @@ namespace Covid19Analysis.View
         ///     The DataCreator for the application
         /// </summary>
         public CovidDataCreator DataCreator { get; set; }
+
+        /// <summary>
+        ///     The bin size to be used for histogram
+        /// </summary>
+        public int BinSize { get; set; }
 
         private const ContentDialogResult Replace = ContentDialogResult.Primary;
 

@@ -17,6 +17,7 @@
             <AppBarButton Icon="Add" Label="Add Data" Click="AddData_Click" />
             <AppBarButton Icon="Delete" Label="Clear Data" Click="ClearData_Click" />
             <AppBarButton Icon="Setting" Label="Change Boundaries" Click="ChangeBoundaries_Click" />
+            <AppBarButton Label="Change Bin Size" Click="ChangeBinSize_Click" Icon="Setting" />
             <AppBarButton Icon="List" Label="Error Lines" Click="ErrorLines_Click" />
         </CommandBar>
         <TextBox x:Name="SummaryTextBox" HorizontalAlignment="Left" Margin="12,67,0,0" VerticalAlignment="Top"
