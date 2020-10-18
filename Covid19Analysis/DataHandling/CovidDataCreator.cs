@@ -58,7 +58,7 @@ namespace Covid19Analysis.DataHandling
             if (fileLines == null) throw new ArgumentException(nameof(fileLines));
             CovidData.Clear();
             ErrorLines.Clear();
-            for (var i = 0; i < fileLines.Length; i++)
+            for (var i = 1; i < fileLines.Length; i++)
             {
                 var line = fileLines[i].Split(",");
                 try
