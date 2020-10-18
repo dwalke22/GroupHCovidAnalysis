@@ -43,15 +43,16 @@ namespace Covid19Analysis.View
 
         private void PositiveCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CheckForPositiveNumbers(PositiveCasesTextBox.Text);
+            CheckForPositiveNumbers(PositiveCasesTextBox);
         }
 
-        private void CheckForPositiveNumbers(string numberString)
+        private void CheckForPositiveNumbers(TextBox textBox)
         {
-            if (!NumberRegex.IsMatch(numberString))
+            if (!NumberRegex.IsMatch(textBox.Text))
             {
                 ErrorLabel.Visibility = Visibility.Visible;
                 ErrorLabel.Text = "Numbers must be greater than or equal to zero";
+                textBox.Text = "";
             }
             else
             {
@@ -61,17 +62,17 @@ namespace Covid19Analysis.View
 
         private void NegativeCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CheckForPositiveNumbers(NegativeCasesTextBox.Text);
+            CheckForPositiveNumbers(NegativeCasesTextBox);
         }
 
         private void DeathsTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CheckForPositiveNumbers(DeathsTextBox.Text);
+            CheckForPositiveNumbers(DeathsTextBox);
         }
 
         private void HospitalizedTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CheckForPositiveNumbers(HospitalizedTextBox.Text);
+            CheckForPositiveNumbers(HospitalizedTextBox);
         }
 
         #region Properties
