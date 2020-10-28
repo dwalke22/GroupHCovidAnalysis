@@ -292,47 +292,11 @@ namespace Covid19Analysis.Model
         }
 
         /// <summary>
-        ///     Separates the <see cref="CovidDataCollection" /> into segments based on Positive cases
-        ///     Precondition: this.count > 0 and segmentRange >= 1
-        ///     Post condition: None
+        /// 
         /// </summary>
-        /// <param name="segmentRange">The range of each segment</param>
-        /// <returns>
-        ///     An array that has the number of objects that fall into each range
-        /// </returns>
-        public int[] CountDaysByPositiveCasesSegments(int segmentRange)
-        {
-            if (segmentRange < 1)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-
-            this.CheckCollectionIsPopulated();
-            var maxPositive = this.FindHighestNumberOfPositiveCasesInSingleDay().PositiveCasesIncrease;
-            var ceiling = (double) maxPositive / segmentRange;
-            var segments = (int) Math.Ceiling(ceiling);
-
-            var positiveCount = new int[segments];
-            var startCases = 0;
-            var endCases = segmentRange;
-
-            for (var i = 0; i < positiveCount.Length; i++)
-            {
-                foreach (var currData in this.CovidRecords)
-                {
-                    if (startCases <= currData.PositiveCasesIncrease && currData.PositiveCasesIncrease <= endCases)
-                    {
-                        positiveCount[i]++;
-                    }
-                }
-
-                startCases = endCases + 1;
-                endCases = segmentRange * (i + 2);
-            }
-
-            return positiveCount;
-        }
-
+        /// <param name="lowerBound"></param>
+        /// <param name="upperBound"></param>
+        /// <returns></returns>
         public int findPositiveCasesBetweenValues(int lowerBound, int upperBound)
         {
             return this.CovidRecords.Count(currentCovidData =>
@@ -340,6 +304,12 @@ namespace Covid19Analysis.Model
                 currentCovidData.PositiveCasesIncrease <= upperBound);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lowerBound"></param>
+        /// <param name="upperBound"></param>
+        /// <returns></returns>
         public bool BoundsContainHighestIncrease(int lowerBound, int upperBound)
         {
             var shouldHistogramStop = false;

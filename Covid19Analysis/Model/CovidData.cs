@@ -122,7 +122,7 @@ namespace Covid19Analysis.Model
         public override string ToString()
         {
             return
-                $"{this.Date.Year}{this.Date.Month}{this.Date.Day},{this.State},{this.PositiveCasesIncrease},{this.NegativeCasesIncrease}," +
+                $"{this.Date:yyyyMMdd},{this.State},{this.PositiveCasesIncrease},{this.NegativeCasesIncrease}," +
                 $"{this.DeathNumbers},{this.HospitalizedNumbers}";
         }
 
