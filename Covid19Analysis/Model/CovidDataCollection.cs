@@ -65,21 +65,39 @@ namespace Covid19Analysis.Model
             this.CovidRecords.Add(data);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Remove(CovidData item)
         {
             return this.CovidRecords.Remove(item);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Clear()
         {
             this.CovidRecords.Clear();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Contains(CovidData item)
         {
             return this.CovidRecords.Contains(item);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="arrayIndex"></param>
         public void CopyTo(CovidData[] array, int arrayIndex)
         {
             this.CovidRecords.CopyTo(array, arrayIndex);
@@ -234,8 +252,13 @@ namespace Covid19Analysis.Model
         public double FindOverallPositivityRate()
         {
             this.CheckCollectionIsPopulated();
-            var averageRate = this.CovidRecords.Average(covidData => covidData.OverallPositivePercentage);
-            return averageRate;
+            double totalTest = this.CovidRecords.Sum(covidData => covidData.TotalTest);
+            var totalPositives = this.CovidRecords.Sum(covidData => covidData.PositiveCasesIncrease);
+            if (totalTest <= 0)
+            {
+                throw new ArithmeticException("Cannot divide by zero");
+            }
+            return totalPositives/totalTest;
         }
 
         /// <summary>
@@ -353,31 +376,58 @@ namespace Covid19Analysis.Model
         }
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<CovidData> GetEnumerator()
         {
             return this.CovidRecords.GetEnumerator();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public int IndexOf(CovidData item)
         {
             return this.CovidRecords.IndexOf(item);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="item"></param>
         public void Insert(int index, CovidData item)
         {
             this.CovidRecords.Insert(index, item);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
         public void RemoveAt(int index)
         {
             this.CovidRecords.RemoveAt(index);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public CovidData this[int index]
         {
             get => this.CovidRecords[index];
