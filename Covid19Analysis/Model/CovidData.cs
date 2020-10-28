@@ -126,6 +126,11 @@ namespace Covid19Analysis.Model
                 $"{this.DeathNumbers},{this.HospitalizedNumbers}";
         }
 
+        private int AddTwoPlusTwo()
+        {
+            return 2 + 2;
+        }
+
         #endregion
     }
 }
