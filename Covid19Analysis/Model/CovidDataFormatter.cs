@@ -88,7 +88,8 @@ namespace Covid19Analysis.Model
             output += this.formatAveragePositiveTest();
             output += this.formatOverAllPositivityRate();
             output += this.formatBoundaries(upperBoundary, lowerBoundary);
-            output += this.formatSegmentData(binsize);
+            //output += this.formatSegmentData(binsize);
+            output += this.formatHistogram(binsize);
             return output;
         }
 
@@ -191,6 +192,36 @@ namespace Covid19Analysis.Model
 
             return row;
         }
+
+        private string formatHistogram(int binsize)
+        {
+            var formattedHistogram = string.Empty;
+            var lowerBound = 0;
+            var upperBound = binsize;
+            var shouldHistogramStop = false;
+            while (!shouldHistogramStop)
+            {
+                formattedHistogram +=
+                    $"{Environment.NewLine}{increaseByOneForNonZero(lowerBound)} - {upperBound}: {this.CovidRecords.findPositiveCasesBetweenValues(increaseByOneForNonZero(lowerBound), upperBound)}" +
+                    Environment.NewLine;
+                shouldHistogramStop = this.CovidRecords.BoundsContainHighestIncrease(lowerBound, upperBound);
+                lowerBound += binsize;
+                upperBound += binsize;
+            }
+
+            return formattedHistogram;
+        }
+
+        private int increaseByOneForNonZero(int bound)
+        {
+            if (bound != 0)
+            {
+                return bound + 1;
+            }
+
+            return bound;
+        }
+
 
         private string padWithLeadingSpaces(string number, int totalLength)
         {

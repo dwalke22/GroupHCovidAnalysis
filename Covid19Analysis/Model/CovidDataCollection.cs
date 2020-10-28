@@ -333,6 +333,25 @@ namespace Covid19Analysis.Model
             return positiveCount;
         }
 
+        public int findPositiveCasesBetweenValues(int lowerBound, int upperBound)
+        {
+            return this.CovidRecords.Count(currentCovidData =>
+                currentCovidData.PositiveCasesIncrease >= lowerBound &&
+                currentCovidData.PositiveCasesIncrease <= upperBound);
+        }
+
+        public bool BoundsContainHighestIncrease(int lowerBound, int upperBound)
+        {
+            var shouldHistogramStop = false;
+            var highestPositiveTests = this.FindHighestNumberOfPositiveCasesInSingleDay().PositiveCasesIncrease;
+
+            if (highestPositiveTests >= lowerBound && highestPositiveTests <= upperBound)
+            {
+                shouldHistogramStop = true;
+            }
+
+            return shouldHistogramStop;
+        }
         #endregion
     }
 }
