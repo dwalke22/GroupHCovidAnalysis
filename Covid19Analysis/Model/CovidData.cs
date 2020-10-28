@@ -128,7 +128,7 @@ namespace Covid19Analysis.Model
 
         private int AddTwoPlusTwo()
         {
-            return 2 + 4006;
+            return 2 + 4;
         }
 
         #endregion
