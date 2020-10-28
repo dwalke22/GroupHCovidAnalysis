@@ -184,7 +184,7 @@ namespace Covid19Analysis.Model
             while (!shouldHistogramStop)
             {
                 formattedHistogram +=
-                    $"{increaseByOneForNonZero(lowerBound)} - {upperBound}: {this.CovidRecords.findPositiveCasesBetweenValues(increaseByOneForNonZero(lowerBound), upperBound)}" +
+                    $"{increaseByOneForNonZero(lowerBound)} - {upperBound}: {this.CovidRecords.FindPositiveCasesBetweenValues(increaseByOneForNonZero(lowerBound), upperBound)}" +
                     Environment.NewLine;
                 shouldHistogramStop = this.CovidRecords.BoundsContainHighestIncrease(lowerBound, upperBound);
                 lowerBound += binsize;

@@ -292,9 +292,28 @@ namespace Covid19Analysis.Model
         public int FindNumberOfDaysWithCasesUnderLowerThreshold(int casesThreshold)
         {
             this.CheckCollectionIsPopulated();
-            var date = this.FindFirstPositiveTest();
-            return this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0 && covidData.Date > date)
+            var date = this.GetFirstPositiveCovidData();
+            var  numberOfDays = this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0 && covidData.Date >= date.Date)
                        .Count(data => data.PositiveCasesIncrease < casesThreshold);
+
+            return numberOfDays;
+        }
+
+
+        /// <summary>
+        ///     Find the first date of a Positive Case
+        ///     Precondition: this.count > 0
+        ///     Post condition: None
+        /// </summary>
+        /// <returns>
+        ///     Returns the <see cref="CovidData" /> of the first positive case
+        /// </returns>
+        private CovidData GetFirstPositiveCovidData()
+        {
+            this.CheckCollectionIsPopulated();
+            var earliestDate = this.CovidRecords.Where(covidData => covidData.PositiveCasesIncrease > 0)
+                .OrderBy(covidData => covidData.Date).First();
+            return earliestDate;
         }
 
         /// <summary>
@@ -343,25 +362,27 @@ namespace Covid19Analysis.Model
             return averageTotalTest;
         }
 
+        //TODO: finish the summary of this method
         /// <summary>
-        /// 
+        /// Finds the positive cases between values.
         /// </summary>
-        /// <param name="lowerBound"></param>
-        /// <param name="upperBound"></param>
-        /// <returns></returns>
-        public int findPositiveCasesBetweenValues(int lowerBound, int upperBound)
+        /// <param name="lowerBound">The lower bound.</param>
+        /// <param name="upperBound">The upper bound.</param>
+        /// <returns>the number of positive cases between the bounds</returns>
+        public int FindPositiveCasesBetweenValues(int lowerBound, int upperBound)
         {
+            this.CheckCollectionIsPopulated();
             return this.CovidRecords.Count(currentCovidData =>
                 currentCovidData.PositiveCasesIncrease >= lowerBound &&
                 currentCovidData.PositiveCasesIncrease <= upperBound);
         }
-
+        //TODO: finish the summary of this method
         /// <summary>
-        /// 
+        /// Checks to see the the highest positive increase is in between the lowerBound and upperBound
         /// </summary>
-        /// <param name="lowerBound"></param>
-        /// <param name="upperBound"></param>
-        /// <returns></returns>
+        /// <param name="lowerBound">The lower bound.</param>
+        /// <param name="upperBound">The upper bound.</param>
+        /// <returns>true if the highest positive increase is between the bounds, false if else</returns>
         public bool BoundsContainHighestIncrease(int lowerBound, int upperBound)
         {
             var shouldHistogramStop = false;
