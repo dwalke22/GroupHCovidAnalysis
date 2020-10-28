@@ -146,13 +146,13 @@ namespace Covid19Analysis.Model
             var average = this.CovidRecords.FindAveragePositiveCasesSinceFirstPositive();
             return
                 "Average Positive Test Per Day Since First Positive: " +
-                $"{Convert.ToDecimal($"{average: 0.00}"):n0} cases per day{Environment.NewLine}";
+                $"{Convert.ToDecimal($"{average: 0.00}"):N} cases per day{Environment.NewLine}";
         }
 
         private string formatOverAllPositivityRate()
         {
             var rate = this.CovidRecords.FindOverallPositivityRate();
-            return $"Overall Positive rate: {Convert.ToDecimal($"{rate:0.00}"):n0}%{Environment.NewLine}";
+            return $"Overall Positive rate: {Convert.ToDecimal($"{rate:0.00}"):N}%{Environment.NewLine}";
         }
 
         private string formatBoundaries(int upperLimit, int lowerLimit)
@@ -177,14 +177,14 @@ namespace Covid19Analysis.Model
 
         private string formatHistogram(int binsize)
         {
-            var formattedHistogram = string.Empty;
+            var formattedHistogram = $"{Environment.NewLine}";
             var lowerBound = 0;
             var upperBound = binsize;
             var shouldHistogramStop = false;
             while (!shouldHistogramStop)
             {
                 formattedHistogram +=
-                    $"{Environment.NewLine}{increaseByOneForNonZero(lowerBound)} - {upperBound}: {this.CovidRecords.findPositiveCasesBetweenValues(increaseByOneForNonZero(lowerBound), upperBound)}" +
+                    $"{increaseByOneForNonZero(lowerBound)} - {upperBound}: {this.CovidRecords.findPositiveCasesBetweenValues(increaseByOneForNonZero(lowerBound), upperBound)}" +
                     Environment.NewLine;
                 shouldHistogramStop = this.CovidRecords.BoundsContainHighestIncrease(lowerBound, upperBound);
                 lowerBound += binsize;
@@ -344,7 +344,7 @@ namespace Covid19Analysis.Model
         {
             var average = monthData.FindAveragePositiveCasesSinceFirstPositive();
             return
-                $"Average Positive Test Per Day Since First Positive: {Convert.ToDecimal($"{average: 0.00}"):n0} cases per day" +
+                $"Average Positive Test Per Day Since First Positive: {Convert.ToDecimal($"{average: 0.00}"):N} cases per day" +
                 $"{Environment.NewLine}";
         }
 
@@ -352,7 +352,7 @@ namespace Covid19Analysis.Model
         {
             var average = monthData.FindAverageNumberOfTestPerDay();
             return
-                $"Average Number of Test Per Day: {Convert.ToDecimal($"{average:0.00}"):n0} test per day{Environment.NewLine}";
+                $"Average Number of Test Per Day: {Convert.ToDecimal($"{average:0.00}"):N} test per day{Environment.NewLine}";
         }
 
         #endregion
