@@ -49,10 +49,6 @@ namespace Covid19Analysis.View
             this.BinSize = int.Parse(this.binSizeTextBox.Text);
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
         private void binSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var numRegex = new Regex("\\d+");

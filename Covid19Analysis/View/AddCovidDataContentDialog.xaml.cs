@@ -78,10 +78,6 @@ namespace Covid19Analysis.View
             this.HospitalizedNumbers = int.Parse(this.hospitalizedTextBox.Text);
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
         private void PositiveCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.checkForPositiveNumbers(this.positiveCasesTextBox);
