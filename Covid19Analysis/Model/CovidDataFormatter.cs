@@ -88,7 +88,6 @@ namespace Covid19Analysis.Model
             output += this.formatAveragePositiveTest();
             output += this.formatOverAllPositivityRate();
             output += this.formatBoundaries(upperBoundary, lowerBoundary);
-            //output += this.formatSegmentData(binsize);
             output += this.formatHistogram(binsize);
             return output;
         }
@@ -164,23 +163,6 @@ namespace Covid19Analysis.Model
             output += $"Number of Days With Less than {lowerLimit:n0} Positive Cases: " +
                       $"{this.CovidRecords.FindNumberOfDaysWithCasesUnderLowerThreshold(lowerLimit):n0} days{Environment.NewLine}";
             return output;
-        }
-
-        private string formatSegmentData(int segmentRange)
-        {
-            var summary = $"{Environment.NewLine}";
-            var segmentCounts = this.CovidRecords.CountDaysByPositiveCasesSegments(segmentRange);
-            var startCases = 0;
-            var endCases = segmentRange;
-            for (var i = 0; i < segmentCounts.Length; i++)
-            {
-                summary += this.generateSegmentString(startCases, endCases, segmentCounts[i]);
-
-                startCases = endCases + 1;
-                endCases = segmentRange * (i + 2);
-            }
-
-            return summary;
         }
 
         private string generateSegmentString(int startCases, int endCases, int segmentCount)
