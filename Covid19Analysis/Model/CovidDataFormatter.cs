@@ -280,7 +280,7 @@ namespace Covid19Analysis.Model
         private string formatMonthlyHighestPositiveDay(CovidDataCollection monthData)
         {
             var highestPositive = monthData.FindHighestNumberOfPositiveCasesInSingleDay().PositiveCasesIncrease;
-            var daysWithHighest = monthData.CovidRecords
+            var daysWithHighest = monthData
                                            .Where(covidData => covidData.PositiveCasesIncrease == highestPositive)
                                            .Select(covidData => covidData).ToList();
             var daysString = this.formatMultipuleDays(daysWithHighest);
@@ -310,7 +310,7 @@ namespace Covid19Analysis.Model
         private string formatMonthlyLowestPositive(CovidDataCollection monthData)
         {
             var lowestPositives = monthData.FindLowestPositiveCases().PositiveCasesIncrease;
-            var daysWithLowest = monthData.CovidRecords
+            var daysWithLowest = monthData
                                           .Where(covidData => covidData.PositiveCasesIncrease == lowestPositives)
                                           .Select(covidData => covidData).ToList();
             var daysString = this.formatMultipuleDays(daysWithLowest);
@@ -321,7 +321,7 @@ namespace Covid19Analysis.Model
         private string formatMonthlyMostTestInDay(CovidDataCollection monthData)
         {
             var mostTest = monthData.FindHighestNumberOfTests().TotalTest;
-            var daysWithMostTests = monthData.CovidRecords
+            var daysWithMostTests = monthData
                                              .Where(covidData => covidData.TotalTest == mostTest)
                                              .Select(covidData => covidData).ToList();
             var daysString = this.formatMultipuleDays(daysWithMostTests);
@@ -332,7 +332,7 @@ namespace Covid19Analysis.Model
         private string formatLeastTestInDay(CovidDataCollection monthData)
         {
             var leastTest = monthData.FindLowestTotalCases().TotalTest;
-            var daysWithLeastTests = monthData.CovidRecords
+            var daysWithLeastTests = monthData
                                               .Where(covidData => covidData.TotalTest == leastTest)
                                               .Select(covidData => covidData).ToList();
             var daysString = this.formatMultipuleDays(daysWithLeastTests);

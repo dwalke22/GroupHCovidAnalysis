@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,19 +8,27 @@ namespace Covid19Analysis.Model
     /// <summary>
     ///     CovidRecords class that stores a collection of Covid data for a state
     /// </summary>
-    public class CovidDataCollection
+    public class CovidDataCollection : IList<CovidData>
     {
         #region Properties
 
         /// <summary>
         ///     The List of <see cref="CovidData" />
         /// </summary>
-        public IList<CovidData> CovidRecords { get; set; }
+        private IList<CovidData> CovidRecords { get; set; }
 
         /// <summary>
         ///     The Count for the number of records in the collection
         /// </summary>
         public int Count => this.CovidRecords.Count;
+
+        /// <summary>
+        ///     The read only property
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get => this.CovidRecords.IsReadOnly;
+        }
 
         #endregion
 
@@ -54,6 +63,26 @@ namespace Covid19Analysis.Model
             }
 
             this.CovidRecords.Add(data);
+        }
+
+        public bool Remove(CovidData item)
+        {
+            return this.CovidRecords.Remove(item);
+        }
+
+        public void Clear()
+        {
+            this.CovidRecords.Clear();
+        }
+
+        public bool Contains(CovidData item)
+        {
+            return this.CovidRecords.Contains(item);
+        }
+
+        public void CopyTo(CovidData[] array, int arrayIndex)
+        {
+            this.CovidRecords.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -323,5 +352,36 @@ namespace Covid19Analysis.Model
             return shouldHistogramStop;
         }
         #endregion
+
+        public IEnumerator<CovidData> GetEnumerator()
+        {
+            return this.CovidRecords.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public int IndexOf(CovidData item)
+        {
+            return this.CovidRecords.IndexOf(item);
+        }
+
+        public void Insert(int index, CovidData item)
+        {
+            this.CovidRecords.Insert(index, item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            this.CovidRecords.RemoveAt(index);
+        }
+
+        public CovidData this[int index]
+        {
+            get => this.CovidRecords[index];
+            set => this.CovidRecords[index] = value;
+        }
     }
 }

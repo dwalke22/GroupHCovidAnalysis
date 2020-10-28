@@ -55,7 +55,7 @@ namespace Covid19Analysis.Model
 
         private void seperateDataIntoMonths(CovidDataCollection[] monthlyData, CovidDataCollection covidData)
         {
-            var monthlyGroups = from data in covidData.CovidRecords group data by data.Date.Month;
+            var monthlyGroups = from data in covidData group data by data.Date.Month;
             foreach (var monthlyGroup in monthlyGroups)
             {
                 var monthKey = monthlyGroup.Key;

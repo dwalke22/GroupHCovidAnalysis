@@ -89,7 +89,7 @@ namespace Covid19Analysis.View
                     addDataContentDialog.NegativeCaseIncrease,
                     addDataContentDialog.DeathNumbers,
                     addDataContentDialog.HospitalizedNumbers);
-                if (this.LoadedDataCollection.CovidRecords.Any(covidData => covidData.Date == data.Date))
+                if (this.LoadedDataCollection.Any(covidData => covidData.Date == data.Date))
                 {
                     await this.handleDuplicateDay(data);
                 }
@@ -104,7 +104,7 @@ namespace Covid19Analysis.View
 
         private void ClearData_Click(object sender, RoutedEventArgs e)
         {
-            this.LoadedDataCollection.CovidRecords.Clear();
+            this.LoadedDataCollection.Clear();
             this.summaryTextBox.Text = "";
         }
 
@@ -121,7 +121,7 @@ namespace Covid19Analysis.View
             {
                 CachedFileManager.DeferUpdates(file);
                 var text = FileHeader + Environment.NewLine;
-                foreach (var currData in this.LoadedDataCollection.CovidRecords)
+                foreach (var currData in this.LoadedDataCollection)
                 {
                     text += currData + Environment.NewLine;
                 }
@@ -191,9 +191,9 @@ namespace Covid19Analysis.View
 
         private async void mergeFile(CovidDataCollection covidCollection)
         {
-            foreach (var currCovidData in covidCollection.CovidRecords)
+            foreach (var currCovidData in covidCollection)
             {
-                if (this.LoadedDataCollection.CovidRecords.Any(covidData => covidData.Date == currCovidData.Date))
+                if (this.LoadedDataCollection.Any(covidData => covidData.Date == currCovidData.Date))
                 {
                     await this.handleDuplicateDay(currCovidData);
                 }
@@ -223,22 +223,22 @@ namespace Covid19Analysis.View
         private void replaceDuplicateDay(CovidData currCovidData)
         {
             var duplicateDay = currCovidData.Date;
-            var day = this.LoadedDataCollection.CovidRecords.First(covidData =>
+            var day = this.LoadedDataCollection.First(covidData =>
                 covidData.Date == duplicateDay);
-            var index = this.LoadedDataCollection.CovidRecords.IndexOf(day);
-            this.LoadedDataCollection.CovidRecords[index] = currCovidData;
+            var index = this.LoadedDataCollection.IndexOf(day);
+            this.LoadedDataCollection[index] = currCovidData;
         }
 
         private void mergeDuplicateDay(CovidData currCovidData)
         {
             var duplicateDay = currCovidData.Date;
-            var day = this.LoadedDataCollection.CovidRecords.First(covidData => covidData.Date == duplicateDay);
-            var index = this.LoadedDataCollection.CovidRecords.IndexOf(day);
+            var day = this.LoadedDataCollection.First(covidData => covidData.Date == duplicateDay);
+            var index = this.LoadedDataCollection.IndexOf(day);
             day.PositiveCasesIncrease += currCovidData.PositiveCasesIncrease;
             day.NegativeCasesIncrease += currCovidData.NegativeCasesIncrease;
             day.DeathNumbers += currCovidData.DeathNumbers;
             day.HospitalizedNumbers += currCovidData.HospitalizedNumbers;
-            this.LoadedDataCollection.CovidRecords[index] = day;
+            this.LoadedDataCollection[index] = day;
         }
 
         private static IAsyncOperation<ContentDialogResult> showDuplicateDayDialog()

@@ -8,8 +8,7 @@
     Title="Add New Covid Data"
     PrimaryButtonText="Add"
     SecondaryButtonText="Cancel"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick" Width="4000" Height="2750">
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
 
     <Grid Height="240" Width="500">
         <DatePicker x:Name="dataDatePicker" Margin="6,10,0,0" VerticalAlignment="Top" />
