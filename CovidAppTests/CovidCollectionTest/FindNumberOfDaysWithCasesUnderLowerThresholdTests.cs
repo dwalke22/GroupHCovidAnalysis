@@ -21,7 +21,8 @@ namespace CovidAppTests.CovidCollectionTest
             var testDataCollection = new CovidDataCollection();
 
 
-           Assert.ThrowsException<InvalidOperationException>(() => testDataCollection.FindNumberOfDaysWithCasesUnderLowerThreshold(1000));
+            Assert.ThrowsException<InvalidOperationException>(() =>
+                testDataCollection.FindNumberOfDaysWithCasesUnderLowerThreshold(1000));
         }
 
         [TestMethod]
@@ -38,7 +39,7 @@ namespace CovidAppTests.CovidCollectionTest
             testDataCollection.Add(validData3);
             testDataCollection.Add(validData4);
 
-            Assert.AreEqual(2,testDataCollection.FindNumberOfDaysWithCasesUnderLowerThreshold(10));
+            Assert.AreEqual(2, testDataCollection.FindNumberOfDaysWithCasesUnderLowerThreshold(10));
         }
 
         [TestMethod]
