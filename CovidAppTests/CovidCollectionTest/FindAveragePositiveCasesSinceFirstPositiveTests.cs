@@ -20,9 +20,9 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestIntegerAverageNoZeroes()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
@@ -35,10 +35,10 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestDoubleAverageNoZeroes()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 4, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10);
-            var validData4 = new CovidData(new DateTime(2020, 10, 17), "GA", 12, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 4, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10, 0);
+            var validData4 = new CovidData(new DateTime(2020, 10, 17), "GA", 12, 10, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
@@ -52,10 +52,10 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestAverageWithLeadingZero()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 0, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10);
-            var validData4 = new CovidData(new DateTime(2020, 10, 17), "GA", 12, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 0, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10, 0);
+            var validData4 = new CovidData(new DateTime(2020, 10, 17), "GA", 12, 10, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
@@ -69,11 +69,11 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestAverageWithMiddleZeroes()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 0, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 0, 10, 10, 10);
-            var validData4 = new CovidData(new DateTime(2020, 10, 17), "GA", 12, 10, 10, 10);
-            var validData5 = new CovidData(new DateTime(2020, 10, 18), "GA", 15, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 0, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 0, 10, 10, 10, 0);
+            var validData4 = new CovidData(new DateTime(2020, 10, 17), "GA", 12, 10, 10, 10, 0);
+            var validData5 = new CovidData(new DateTime(2020, 10, 18), "GA", 15, 10, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);

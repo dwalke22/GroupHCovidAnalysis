@@ -22,9 +22,9 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestAllDataInBounds()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10,0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10,0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10,0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
@@ -37,9 +37,9 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestNoDataInBounds()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10,0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
@@ -52,9 +52,9 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestInvertedBounds()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
@@ -67,9 +67,9 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestHighestInBoundsWithOthers()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 10, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 12, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 10, 10, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 12, 10, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
@@ -82,9 +82,9 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestHighestInBoundsAlone()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 22, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 22, 10, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
@@ -97,9 +97,9 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestHighestOutsideBounds()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 88, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 88, 10, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);

@@ -18,7 +18,7 @@ namespace CovidAppTests.CovidCollectionTest
         {
             var dataCollection = new CovidDataCollection();
 
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 10, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 10, 10, 10, 10,0);
 
             dataCollection.Add(validData);
 
@@ -37,11 +37,11 @@ namespace CovidAppTests.CovidCollectionTest
         {
             var dataCollection = new CovidDataCollection();
 
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 10, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 10, 10, 10, 10,0);
 
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 10, 10, 10, 10);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 10, 10, 10, 10,0);
 
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 10, 10, 10, 10);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 10, 10, 10, 10,0);
 
             dataCollection.Add(validData);
             dataCollection.Add(validData2);
