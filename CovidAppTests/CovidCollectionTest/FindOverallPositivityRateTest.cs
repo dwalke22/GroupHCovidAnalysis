@@ -9,6 +9,8 @@ namespace CovidAppTests.CovidCollectionTest
     ///     EmptyList               InvalidOperationException
     ///     One Item (10.0)         0.5
     ///     Multiple (10.0)         0.5
+    ///     100Percent              1
+    ///     0Percent                0
     /// </summary>
     [TestClass]
     public class FindOverallPositivityRateTest
@@ -50,10 +52,43 @@ namespace CovidAppTests.CovidCollectionTest
             dataCollection.Add(validData);
             dataCollection.Add(validData3);
 
-            var expected = (validData.OverallPositivePercentage + validData2.OverallPositivePercentage +
-                            validData3.OverallPositivePercentage) / 3;
+            Assert.AreEqual(0.5, dataCollection.FindOverallPositivityRate(), Delta);
+        }
 
-            Assert.AreEqual(expected, dataCollection.FindOverallPositivityRate(), Delta);
+        [TestMethod]
+        public void Test100Percent()
+        {
+            var dataCollection = new CovidDataCollection();
+
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 5, 0, 10, 10);
+
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 5, 0, 10, 10);
+
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 5, 0, 10, 10);
+
+            dataCollection.Add(validData2);
+            dataCollection.Add(validData);
+            dataCollection.Add(validData3);
+
+            Assert.AreEqual(1, dataCollection.FindOverallPositivityRate(), Delta);
+        }
+
+        [TestMethod]
+        public void Test0Percent()
+        {
+            var dataCollection = new CovidDataCollection();
+
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 0, 5, 10, 10);
+
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 0, 5, 10, 10);
+
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 0, 5, 10, 10);
+
+            dataCollection.Add(validData2);
+            dataCollection.Add(validData);
+            dataCollection.Add(validData3);
+
+            Assert.AreEqual(0, dataCollection.FindOverallPositivityRate(), Delta);
         }
     }
 }
