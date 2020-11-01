@@ -58,6 +58,14 @@ namespace Covid19Analysis.Model
         public int HospitalizedNumbers { get; set; }
 
         /// <summary>
+        ///     Gets the number of currently hospitalized numbers
+        /// </summary>
+        /// <value>
+        ///     The number of currently hospitalized numbers
+        /// </value>
+        public int CurrentHospitalized { get; set; }
+
+        /// <summary>
         ///     Gets the total number of tests
         /// </summary>
         /// <value>
@@ -95,16 +103,18 @@ namespace Covid19Analysis.Model
         /// <param name="state">The last name.</param>
         /// <param name="positiveCasesIncrease">The number of positive cases for the date.</param>
         /// <param name="negativeCasesIncrease">The number of negative cases for the date.</param>
+        /// <param name="currentHospitalized">The number of currently hospitalized</param>
         /// <param name="deathNumbers">The number of deaths for the date.</param>
         /// <param name="hospitalizedNumbers">The number of hospitalized cases.</param>
         /// <exception cref="NullReferenceException">state</exception>
         public CovidData(DateTime date, string state, int positiveCasesIncrease, int negativeCasesIncrease,
-            int deathNumbers, int hospitalizedNumbers)
+            int currentHospitalized, int deathNumbers, int hospitalizedNumbers)
         {
             this.Date = date;
             this.State = state ?? throw new ArgumentNullException(nameof(state));
             this.PositiveCasesIncrease = positiveCasesIncrease;
             this.NegativeCasesIncrease = negativeCasesIncrease;
+            this.CurrentHospitalized = currentHospitalized;
             this.DeathNumbers = deathNumbers;
             this.HospitalizedNumbers = hospitalizedNumbers;
         }
@@ -123,14 +133,8 @@ namespace Covid19Analysis.Model
         {
             return
                 $"{this.Date:yyyyMMdd},{this.State},{this.PositiveCasesIncrease},{this.NegativeCasesIncrease}," +
-                $"{this.DeathNumbers},{this.HospitalizedNumbers}";
+                $"{this.CurrentHospitalized},{this.DeathNumbers},{this.HospitalizedNumbers}";
         }
-
-        private int AddTwoPlusTwo()
-        {
-            return 2 + 4;
-        }
-
         #endregion
     }
 }

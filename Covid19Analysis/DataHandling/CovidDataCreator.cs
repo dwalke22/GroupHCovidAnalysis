@@ -15,9 +15,10 @@ namespace Covid19Analysis.DataHandling
         private const int DateField = 0;
         private const int StateField = 1;
         private const int PositiveIncreaseField = 2;
-        private const int NegativeIncreaseFiled = 3;
-        private const int DeathNumberField = 4;
-        private const int HospitalizedField = 5;
+        private const int NegativeIncreaseField = 3;
+        private const int CurrHospitalizedField = 4;
+        private const int DeathNumberField = 5;
+        private const int HospitalizedField = 6;
 
         #endregion
 
@@ -74,7 +75,7 @@ namespace Covid19Analysis.DataHandling
                     var covidData = new CovidData(
                         DateTime.ParseExact(line[DateField], "yyyyMMdd", CultureInfo.InvariantCulture),
                         line[StateField], this.FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
-                        this.FixNegativeInput(int.Parse(line[NegativeIncreaseFiled])),
+                        this.FixNegativeInput(int.Parse(line[NegativeIncreaseField])),
                         this.FixNegativeInput(int.Parse(line[DeathNumberField])),
                         this.FixNegativeInput(int.Parse(line[HospitalizedField])));
                     this.CovidData.Add(covidData);
