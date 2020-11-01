@@ -12,13 +12,14 @@ namespace Covid19Analysis.DataHandling
     {
         #region Data members
 
+        private const int NumberOfFields = 7;
         private const int DateField = 0;
         private const int StateField = 1;
         private const int PositiveIncreaseField = 2;
         private const int NegativeIncreaseField = 3;
         private const int CurrHospitalizedField = 4;
-        private const int DeathNumberField = 5;
-        private const int HospitalizedField = 6;
+        private const int HospitalizedField = 5;
+        private const int DeathNumberField = 6;
 
         #endregion
 
@@ -72,10 +73,15 @@ namespace Covid19Analysis.DataHandling
                 var line = fileLines[i].Split(",");
                 try
                 {
+                    if (line.Length < NumberOfFields)
+                    {
+                        line = fillMissingFields(line);
+                    }
                     var covidData = new CovidData(
-                        DateTime.ParseExact(line[DateField], "yyyyMMdd", CultureInfo.InvariantCulture),
+                        DateTime.ParseExact(line[DateField], "MM/dd/yyyy", CultureInfo.InvariantCulture),
                         line[StateField], this.FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
                         this.FixNegativeInput(int.Parse(line[NegativeIncreaseField])),
+                        this.FixNegativeInput(int.Parse(line[CurrHospitalizedField])),
                         this.FixNegativeInput(int.Parse(line[DeathNumberField])),
                         this.FixNegativeInput(int.Parse(line[HospitalizedField])));
                     this.CovidData.Add(covidData);
@@ -87,12 +93,33 @@ namespace Covid19Analysis.DataHandling
             }
         }
 
+        private static string[] fillMissingFields(string[] line)
+        {
+            var missingFields = NumberOfFields - line.Length;
+            var newLine = new string[NumberOfFields];
+            for (int j = 0; j < line.Length; j++)
+            {
+                if (line[j] == string.Empty)
+                {
+                    newLine[j] = "0";
+                }
+                newLine[j] = line[j];
+            }
+
+            for (int j = 0; j < missingFields; j++)
+            {
+                newLine[j] = "0";
+            }
+
+            return newLine;
+        }
+
         private int FixNegativeInput(int number)
         {
             var fixedNumber = number;
             if (fixedNumber < 0)
             {
-                fixedNumber = Math.Abs(fixedNumber);
+                fixedNumber = 0;
             }
 
             return fixedNumber;

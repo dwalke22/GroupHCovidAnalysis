@@ -44,6 +44,11 @@ namespace Covid19Analysis.View
         /// </summary>
         public int HospitalizedNumbers { get; private set; }
 
+        /// <summary>
+        ///     The number of currently hospitalized
+        /// </summary>
+        public int CurrHospitalized { get; private set; }
+
         private Regex NumberRegex => new Regex("\\d+");
 
         #endregion
@@ -76,6 +81,7 @@ namespace Covid19Analysis.View
             this.NegativeCaseIncrease = int.Parse(this.negativeCasesTextBox.Text);
             this.DeathNumbers = int.Parse(this.deathsTextBox.Text);
             this.HospitalizedNumbers = int.Parse(this.hospitalizedTextBox.Text);
+            this.CurrHospitalized = int.Parse(this.currHospitalizedTextBox.Text);
         }
 
         private void PositiveCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -112,6 +118,11 @@ namespace Covid19Analysis.View
             this.checkForPositiveNumbers(this.hospitalizedTextBox);
         }
 
+        private void currHospitalizedTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.checkForPositiveNumbers(this.currHospitalizedTextBox);
+        }
         #endregion
+
     }
 }

@@ -87,6 +87,7 @@ namespace Covid19Analysis.View
                 var data = new CovidData(addDataContentDialog.DateDate,
                     addDataContentDialog.State, addDataContentDialog.PositiveCaseIncrease,
                     addDataContentDialog.NegativeCaseIncrease,
+                    addDataContentDialog.CurrHospitalized,
                     addDataContentDialog.DeathNumbers,
                     addDataContentDialog.HospitalizedNumbers);
                 if (this.LoadedDataCollection.Any(covidData => covidData.Date == data.Date))

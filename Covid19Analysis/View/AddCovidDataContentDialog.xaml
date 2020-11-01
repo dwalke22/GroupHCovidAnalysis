@@ -36,8 +36,10 @@
                  InputScope="Number" TextChanged="HospitalizedTextBox_TextChanged" />
         <TextBlock HorizontalAlignment="Left" Margin="265,135,0,0" Text="Hospitalized Numbers" TextWrapping="Wrap"
                    VerticalAlignment="Top" Height="18" FontSize="14" />
-        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="6,173,0,0" Text="TextBlock"
-                   TextWrapping="WrapWholeWords" VerticalAlignment="Top" Height="57" Width="485" Visibility="Collapsed" />
+        <TextBlock HorizontalAlignment="Left" Margin="6,174,0,0" Text="Current Hospitalized" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="currHospitalizedTextBox" HorizontalAlignment="Left" Margin="189,166,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Width="71" TextChanged="currHospitalizedTextBox_TextChanged"/>
+        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="6,205,0,0" Text="TextBlock"
+                   TextWrapping="WrapWholeWords" VerticalAlignment="Top" Height="25" Width="485" Visibility="Collapsed" />
 
     </Grid>
 </ContentDialog>
