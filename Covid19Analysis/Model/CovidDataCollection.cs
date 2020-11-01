@@ -396,10 +396,16 @@ namespace Covid19Analysis.Model
         ///     Finds the coivdData with the highest number of current hospitalizations
         /// </summary>
         /// <returns>The coivd data with the highest number of current hospitalizations</returns>
-        public CovidData findHighestCurrentHospitaliztion()
+        public CovidData findHighestCurrentHospitalization()
         {
             this.CheckCollectionIsPopulated();
             return this.CovidRecords.OrderByDescending(coivdData => coivdData.CurrentHospitalized).First();
+        }
+
+        public CovidData findLowestCurrentHospitalization()
+        {
+            return this.CovidRecords.Where(coivdData => coivdData.CurrentHospitalized > 0)
+                       .OrderBy(covidData => covidData.CurrentHospitalized).First();
         }
 
         /// <summary>

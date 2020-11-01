@@ -145,7 +145,7 @@ namespace Covid19Analysis.Model
 
         private string formatHighestCurrentHospitalization()
         {
-            var highestCurrentHosp = this.CovidRecords.findHighestCurrentHospitaliztion();
+            var highestCurrentHosp = this.CovidRecords.findHighestCurrentHospitalization();
             return $"Highest Current Hospitalizations: {highestCurrentHosp.Date.ToShortDateString()} with " +
                 $"{highestCurrentHosp.CurrentHospitalized:n0} currently hospitalized{Environment.NewLine}";
         }
@@ -257,6 +257,8 @@ namespace Covid19Analysis.Model
                     output += this.formatMonthlyLowestPositive(monthData);
                     output += this.formatMonthlyMostTestInDay(monthData);
                     output += this.formatLeastTestInDay(monthData);
+                    output += this.formatHighestCurrentHospitalization(monthData);
+                    output += this.formatLeastCurrentHospitalization(monthData);
                     output += this.formatMonthlyAverageTestPerDay(monthData);
                     output += this.formatAverageNumberOfTestPerDay(monthData);
                 }
@@ -354,6 +356,25 @@ namespace Covid19Analysis.Model
             var daysString = this.formatMultipuleDays(daysWithLeastTests);
             return
                 $"Least Test in Single Day: {leastTest:n0} occurred on {daysString}{Environment.NewLine}";
+        }
+
+        private string formatHighestCurrentHospitalization(CovidDataCollection monthData)
+        {
+            var highestCurHops = monthData.findHighestCurrentHospitalization().CurrentHospitalized;
+            var daysWithHighest = monthData.Where(covidData => covidData.CurrentHospitalized == highestCurHops)
+                                           .Select(covidData => covidData).ToList();
+            var daysString = this.formatMultipuleDays(daysWithHighest);
+            return
+                $"Highest Current Hospitalizations: {highestCurHops:n0} occurred on {daysString}{Environment.NewLine}";
+        }
+
+        private string formatLeastCurrentHospitalization(CovidDataCollection monthData)
+        {
+            var leastCurrHosp = monthData.findLowestCurrentHospitalization().CurrentHospitalized;
+            var daysWithLowest = monthData.Where(covidData => covidData.CurrentHospitalized == leastCurrHosp)
+                                          .Select(covidData => covidData).ToList();
+            var daysString = this.formatMultipuleDays(daysWithLowest);
+            return $"Lowest Current Hospitalizations: {leastCurrHosp:n0} occurred on {daysString}{Environment.NewLine}";
         }
 
         private string formatMonthlyAverageTestPerDay(CovidDataCollection monthData)
