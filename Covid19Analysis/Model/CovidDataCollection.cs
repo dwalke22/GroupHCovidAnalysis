@@ -382,6 +382,27 @@ namespace Covid19Analysis.Model
         }
 
         /// <summary>
+        ///     Finds the average of the current number of current hospitalizations 
+        /// </summary>
+        /// <returns>The average number of current hospitalizations</returns>
+        public double findAverageCurrentHospitalization()
+        {
+            this.CheckCollectionIsPopulated();
+            return this.CovidRecords.Where(covidData => covidData.CurrentHospitalized > 0)
+                       .Average(covidData => covidData.CurrentHospitalized);
+        }
+
+        /// <summary>
+        ///     Finds the coivdData with the highest number of current hospitalizations
+        /// </summary>
+        /// <returns>The coivd data with the highest number of current hospitalizations</returns>
+        public CovidData findHighestCurrentHospitaliztion()
+        {
+            this.CheckCollectionIsPopulated();
+            return this.CovidRecords.OrderByDescending(coivdData => coivdData.CurrentHospitalized).First();
+        }
+
+        /// <summary>
         /// </summary>
         /// <returns></returns>
         public IEnumerator<CovidData> GetEnumerator()

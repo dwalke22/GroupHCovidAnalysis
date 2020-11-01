@@ -85,8 +85,10 @@ namespace Covid19Analysis.Model
             output += this.formatHighestDeathDay();
             output += this.formatHighestHospitalizedDay();
             output += this.formatHighestPositivePercentage();
+            output += this.formatHighestCurrentHospitalization();
             output += this.formatAveragePositiveTest();
             output += this.formatOverAllPositivityRate();
+            output += this.formatAverageCurrentHospitalizations();
             output += this.formatBoundaries(upperBoundary, lowerBoundary);
             output += this.formatHistogram(binsize);
             return output;
@@ -141,6 +143,13 @@ namespace Covid19Analysis.Model
                 $"{Environment.NewLine}";
         }
 
+        private string formatHighestCurrentHospitalization()
+        {
+            var highestCurrentHosp = this.CovidRecords.findHighestCurrentHospitaliztion();
+            return $"Highest Current Hospitalizations: {highestCurrentHosp.Date.ToShortDateString()} with " +
+                $"{highestCurrentHosp.CurrentHospitalized:n0} currently hospitalized{Environment.NewLine}";
+        }
+
         private string formatAveragePositiveTest()
         {
             var average = this.CovidRecords.FindAveragePositiveCasesSinceFirstPositive();
@@ -153,6 +162,13 @@ namespace Covid19Analysis.Model
         {
             var rate = this.CovidRecords.FindOverallPositivityRate();
             return $"Overall Positive rate: {Convert.ToDecimal($"{rate:0.00}"):N}%{Environment.NewLine}";
+        }
+
+        private string formatAverageCurrentHospitalizations()
+        {
+            var averageCurrHopsit = this.CovidRecords.findAverageCurrentHospitalization();
+            return $"Average Current Hospitalizations: {Convert.ToDecimal($"{averageCurrHopsit:0.00}"):n} " +
+                   $"hospitalizations per day{Environment.NewLine}";
         }
 
         private string formatBoundaries(int upperLimit, int lowerLimit)
