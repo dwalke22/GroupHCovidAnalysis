@@ -19,9 +19,9 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestAllLowestTestWithPositiveIncreaseAndNegativeIncrease()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 6, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 7, 10, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 8, 10, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
@@ -34,9 +34,9 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestAllLowestTestWithNoPositiveIncrease()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 400, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 200, 0, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 0, 100, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 400, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 200, 0, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 0, 100, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
@@ -49,9 +49,9 @@ namespace CovidAppTests.CovidCollectionTest
         public void TestAllLowestTestWithNoNegativeIncrease()
         {
             var testDataCollection = new CovidDataCollection();
-            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 150, 10, 10, 10);
-            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 50, 0, 10, 10);
-            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 0, 200, 10, 10);
+            var validData = new CovidData(new DateTime(2020, 10, 14), "GA", 150, 10, 10, 10, 0);
+            var validData2 = new CovidData(new DateTime(2020, 10, 15), "GA", 50, 0, 10, 10, 0);
+            var validData3 = new CovidData(new DateTime(2020, 10, 16), "GA", 0, 200, 10, 10, 0);
 
             testDataCollection.Add(validData);
             testDataCollection.Add(validData2);
