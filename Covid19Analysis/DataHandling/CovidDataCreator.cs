@@ -73,29 +73,14 @@ namespace Covid19Analysis.DataHandling
                 var line = fileLines[i].Split(",");
                 try
                 {
-                    //if (line.Length < NumberOfFields)
-                    //{
-                    //    line = fillMissingFields(line);
-                    //}
-
                     line = fillMissingFields(line);
-
-                    //TODO: think about implementing this instead, easier readability and much easier to debug as well
-                    var dateTime = DateTime.ParseExact(line[DateField], "M/dd/yyyy", CultureInfo.InvariantCulture);
-                    var state = line[StateField];
-                    var positiveCasesIncrease = this.FixNegativeInput(int.Parse(line[PositiveIncreaseField]));
-                    var negativeCasesIncrease = this.FixNegativeInput(int.Parse(line[NegativeIncreaseField]));
-                    var currentHospitalized = this.FixNegativeInput(int.Parse(line[CurrHospitalizedField]));
-                    var deathIncrease = this.FixNegativeInput(int.Parse(line[DeathNumberField]));
-                    var hospitalizedIncrease = this.FixNegativeInput(int.Parse(line[HospitalizedField]));
-                    var covidData = new CovidData(dateTime,state,positiveCasesIncrease,negativeCasesIncrease,currentHospitalized,deathIncrease,hospitalizedIncrease);
-                  //  var covidData = new CovidData(
-                  //      DateTime.ParseExact(line[DateField], "MM/dd/yyyy", CultureInfo.InvariantCulture),
-                  //      line[StateField], this.FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
-                  //      this.FixNegativeInput(int.Parse(line[NegativeIncreaseField])),
-                  //      this.FixNegativeInput(int.Parse(line[CurrHospitalizedField])),
-                  //      this.FixNegativeInput(int.Parse(line[DeathNumberField])),
-                  //      this.FixNegativeInput(int.Parse(line[HospitalizedField])));
+                    var covidData = new CovidData(
+                        DateTime.ParseExact(line[DateField], "M/dd/yyyy", CultureInfo.InvariantCulture),
+                        line[StateField], this.FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
+                        this.FixNegativeInput(int.Parse(line[NegativeIncreaseField])),
+                        this.FixNegativeInput(int.Parse(line[CurrHospitalizedField])),
+                        this.FixNegativeInput(int.Parse(line[DeathNumberField])),
+                        this.FixNegativeInput(int.Parse(line[HospitalizedField])));
                     this.CovidData.Add(covidData);
                 }
                 catch (Exception)
@@ -107,26 +92,18 @@ namespace Covid19Analysis.DataHandling
 
         private static string[] fillMissingFields(string[] line)
         {
-            var missingFields = NumberOfFields - line.Length;
             var newLine = new string[NumberOfFields];
 
-
-            for (int j = 0; j < line.Length; j++)
+            for (int i = 0; i < line.Length; i++)
             {
-                if (line[j].Equals(string.Empty))
+                if (line[i] == null || line[i].Equals(string.Empty))
                 {
-                    newLine[j] = "0";
+                    newLine[i] = "0";
                 }
                 else
                 {
-                    newLine[j] = line[j];
+                    newLine[i] = line[i];
                 }
-                
-            }
-
-            for (int j = 0; j < missingFields; j++)
-            {
-                newLine[j] = "0";
             }
 
             return newLine;
