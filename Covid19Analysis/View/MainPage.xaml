@@ -25,6 +25,8 @@
                  AutomationProperties.Name="summaryTextBlock" />
         <TextBlock HorizontalAlignment="Left" Margin="12,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                    Text="COVID-19 Analysis" />
+        <TextBlock HorizontalAlignment="Left" Margin="630,67,0,0" Text="State Data To Display" TextWrapping="Wrap" VerticalAlignment="Top" Width="151"/>
+        <ComboBox x:Name="stateComboBox" Margin="630,101,0,0" Width="153"/>
 
     </Grid>
 </Page>
