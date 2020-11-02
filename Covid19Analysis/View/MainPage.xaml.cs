@@ -308,7 +308,7 @@ namespace Covid19Analysis.View
         /// <summary>
         ///     The application width
         /// </summary>
-        public const int ApplicationWidth = 625;
+        public const int ApplicationWidth = 850;
 
         /// <summary>
         ///     The default State selector to get from a covid collection
