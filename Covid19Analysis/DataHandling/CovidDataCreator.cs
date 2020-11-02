@@ -73,12 +73,9 @@ namespace Covid19Analysis.DataHandling
                 var line = fileLines[i].Split(",");
                 try
                 {
-                    if (line.Length < NumberOfFields)
-                    {
-                        line = fillMissingFields(line);
-                    }
+                    line = fillMissingFields(line);
                     var covidData = new CovidData(
-                        DateTime.ParseExact(line[DateField], "MM/dd/yyyy", CultureInfo.InvariantCulture),
+                        DateTime.ParseExact(line[DateField], "M/dd/yyyy", CultureInfo.InvariantCulture),
                         line[StateField], this.FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
                         this.FixNegativeInput(int.Parse(line[NegativeIncreaseField])),
                         this.FixNegativeInput(int.Parse(line[CurrHospitalizedField])),
@@ -95,20 +92,18 @@ namespace Covid19Analysis.DataHandling
 
         private static string[] fillMissingFields(string[] line)
         {
-            var missingFields = NumberOfFields - line.Length;
             var newLine = new string[NumberOfFields];
-            for (int j = 0; j < line.Length; j++)
-            {
-                if (line[j] == string.Empty)
-                {
-                    newLine[j] = "0";
-                }
-                newLine[j] = line[j];
-            }
 
-            for (int j = 0; j < missingFields; j++)
+            for (int i = 0; i < line.Length; i++)
             {
-                newLine[j] = "0";
+                if (line[i] == null || line[i].Equals(string.Empty))
+                {
+                    newLine[i] = "0";
+                }
+                else
+                {
+                    newLine[i] = line[i];
+                }
             }
 
             return newLine;

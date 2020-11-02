@@ -388,7 +388,7 @@ namespace Covid19Analysis.Model
         public double findAverageCurrentHospitalization()
         {
             this.CheckCollectionIsPopulated();
-            return this.CovidRecords.Where(covidData => covidData.CurrentHospitalized > 0)
+            return this.CovidRecords.Where(covidData => covidData.CurrentHospitalized >= 0)
                        .Average(covidData => covidData.CurrentHospitalized);
         }
 
@@ -402,6 +402,10 @@ namespace Covid19Analysis.Model
             return this.CovidRecords.OrderByDescending(coivdData => coivdData.CurrentHospitalized).First();
         }
 
+        /// <summary>
+        ///     Finds the day with the Lowest Current Hospitalization number
+        /// </summary>
+        /// <returns>The CovidData with the lowest number of current hospitalization</returns>
         public CovidData findLowestCurrentHospitalization()
         {
             return this.CovidRecords.Where(coivdData => coivdData.CurrentHospitalized > 0)
