@@ -388,7 +388,7 @@ namespace Covid19Analysis.Model
         public double findAverageCurrentHospitalization()
         {
             this.CheckCollectionIsPopulated();
-            return this.CovidRecords.Where(covidData => covidData.CurrentHospitalized > 0)
+            return this.CovidRecords.Where(covidData => covidData.CurrentHospitalized >= 0)
                        .Average(covidData => covidData.CurrentHospitalized);
         }
 

@@ -167,8 +167,10 @@ namespace Covid19Analysis.Model
         private string formatAverageCurrentHospitalizations()
         {
             var averageCurrHopsit = this.CovidRecords.findAverageCurrentHospitalization();
-            return $"Average Current Hospitalizations: {Convert.ToDecimal($"{averageCurrHopsit:0.00}"):n} " +
-                   $"hospitalizations per day{Environment.NewLine}";
+                return $"Average Current Hospitalizations: {Convert.ToDecimal($"{averageCurrHopsit:0.00}"):n} " +
+                       $"hospitalizations per day{Environment.NewLine}";
+
+
         }
 
         private string formatBoundaries(int upperLimit, int lowerLimit)
@@ -372,9 +374,12 @@ namespace Covid19Analysis.Model
         {
             var leastCurrHosp = monthData.findLowestCurrentHospitalization().CurrentHospitalized;
             var daysWithLowest = monthData.Where(covidData => covidData.CurrentHospitalized == leastCurrHosp)
-                                          .Select(covidData => covidData).ToList();
+                    .Select(covidData => covidData).ToList();
             var daysString = this.formatMultipuleDays(daysWithLowest);
             return $"Lowest Current Hospitalizations: {leastCurrHosp:n0} occurred on {daysString}{Environment.NewLine}";
+            
+            
+            
         }
 
         private string formatMonthlyAverageTestPerDay(CovidDataCollection monthData)
