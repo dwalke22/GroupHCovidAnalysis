@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Covid19Analysis.DataHandling;
 using Covid19Analysis.Model;
-using Covid19Analysis.ViewModel;
+
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -155,7 +155,12 @@ namespace Covid19Analysis.View
         {
             var lines = await getFileLines(file);
             this.DataCreator.CreateCovidData(lines);
-            var stateCovidData = this.DataCreator.GetStateCovidData(DefaultStateSelector);
+            var state = DefaultStateSelector;
+            if (this.stateComboBox.SelectedValue != null)
+            {
+                state = this.stateComboBox.SelectedValue.ToString();
+            }
+            var stateCovidData = this.DataCreator.GetStateCovidData(state);
             if (this.LoadedDataCollection.Count > 0)
             {
                 this.handleExistingFileLoading(stateCovidData);
@@ -347,5 +352,19 @@ namespace Covid19Analysis.View
         private const string FileHeader = "date, state, positiveCases, negativeCases, death, hospitalized";
 
         #endregion
+
+        private void stateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedValue = this.stateComboBox.SelectedValue;
+            if (selectedValue != null )
+            {
+                if (this.DataCreator.CovidData.Count > 0)
+                {
+                    var stateData = this.DataCreator.GetStateCovidData(selectedValue.ToString());
+                    this.LoadedDataCollection = stateData;
+                    this.createNewReportSummary();
+                }
+            }
+        }
     }
 }
