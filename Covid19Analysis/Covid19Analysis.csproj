@@ -121,6 +121,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataHandling\CovidDataCreator.cs" />
+    <Compile Include="Extensions\CollectionExtension.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModel\CovidDataController.cs" />
     <Compile Include="View\AddCovidDataContentDialog.xaml.cs">
       <DependentUpon>AddCovidDataContentDialog.xaml</DependentUpon>
     </Compile>
