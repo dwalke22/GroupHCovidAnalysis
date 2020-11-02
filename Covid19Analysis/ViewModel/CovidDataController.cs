@@ -45,6 +45,11 @@ namespace Covid19Analysis.ViewModel
         this.covidDatas = this.covidDataCollection.ToObservableCollection();
     }
 
+    public int twoPlusTwo()
+    {
+        return 2 + 2;
+    }
+
 
 
     public event PropertyChangedEventHandler PropertyChanged;
