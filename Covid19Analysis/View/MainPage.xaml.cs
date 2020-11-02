@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Covid19Analysis.DataHandling;
 using Covid19Analysis.Model;
+using Covid19Analysis.ViewModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -163,7 +164,6 @@ namespace Covid19Analysis.View
             {
                 this.LoadedDataCollection = stateCovidData;
             }
-
             this.createNewReportSummary();
         }
 

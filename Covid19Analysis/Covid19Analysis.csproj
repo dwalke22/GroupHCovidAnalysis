@@ -121,6 +121,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataHandling\CovidDataCreator.cs" />
+    <Compile Include="EnumTypes\StateEnum.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\CovidDataController.cs" />
