@@ -79,6 +79,33 @@ namespace Covid19Analysis.ViewModel
             }
         }
 
+        private int lowerBoundary;
+
+        /// <summary>
+        ///     The LowerBoundary to be used in analysis
+        /// </summary>
+        public int LowerBoundary
+        {
+            get { return lowerBoundary; }
+            set
+            {
+                lowerBoundary = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private int upperBoundary;
+
+        public int UpperBoundary
+        {
+            get { return upperBoundary; }
+            set
+            {
+                upperBoundary = value;
+                this.OnPropertyChanged();
+            }
+        }
+
 
         /// <summary>
         /// 
