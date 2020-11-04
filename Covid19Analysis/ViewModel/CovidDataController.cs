@@ -24,7 +24,11 @@ namespace Covid19Analysis.ViewModel
         public ObservableCollection<CovidData> CovidDatas
         {
             get { return covidDatas; }
-            set { covidDatas = value; }
+            set
+            {
+                this.covidDatas = value;
+                this.OnPropertyChanged();
+            }
 
         }
 
