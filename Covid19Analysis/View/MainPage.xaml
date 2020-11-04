@@ -26,7 +26,7 @@
             <AppBarButton Icon="List" Label="Error Lines" Click="ErrorLines_Click" />
         </CommandBar>
         <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="12,67,0,0" VerticalAlignment="Top"
-                 TextWrapping="Wrap" Text="Summary" Height="276" Width="600" IsReadOnly="True"
+                 TextWrapping="Wrap" Text="{Binding Path=SummaryOutput, Mode=TwoWay}" Height="276" Width="600" IsReadOnly="True"
                  AutomationProperties.Name="summaryTextBlock" />
         <TextBlock HorizontalAlignment="Left" Margin="12,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                    Text="COVID-19 Analysis" />

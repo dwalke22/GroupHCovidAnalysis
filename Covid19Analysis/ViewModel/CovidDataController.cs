@@ -96,6 +96,9 @@ namespace Covid19Analysis.ViewModel
 
         private int upperBoundary;
 
+        /// <summary>
+        ///     The Upper Boundary to be used in the summary output
+        /// </summary>
         public int UpperBoundary
         {
             get { return upperBoundary; }
@@ -106,6 +109,20 @@ namespace Covid19Analysis.ViewModel
             }
         }
 
+        private string summaryOutput;
+
+        /// <summary>
+        ///     The summary output
+        /// </summary>
+        public string SummaryOutput
+        {
+            get { return summaryOutput; }
+            set
+            {
+                summaryOutput = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// 
