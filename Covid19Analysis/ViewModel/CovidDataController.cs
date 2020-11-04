@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Covid19Analysis.Annotations;
 using Covid19Analysis.EnumTypes;
@@ -19,7 +16,7 @@ namespace Covid19Analysis.ViewModel
         private ObservableCollection<CovidData> covidDatas;
         
         /// <summary>
-        /// 
+        ///     The Collection to be used in the 
         /// </summary>
         public ObservableCollection<CovidData> CovidDatas
         {
@@ -35,7 +32,7 @@ namespace Covid19Analysis.ViewModel
         private CovidData selectedCovidData;
         
         /// <summary>
-        /// 
+        ///     The Selected CovidDate from the List
         /// </summary>
         public CovidData SelectedCovidData
         {
@@ -48,14 +45,14 @@ namespace Covid19Analysis.ViewModel
         }
         
         /// <summary>
-        /// 
+        ///     The States to be used in the ComboBox
         /// </summary>
         public string[] States => StateEnum.StatesArray();
 
         private string selectedState;
 
         /// <summary>
-        /// 
+        ///     The Selected State to get data on
         /// </summary>
         public string SelectedState
         {
@@ -66,6 +63,23 @@ namespace Covid19Analysis.ViewModel
                 this.OnPropertyChanged();
             }
         }
+
+        private int binSize;
+
+        /// <summary>
+        ///     The Bin Size to be used for output
+        /// </summary>
+        public int BinSize
+        {
+            get { return binSize; }
+            set
+            {
+                binSize = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
