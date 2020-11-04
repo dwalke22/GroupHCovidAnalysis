@@ -32,7 +32,7 @@
                    Text="COVID-19 Analysis" />
         <TextBlock HorizontalAlignment="Left" Margin="630,67,0,0" Text="State Data To Display" TextWrapping="Wrap" VerticalAlignment="Top" Width="151"/>
         <ComboBox  x:Name="stateComboBox" Margin="630,101,0,0" Width="153" SelectionChanged="stateComboBox_SelectionChanged" ItemsSource="{Binding States, Mode=OneWay}" SelectedItem="{Binding SelectedState}" />
-        <ListView ItemsSource="{Binding Path=CovidDatas}" HorizontalAlignment="Left" Height="274" Margin="811,72,0,0" VerticalAlignment="Top" Width="371" BorderBrush="Black" BorderThickness="1">
+        <ListView SelectedItem="{Binding Path=SelectedCovidData, Mode=TwoWay}" ItemsSource="{Binding Path=CovidDatas, Mode=TwoWay}" HorizontalAlignment="Left" Height="274" Margin="12,359,0,0" VerticalAlignment="Top" Width="371" BorderBrush="Black" BorderThickness="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border>
@@ -48,6 +48,17 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <TextBlock HorizontalAlignment="Left" Margin="400,360,0,0" Text="Selected Day" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="400,380,0,0" Text="Positive Cases:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="400,440,0,0" Text="Negative Cases" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="400,400,0,0" Text="{Binding Path=SelectedCovidData.PositiveCasesIncrease, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="129"/>
+        <TextBox HorizontalAlignment="Left" Margin="400,460,0,0" Text="{Binding Path=SelectedCovidData.NegativeCasesIncrease, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="129"/>
+        <TextBlock HorizontalAlignment="Left" Margin="400,500,0,0" Text="Currently Hospitalized" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="400,520,0,0" Text="{Binding Path=SelectedCovidData.CurrentHospitalized, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="129"/>
+        <TextBlock HorizontalAlignment="Left" Margin="400,560,0,0" Text="Hospitalized" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="400,580,0,0" Text="{Binding Path=SelectedCovidData.HospitalizedNumbers}" TextWrapping="Wrap" VerticalAlignment="Top" Width="129"/>
+        <TextBox HorizontalAlignment="Left" Margin="580,460,0,0" Text="{Binding Path=SelectedCovidData.DeathNumbers}" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.588,-0.031" Width="129"/>
+        <TextBlock HorizontalAlignment="Left" Margin="580,440,0,0" Text="Deaths" TextWrapping="Wrap" VerticalAlignment="Top"/>
 
 
     </Grid>

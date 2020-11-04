@@ -308,12 +308,12 @@ namespace Covid19Analysis.View
         /// <summary>
         ///     The application height
         /// </summary>
-        public const int ApplicationHeight = 355;
+        public const int ApplicationHeight = 700;
 
         /// <summary>
         ///     The application width
         /// </summary>
-        public const int ApplicationWidth = 850;
+        public const int ApplicationWidth = 1000;
 
         /// <summary>
         ///     The default State selector to get from a covid collection
