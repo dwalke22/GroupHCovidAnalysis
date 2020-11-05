@@ -154,6 +154,11 @@ namespace Covid19Analysis.DataHandling
             return stateData;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public async Task<CovidDataCollection> DeserializeCovidData(StorageFile file)
         {
             this.CovidData.Clear();
