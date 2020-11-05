@@ -164,7 +164,7 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public DateTime AddDateTime
         {
-            get { return addDateTime; }
+            get { return this.addDateTime; }
             set
             {
                 addDateTime = value;
@@ -311,7 +311,9 @@ namespace Covid19Analysis.ViewModel
 
         private void AddData(object obj)
         {
-            var covidData = new CovidData { Date = this.AddDateTime.Date, State = this.AddState, PositiveCasesIncrease = this.PositiveCases, NegativeCasesIncrease = this.NegativeCases, CurrentHospitalized = this.CurrentHospitalized, DeathNumbers = this.Deaths, HospitalizedNumbers = this.Hospitalized };
+            var covidData = new CovidData(this.AddDateTime.Date, this.AddState, this.PositiveCases, this.NegativeCases,
+                this.CurrentHospitalized, this.Deaths, this.Hospitalized);
+            // { Date = this.AddDateTime.Date, State = this.AddState, PositiveCasesIncrease = this.PositiveCases, NegativeCasesIncrease = this.NegativeCases, CurrentHospitalized = this.CurrentHospitalized, DeathNumbers = this.Deaths, HospitalizedNumbers = this.Hospitalized };
         }
 
         private bool CanLoad(object obj)
