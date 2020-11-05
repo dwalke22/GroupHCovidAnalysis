@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Covid19Analysis.Annotations;
+using Covid19Analysis.EnumTypes;
 using Covid19Analysis.Extensions;
 using Covid19Analysis.Model;
 
@@ -15,49 +11,135 @@ namespace Covid19Analysis.ViewModel
     class CovidDataController : INotifyPropertyChanged
 
     {
-    private CovidDataCollection covidDataCollection;
+        private CovidDataCollection covidDataCollection;
 
-    private ObservableCollection<CovidData> covidDatas;
-
-    public ObservableCollection<CovidData> CovidDatas
-    {
-        get { return covidDatas; }
-        set { covidDatas = value; }
-
-    }
-
-    private CovidData selectedCovidData;
-
-    public CovidData SelectedCovidData
-    {
-        get { return selectedCovidData; }
-        set
+        private ObservableCollection<CovidData> covidDatas;
+        
+        /// <summary>
+        ///     The Collection to be used in the 
+        /// </summary>
+        public ObservableCollection<CovidData> CovidDatas
         {
-            selectedCovidData = value;
-            this.OnPropertyChanged();
+            get { return covidDatas; }
+            set
+            {
+                this.covidDatas = value;
+                this.OnPropertyChanged();
+            }
+
         }
-    }
 
-    public CovidDataController()
-    {
-        this.covidDataCollection = new CovidDataCollection();
+        private CovidData selectedCovidData;
+        
+        /// <summary>
+        ///     The Selected CovidDate from the List
+        /// </summary>
+        public CovidData SelectedCovidData
+        {
+            get { return selectedCovidData; }
+            set
+            {
+                selectedCovidData = value;
+                this.OnPropertyChanged();
+            }
+        }
+        
+        /// <summary>
+        ///     The States to be used in the ComboBox
+        /// </summary>
+        public string[] States => StateEnum.StatesArray();
 
-        this.covidDatas = this.covidDataCollection.ToObservableCollection();
-    }
+        private string selectedState;
 
-    public int twoPlusTwo()
-    {
-        return 2 + 2;
-    }
+        /// <summary>
+        ///     The Selected State to get data on
+        /// </summary>
+        public string SelectedState
+        {
+            get { return this.selectedState; }
+            set
+            {
+                this.selectedState = value;
+                this.OnPropertyChanged();
+            }
+        }
 
+        private int binSize;
 
+        /// <summary>
+        ///     The Bin Size to be used for output
+        /// </summary>
+        public int BinSize
+        {
+            get { return binSize; }
+            set
+            {
+                binSize = value;
+                this.OnPropertyChanged();
+            }
+        }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+        private int lowerBoundary;
 
-    [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-    }
+        /// <summary>
+        ///     The LowerBoundary to be used in analysis
+        /// </summary>
+        public int LowerBoundary
+        {
+            get { return lowerBoundary; }
+            set
+            {
+                lowerBoundary = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private int upperBoundary;
+
+        /// <summary>
+        ///     The Upper Boundary to be used in the summary output
+        /// </summary>
+        public int UpperBoundary
+        {
+            get { return upperBoundary; }
+            set
+            {
+                upperBoundary = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private string summaryOutput;
+
+        /// <summary>
+        ///     The summary output
+        /// </summary>
+        public string SummaryOutput
+        {
+            get { return summaryOutput; }
+            set
+            {
+                summaryOutput = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public CovidDataController()
+        {
+            this.covidDataCollection = new CovidDataCollection();
+
+            this.covidDatas = this.covidDataCollection.ToObservableCollection();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        }
 }

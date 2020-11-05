@@ -77,20 +77,27 @@ namespace Covid19Analysis.Model
         public string FormatGeneralData(int upperBoundary, int lowerBoundary, int binsize)
         {
             var output = "";
-            output +=
-                $"First Positive Case in GA: {this.CovidRecords.FindFirstPositiveTest().Date.ToShortDateString()}{Environment.NewLine}";
-            output += this.formatHighestPositiveDay();
-            output += this.formatHighestNegativeDay();
-            output += this.formatHighestTestDay();
-            output += this.formatHighestDeathDay();
-            output += this.formatHighestHospitalizedDay();
-            output += this.formatHighestPositivePercentage();
-            output += this.formatHighestCurrentHospitalization();
-            output += this.formatAveragePositiveTest();
-            output += this.formatOverAllPositivityRate();
-            output += this.formatAverageCurrentHospitalizations();
-            output += this.formatBoundaries(upperBoundary, lowerBoundary);
-            output += this.formatHistogram(binsize);
+            if (this.CovidRecords.Count > 0)
+            {
+                output +=
+                    $"First Positive Case in GA: {this.CovidRecords.FindFirstPositiveTest().Date.ToShortDateString()}{Environment.NewLine}";
+                output += this.formatHighestPositiveDay();
+                output += this.formatHighestNegativeDay();
+                output += this.formatHighestTestDay();
+                output += this.formatHighestDeathDay();
+                output += this.formatHighestHospitalizedDay();
+                output += this.formatHighestPositivePercentage();
+                output += this.formatHighestCurrentHospitalization();
+                output += this.formatAveragePositiveTest();
+                output += this.formatOverAllPositivityRate();
+                output += this.formatAverageCurrentHospitalizations();
+                output += this.formatBoundaries(upperBoundary, lowerBoundary);
+                output += this.formatHistogram(binsize);
+            }
+            else
+            {
+                output = "No Data Available";
+            }
             return output;
         }
 
