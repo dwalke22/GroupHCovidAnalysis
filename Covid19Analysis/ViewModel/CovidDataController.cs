@@ -2,29 +2,42 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Covid19Analysis.Annotations;
+using Covid19Analysis.DataHandling;
 using Covid19Analysis.EnumTypes;
 using Covid19Analysis.Extensions;
 using Covid19Analysis.Model;
+using Covid19Analysis.Utility;
 
 namespace Covid19Analysis.ViewModel
 {
     class CovidDataController : INotifyPropertyChanged
-
     {
+        private CovidDataCreator dataCreator;
         private CovidDataCollection covidDataCollection;
+        
+        /// <summary>
+        ///     The Remove Command
+        /// </summary>
+        public RelayCommand ClearCommand { get; set; }
 
-        private ObservableCollection<CovidData> covidDatas;
+        /// <summary>
+        ///     The Change State Command
+        /// </summary>
+        public RelayCommand ChangeStateCommand { get; set; }
+
+        private ObservableCollection<CovidData> selectedStateData;
         
         /// <summary>
         ///     The Collection to be used in the 
         /// </summary>
-        public ObservableCollection<CovidData> CovidDatas
+        public ObservableCollection<CovidData> SelectedStateData
         {
-            get { return covidDatas; }
+            get { return this.selectedStateData; }
             set
             {
-                this.covidDatas = value;
+                this.selectedStateData = value;
                 this.OnPropertyChanged();
+                this.ClearCommand.OnCanExecuteChanged();
             }
 
         }
@@ -61,6 +74,7 @@ namespace Covid19Analysis.ViewModel
             {
                 this.selectedState = value;
                 this.OnPropertyChanged();
+                this.ChangeStateCommand.OnCanExecuteChanged();
             }
         }
 
@@ -129,9 +143,37 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public CovidDataController()
         {
+            this.dataCreator = new CovidDataCreator();
             this.covidDataCollection = new CovidDataCollection();
+            this.selectedStateData = this.covidDataCollection.ToObservableCollection();
+            this.loadCommands();
+        }
 
-            this.covidDatas = this.covidDataCollection.ToObservableCollection();
+        private void loadCommands()
+        {
+            this.ClearCommand = new RelayCommand(ClearCollection, CanClearCollection);
+            this.ChangeStateCommand = new RelayCommand(ChangeState, CanChangeState);
+        }
+
+        private bool CanChangeState(object obj)
+        {
+            return this.dataCreator.CovidData.Count > 0;
+        }
+
+        private void ChangeState(object obj)
+        {
+            this.selectedStateData = this.dataCreator.GetStateCovidData(this.selectedState).ToObservableCollection();
+        }
+
+        private void ClearCollection(object obj)
+        {
+            this.selectedStateData.Clear();
+            this.summaryOutput = string.Empty;
+        }
+
+        private bool CanClearCollection(object obj)
+        {
+            return this.selectedStateData.Count > 0;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -104,12 +104,6 @@ namespace Covid19Analysis.View
             }
         }
 
-        private void ClearData_Click(object sender, RoutedEventArgs e)
-        {
-            this.LoadedDataCollection.Clear();
-            this.summaryTextBox.Text = "";
-        }
-
         private async void SaveData_Click(object sender, RoutedEventArgs e)
         {
             var savePicker = new FileSavePicker {
