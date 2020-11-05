@@ -296,6 +296,8 @@ namespace Covid19Analysis.View
             return lines;
         }
 
+        
+
         #endregion
 
         #region CovidRecords members
