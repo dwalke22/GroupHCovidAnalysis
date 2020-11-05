@@ -184,36 +184,7 @@ namespace Covid19Analysis.ViewModel
 
         private async void ProcessData(object obj)
         {
-            var openPicker = new FileOpenPicker
-            {
-                ViewMode = PickerViewMode.Thumbnail,
-                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
-            };
-            openPicker.FileTypeFilter.Add(".csv");
-            openPicker.FileTypeFilter.Add(".txt");
 
-            var file = await openPicker.PickSingleFileAsync();
-            if (file != null)
-            {
-                await this.processFile(file);
-            }
-        }
-
-        private async Task processFile(StorageFile file)
-        {
-            var lines = await getFileLines(file);
-            this.dataCreator.CreateCovidData(lines);
-            this.covidDataCollection.AddAll(this.dataCreator.GetStateCovidData(this.SelectedState));
-            this.SelectedStateData = this.covidDataCollection.ToObservableCollection();
-            this.GenerateNewSummaryOutput();
-
-        }
-
-        private static async Task<string[]> getFileLines(StorageFile file)
-        {
-            var fileText = await FileIO.ReadTextAsync(file);
-            var lines = fileText.Split("\r\n");
-            return lines;
         }
 
         private bool CanChangeState(object obj)

@@ -20,22 +20,6 @@ namespace Covid19Analysis.Model
         //[XmlIgnore]
         public DateTime Date { get; set; }
 
-        //TODO: decide on if this code should stay or not. If this code is implemented the datetime looks better in the .xml, but without this implemented the code is simpler.
-        //[XmlElement("Date")]
-        //public string DateString
-        //{
-        //    get
-        //    {
-        //        return this.Date.ToString("yyyyMMdd");
-        //    }
-        //    set
-        //    {
-        //        //this.Date = DateTime.Parse(value);
-        //        this.Date = DateTime.ParseExact(value, "yyyyMMdd", CultureInfo.InvariantCulture);
-        //        var test = this.Date;
-        //    }
-        //}
-
         /// <summary>
         ///     Gets the state
         /// </summary>
