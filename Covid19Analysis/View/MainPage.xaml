@@ -31,7 +31,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="12,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                    Text="COVID-19 Analysis" />
         <TextBlock HorizontalAlignment="Left" Margin="630,67,0,0" Text="State Data To Display" TextWrapping="Wrap" VerticalAlignment="Top" Width="151"/>
-        <ComboBox  x:Name="stateComboBox" Margin="630,101,0,0" Width="153" SelectionChanged="stateComboBox_SelectionChanged" ItemsSource="{Binding States, Mode=OneWay}" SelectedItem="{Binding SelectedState}" />
+        <ComboBox  SelectedIndex="9" x:Name="stateComboBox" Margin="630,101,0,0" Width="153" SelectionChanged="stateComboBox_SelectionChanged" ItemsSource="{Binding States, Mode=OneWay}" SelectedItem="{Binding SelectedState}" />
         <ListView SelectedItem="{Binding Path=SelectedCovidData, Mode=TwoWay}" ItemsSource="{Binding Path=CovidDatas, Mode=TwoWay}" HorizontalAlignment="Left" Height="274" Margin="12,359,0,0" VerticalAlignment="Top" Width="371" BorderBrush="Black" BorderThickness="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
