@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Covid19Analysis.Model
@@ -57,6 +58,14 @@ namespace Covid19Analysis.Model
             if (data == null) throw new ArgumentNullException(nameof(data));
 
             CovidRecords.Add(data);
+        }
+
+        public void AddAll(CovidDataCollection data)
+        {
+            foreach (var covidData in data)
+            {
+                this.CovidRecords.Add(covidData);
+            }
         }
 
         /// <summary>

@@ -17,7 +17,7 @@
             <CommandBar.Content>
                 <Grid />
             </CommandBar.Content>
-            <AppBarButton Icon="OpenFile" Label="Load File" Click="LoadFile_Click" />
+            <AppBarButton Icon="OpenFile" Label="Load File" Command="{Binding Path=LoadData}" />
             <AppBarButton Label="Save Data" Click="SaveData_Click" Icon="Save" />
             <AppBarButton Icon="Add" Label="Add Data" Click="AddData_Click" />
             <AppBarButton Icon="Delete" Label="Clear Data" Command="{Binding Path=ClearCommand}"/>

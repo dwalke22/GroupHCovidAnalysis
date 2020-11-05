@@ -75,7 +75,7 @@ namespace Covid19Analysis.DataHandling
                 {
                     line = fillMissingFields(line);
                     var covidData = new CovidData(
-                        DateTime.ParseExact(line[DateField], "M/dd/yyyy", CultureInfo.InvariantCulture),
+                        DateTime.ParseExact(line[DateField], "MM/dd/yyyy", CultureInfo.InvariantCulture),
                         line[StateField], this.FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
                         this.FixNegativeInput(int.Parse(line[NegativeIncreaseField])),
                         this.FixNegativeInput(int.Parse(line[CurrHospitalizedField])),
@@ -86,27 +86,36 @@ namespace Covid19Analysis.DataHandling
                 catch (Exception)
                 {
                     this.ErrorLines.Add(i, fileLines[i]);
+                    System.Console.WriteLine(fileLines[i]);
                 }
             }
         }
 
         private static string[] fillMissingFields(string[] line)
         {
-            var newLine = new string[NumberOfFields];
-
-            for (int i = 0; i < line.Length; i++)
+            try
             {
-                if (line[i] == null || line[i].Equals(string.Empty))
-                {
-                    newLine[i] = "0";
-                }
-                else
-                {
-                    newLine[i] = line[i];
-                }
-            }
+                var newLine = new string[NumberOfFields];
 
-            return newLine;
+                for (int i = 0; i < line.Length; i++)
+                {
+                    if (line[i] == null || line[i].Equals(string.Empty))
+                    {
+                        newLine[i] = "0";
+                    }
+                    else
+                    {
+                        newLine[i] = line[i];
+                    }
+                }
+
+                return newLine;
+            }
+            catch (Exception)
+            {
+                System.Console.WriteLine(line);
+                return line;
+            }
         }
 
         private int FixNegativeInput(int number)
