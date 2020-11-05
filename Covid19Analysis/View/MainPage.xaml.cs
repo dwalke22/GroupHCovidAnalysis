@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -10,8 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Covid19Analysis.DataHandling;
 using Covid19Analysis.Model;
-using Covid19Analysis.ViewModel;
-using FileOpenPicker = Windows.Storage.Pickers.FileOpenPicker;
+
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -35,7 +37,6 @@ namespace Covid19Analysis.View
             this.UpperBoundaryLimit = GetBoundariesContentDialog.UpperBoundaryDefault;
             this.LowerBoundaryLimit = GetBoundariesContentDialog.LowerBoundaryDefault;
             this.BinSize = BinChangerContentDialog.DefaultBinSize;
-            this.covidDataController = new CovidDataController();
 
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
@@ -58,6 +59,7 @@ namespace Covid19Analysis.View
                 this.LowerBoundaryLimit = boundaryContentDialog.LowerBoundary;
                 if (this.LoadedDataCollection.Count > 0)
                 {
+                    this.createNewReportSummary();
                 }
             }
         }
@@ -73,6 +75,7 @@ namespace Covid19Analysis.View
                 this.BinSize = binChangerContentDialog.BinSize;
                 if (this.LoadedDataCollection.Count > 0)
                 {
+                    this.createNewReportSummary();
                 }
             }
         }
@@ -100,6 +103,7 @@ namespace Covid19Analysis.View
                     this.LoadedDataCollection.Add(data);
                 }
 
+                this.createNewReportSummary();
             }
         }
 
@@ -109,10 +113,18 @@ namespace Covid19Analysis.View
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
             savePicker.FileTypeChoices.Add("CSV", new List<string> {".csv"});
+            savePicker.FileTypeChoices.Add("XML", new List<string> { ".xml" });
             savePicker.SuggestedFileName = "New Document";
 
             var file = await savePicker.PickSaveFileAsync();
-            if (file != null)
+            if (file != null && file.FileType.Equals(".xml"))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(CovidDataCollection));
+                var outStream = await file.OpenStreamForWriteAsync();
+                serializer.Serialize(outStream,this.LoadedDataCollection);
+                outStream.Dispose();
+            }
+            else if (file != null)
             {
                 CachedFileManager.DeferUpdates(file);
                 var text = FileHeader + Environment.NewLine;
@@ -123,6 +135,53 @@ namespace Covid19Analysis.View
 
                 await FileIO.WriteTextAsync(file, text);
             }
+        }
+
+        private async void LoadFile_Click(object sender, RoutedEventArgs e)
+        {
+            var openPicker = new FileOpenPicker {
+                ViewMode = PickerViewMode.Thumbnail, SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+            };
+            openPicker.FileTypeFilter.Add(".csv");
+            openPicker.FileTypeFilter.Add(".txt");
+            openPicker.FileTypeFilter.Add(".xml");
+
+            var file = await openPicker.PickSingleFileAsync();
+            if (file != null && file.FileType.Equals(".xml"))
+            {
+                await this.DataCreator.DeserializeCovidData(file);
+                await this.processData();
+
+            }
+            else if (file != null)
+            {
+                var lines = await getFileLines(file);
+                this.DataCreator.CreateCovidData(lines);
+                await this.processData();
+            }
+            else
+            {
+                this.summaryTextBox.Text = "Operation cancelled.";
+            }
+        }
+
+        private async Task processData()
+        {
+            var state = DefaultStateSelector;
+            if (this.stateComboBox.SelectedValue != null)
+            {
+                state = this.stateComboBox.SelectedValue.ToString();
+            }
+            var stateCovidData = this.DataCreator.GetStateCovidData(state);
+            if (this.LoadedDataCollection.Count > 0)
+            {
+                this.handleExistingFileLoading(stateCovidData);
+            }
+            else
+            {
+                this.LoadedDataCollection = stateCovidData;
+            }
+            this.createNewReportSummary();
         }
 
         private async void handleExistingFileLoading(CovidDataCollection covidCollection)
@@ -139,6 +198,7 @@ namespace Covid19Analysis.View
             if (result == Replace)
             {
                 this.LoadedDataCollection = covidCollection;
+                this.createNewReportSummary();
             }
 
             if (result == Merge)
@@ -160,7 +220,8 @@ namespace Covid19Analysis.View
                     this.LoadedDataCollection.Add(currCovidData);
                 }
             }
-            ;
+
+            this.createNewReportSummary();
         }
 
         private async Task handleDuplicateDay(CovidData currCovidData)
@@ -209,6 +270,16 @@ namespace Covid19Analysis.View
 
             var result = duplicateDayDialog.ShowAsync();
             return result;
+        }
+
+        private void createNewReportSummary()
+        {
+            var stateMonthData = new MonthlyCovidDataCollection(this.LoadedDataCollection);
+            var covidFormatter = new CovidDataFormatter(this.LoadedDataCollection);
+            this.summaryTextBox.Text = "";
+            this.summaryTextBox.Text =
+                covidFormatter.FormatGeneralData(this.UpperBoundaryLimit, this.LowerBoundaryLimit, this.BinSize);
+            this.summaryTextBox.Text += covidFormatter.FormatMonthlyData(stateMonthData);
         }
 
         private async void ErrorLines_Click(object sender, RoutedEventArgs e)
@@ -288,8 +359,6 @@ namespace Covid19Analysis.View
         /// </summary>
         public int BinSize { get; set; }
 
-        private CovidDataController covidDataController;
-
         private const ContentDialogResult Replace = ContentDialogResult.Primary;
 
         private const ContentDialogResult Merge = ContentDialogResult.Secondary;
@@ -307,8 +376,11 @@ namespace Covid19Analysis.View
                 {
                     var stateData = this.DataCreator.GetStateCovidData(selectedValue.ToString());
                     this.LoadedDataCollection = stateData;
+                    this.createNewReportSummary();
                 }
             }
         }
+
+        
     }
 }

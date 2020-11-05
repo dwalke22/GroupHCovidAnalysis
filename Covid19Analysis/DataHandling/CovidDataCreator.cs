@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Windows.Storage;
 using Covid19Analysis.Model;
 
 namespace Covid19Analysis.DataHandling
@@ -148,6 +152,21 @@ namespace Covid19Analysis.DataHandling
             }
 
             return stateData;
+        }
+
+        public async Task<CovidDataCollection> DeserializeCovidData(StorageFile file)
+        {
+            this.CovidData.Clear();
+            this.ErrorLines.Clear();
+
+            var deserializer = new XmlSerializer(typeof(CovidDataCollection));
+
+            var inStream = await file.OpenStreamForReadAsync();
+            var covidDataCollection = (CovidDataCollection)deserializer.Deserialize(inStream);
+
+            this.CovidData.AddRange(covidDataCollection);
+
+            return covidDataCollection;
         }
 
         #endregion
