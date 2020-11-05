@@ -152,6 +152,124 @@ namespace Covid19Analysis.ViewModel
         }
 
         /// <summary>
+        ///     The Add relay command
+        /// </summary>
+        public RelayCommand AddCommand;
+
+
+        private DateTime addDateTime;
+
+        /// <summary>
+        ///     The DateTime To Be Added
+        /// </summary>
+        public DateTime AddDateTime
+        {
+            get { return addDateTime; }
+            set
+            {
+                addDateTime = value;
+                this.OnPropertyChanged();
+                this.AddCommand.OnCanExecuteChanged();
+            }
+        }
+
+        private string addState;
+
+        /// <summary>
+        ///     The State of the added Data
+        /// </summary>
+        public string AddState
+        {
+            get { return addState; }
+            set
+            {
+                addState = value;
+                this.OnPropertyChanged();
+                this.AddCommand.OnCanExecuteChanged();
+            }
+        }
+
+        private int positiveCases;
+
+        /// <summary>
+        ///     The Number of positive cases of the date
+        /// </summary>
+        public int PositiveCases
+        {
+            get { return positiveCases; }
+            set
+            {
+                positiveCases = value;
+                this.OnPropertyChanged();
+                this.AddCommand.OnCanExecuteChanged();
+            }
+        }
+
+        private int negativeCases;
+
+        /// <summary>
+        ///     The number of negative cases for the day
+        /// </summary>
+        public int NegativeCases
+        {
+            get { return negativeCases; }
+            set
+            {
+                negativeCases = value;
+                this.OnPropertyChanged();
+                this.AddCommand.OnCanExecuteChanged();
+            }
+        }
+
+        private int currentHospitalized;
+
+        /// <summary>
+        ///     The number of currently hospitalized
+        /// </summary>
+        public int CurrentHospitalized
+        {
+            get { return currentHospitalized; }
+            set
+            {
+                currentHospitalized = value;
+                this.OnPropertyChanged();
+                this.AddCommand.OnCanExecuteChanged();
+            }
+        }
+
+        private int deaths;
+
+        /// <summary>
+        ///     The Number of deaths in the given day
+        /// </summary>
+        public int Deaths
+        {
+            get { return deaths; }
+            set
+            {
+                deaths = value;
+                this.OnPropertyChanged();
+                this.AddCommand.OnCanExecuteChanged();
+            }
+        }
+
+        private int hospitalized;
+
+        /// <summary>
+        ///     the number of hospitalizations on the day
+        /// </summary>
+        public int Hospitalized
+        {
+            get { return hospitalized; }
+            set
+            {
+                hospitalized = value;
+                this.OnPropertyChanged();
+                this.AddCommand.OnCanExecuteChanged();
+            }
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         public CovidDataController()
@@ -175,6 +293,25 @@ namespace Covid19Analysis.ViewModel
             this.ClearCommand = new RelayCommand(ClearCollection, CanClearCollection);
             this.ChangeStateCommand = new RelayCommand(ChangeState, CanChangeState);
             this.LoadData = new RelayCommand(ProcessData, CanLoad);
+            this.AddCommand = new RelayCommand(AddData, CanAdd);
+        }
+
+        private bool CanAdd(object obj)
+        {
+            if (this.AddDateTime == null || this.AddState == null)
+            {
+                return false;
+            }
+            else
+            {
+                return this.AddState.Length > 0 && this.PositiveCases > 0 &&
+                       this.Hospitalized > 0 && this.Deaths > 0 && this.CurrentHospitalized > 0;
+            }
+        }
+
+        private void AddData(object obj)
+        {
+            var covidData = new CovidData { Date = this.AddDateTime.Date, State = this.AddState, PositiveCasesIncrease = this.PositiveCases, NegativeCasesIncrease = this.NegativeCases, CurrentHospitalized = this.CurrentHospitalized, DeathNumbers = this.Deaths, HospitalizedNumbers = this.Hospitalized };
         }
 
         private bool CanLoad(object obj)

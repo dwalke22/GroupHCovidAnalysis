@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Covid19Analysis.Model
@@ -60,6 +59,10 @@ namespace Covid19Analysis.Model
             CovidRecords.Add(data);
         }
 
+        /// <summary>
+        ///     Add all of the data to the collection
+        /// </summary>
+        /// <param name="data"></param>
         public void AddAll(CovidDataCollection data)
         {
             foreach (var covidData in data)

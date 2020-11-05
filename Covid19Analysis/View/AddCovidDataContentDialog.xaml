@@ -4,40 +4,66 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="using:Covid19Analysis.ViewModel"
     mc:Ignorable="d"
     Title="Add New Covid Data"
     PrimaryButtonText="Add"
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+    
+    <ContentDialog.DataContext>
+        <viewModel:CovidDataController/>
+    </ContentDialog.DataContext>
 
     <Grid Height="240" Width="500">
-        <DatePicker x:Name="dataDatePicker" Margin="6,10,0,0" VerticalAlignment="Top" />
-        <TextBlock HorizontalAlignment="Left" Margin="6,58,0,0" Text="State" TextWrapping="Wrap"
+        <DatePicker x:Name="dataDatePicker" Margin="6,10,0,0" VerticalAlignment="Top" SelectedDate="{Binding Path=AddDateTime, Mode=TwoWay}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="6,55,0,0" Text="State" TextWrapping="Wrap"
                    VerticalAlignment="Top" Width="37" />
-        <TextBox x:Name="stateTextBox" HorizontalAlignment="Left" Margin="189,51,0,0" Text="" TextWrapping="Wrap"
-                 VerticalAlignment="Top" PlaceholderText="i.e. &quot;GA&quot;" />
-        <TextBox x:Name="positiveCasesTextBox" HorizontalAlignment="Left" Margin="189,88,0,0" Text=""
-                 TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34"
-                 InputScope="Number" TextChanged="PositiveCasesTextBox_TextChanged" />
+        <ComboBox  SelectedIndex="9" x:Name="stateComboBox" Margin="55,50,0,0" Width="153" 
+                    ItemsSource="{Binding States, Mode=OneWay}" SelectedItem="{Binding AddState}" PlaceholderText="Pick A State" />
+        <TextBox x:Name="positiveCasesTextBox" HorizontalAlignment="Left" Margin="185,88,0,0"
+                 TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" Width="75"
+                 InputScope="Number" TextChanged="PositiveCasesTextBox_TextChanged">
+            <TextBox.Text>
+                <Binding Path="PositiveCases" Mode="TwoWay" Converter="{StaticResource IntConverter}" />
+            </TextBox.Text>
+        </TextBox>
         <TextBlock HorizontalAlignment="Left" Margin="6,91,0,0" Text="Positive Cases Increase" TextWrapping="Wrap"
                    VerticalAlignment="Top" Height="18" FontSize="14" />
-        <TextBox x:Name="negativeCasesTextBox" HorizontalAlignment="Left" Margin="419,88,0,0" Text=""
-                 TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34"
-                 InputScope="Number" TextChanged="NegativeCasesTextBox_TextChanged" />
+        <TextBox x:Name="negativeCasesTextBox" HorizontalAlignment="Left" Margin="420,88,0,0"
+                 TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" Width="75"
+                 InputScope="Number" TextChanged="NegativeCasesTextBox_TextChanged">
+            <TextBox.Text>
+                <Binding Path="NegativeCases" Mode="TwoWay" Converter="{StaticResource IntConverter}" />
+            </TextBox.Text>
+        </TextBox>
         <TextBlock HorizontalAlignment="Right" Margin="0,94,81,0" Text="Negative Cases Increase" TextWrapping="Wrap"
-                   VerticalAlignment="Top" Height="19" FontSize="14" Width="154" />
-        <TextBox x:Name="deathsTextBox" HorizontalAlignment="Left" Margin="189,127,0,0" Text="" TextWrapping="Wrap"
-                 VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" InputScope="Number"
-                 TextChanged="DeathsTextBox_TextChanged" />
+                   VerticalAlignment="Top" Height="19" FontSize="14" Width="155" />
+        <TextBox x:Name="deathsTextBox" HorizontalAlignment="Left" Margin="185,127,0,0" TextWrapping="Wrap"
+                 VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" Width="75" InputScope="Number"
+                 TextChanged="DeathsTextBox_TextChanged">
+            <TextBox.Text>
+                <Binding Path="Deaths" Mode="TwoWay" Converter="{StaticResource IntConverter}" />
+            </TextBox.Text>
+        </TextBox>
         <TextBlock HorizontalAlignment="Left" Margin="6,135,0,0" Text="Death Numbers" TextWrapping="Wrap"
                    VerticalAlignment="Top" Height="18" FontSize="14" />
-        <TextBox x:Name="hospitalizedTextBox" HorizontalAlignment="Left" Margin="419,127,0,0" Text=""
-                 TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34"
-                 InputScope="Number" TextChanged="HospitalizedTextBox_TextChanged" />
+        <TextBox x:Name="hospitalizedTextBox" HorizontalAlignment="Left" Margin="420,127,0,0"
+                 TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" Width="75"
+                 InputScope="Number" TextChanged="HospitalizedTextBox_TextChanged">
+            <TextBox.Text>
+                <Binding Path="Hospitalized" Mode="TwoWay" Converter="{StaticResource IntConverter}"/>
+            </TextBox.Text>
+        </TextBox>
         <TextBlock HorizontalAlignment="Left" Margin="265,135,0,0" Text="Hospitalized Numbers" TextWrapping="Wrap"
                    VerticalAlignment="Top" Height="18" FontSize="14" />
         <TextBlock HorizontalAlignment="Left" Margin="6,174,0,0" Text="Current Hospitalized" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBox x:Name="currHospitalizedTextBox" HorizontalAlignment="Left" Margin="189,166,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Width="71" TextChanged="currHospitalizedTextBox_TextChanged"/>
+        <TextBox x:Name="currHospitalizedTextBox" HorizontalAlignment="Left" Margin="185,166,0,0" TextWrapping="Wrap" 
+                 VerticalAlignment="Top" PlaceholderText="i.e. 1000" Width="75" TextChanged="currHospitalizedTextBox_TextChanged">
+            <TextBox.Text>
+                <Binding Path="CurrentHospitalized" Mode="TwoWay" Converter="{StaticResource IntConverter}" />
+            </TextBox.Text>
+        </TextBox>
         <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="6,205,0,0" Text="TextBlock"
                    TextWrapping="WrapWholeWords" VerticalAlignment="Top" Height="25" Width="485" Visibility="Collapsed" />
 

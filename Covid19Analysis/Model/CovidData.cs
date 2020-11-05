@@ -122,11 +122,6 @@ namespace Covid19Analysis.Model
             this.HospitalizedNumbers = hospitalizedNumbers;
         }
 
-        private CovidData()
-        {
-
-        }
-
         #endregion
 
         #region Methods

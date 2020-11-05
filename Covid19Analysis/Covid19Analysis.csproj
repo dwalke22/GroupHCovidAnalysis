@@ -120,6 +120,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\NullableIntConverter.cs" />
     <Compile Include="DataHandling\CovidDataCreator.cs" />
     <Compile Include="EnumTypes\StateEnum.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />
