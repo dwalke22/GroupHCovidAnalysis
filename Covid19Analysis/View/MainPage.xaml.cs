@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -116,10 +119,18 @@ namespace Covid19Analysis.View
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
             savePicker.FileTypeChoices.Add("CSV", new List<string> {".csv"});
+            savePicker.FileTypeChoices.Add("XML", new List<string> { ".xml" });
             savePicker.SuggestedFileName = "New Document";
 
             var file = await savePicker.PickSaveFileAsync();
-            if (file != null)
+            if (file != null && file.FileType.Equals(".xml"))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(CovidDataCollection));
+                var outStream = await file.OpenStreamForWriteAsync();
+                serializer.Serialize(outStream,this.LoadedDataCollection);
+                outStream.Dispose();
+            }
+            else if (file != null)
             {
                 CachedFileManager.DeferUpdates(file);
                 var text = FileHeader + Environment.NewLine;
@@ -139,11 +150,20 @@ namespace Covid19Analysis.View
             };
             openPicker.FileTypeFilter.Add(".csv");
             openPicker.FileTypeFilter.Add(".txt");
+            openPicker.FileTypeFilter.Add(".xml");
 
             var file = await openPicker.PickSingleFileAsync();
-            if (file != null)
+            if (file != null && file.FileType.Equals(".xml"))
             {
-                await this.processFile(file);
+                await this.DataCreator.DeserializeCovidData(file);
+                await this.processData();
+
+            }
+            else if (file != null)
+            {
+                var lines = await getFileLines(file);
+                this.DataCreator.CreateCovidData(lines);
+                await this.processData();
             }
             else
             {
@@ -151,10 +171,8 @@ namespace Covid19Analysis.View
             }
         }
 
-        private async Task processFile(StorageFile file)
+        private async Task processData()
         {
-            var lines = await getFileLines(file);
-            this.DataCreator.CreateCovidData(lines);
             var state = DefaultStateSelector;
             if (this.stateComboBox.SelectedValue != null)
             {
@@ -368,5 +386,7 @@ namespace Covid19Analysis.View
                 }
             }
         }
+
+        
     }
 }
