@@ -76,7 +76,7 @@ namespace Covid19Analysis.View
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             this.DateDate = this.dataDatePicker.Date.Date;
-            this.State = this.stateComboBox.Text;
+            this.State = this.stateComboBox.SelectionBoxItem.ToString();
             this.PositiveCaseIncrease = int.Parse(this.positiveCasesTextBox.Text);
             this.NegativeCaseIncrease = int.Parse(this.negativeCasesTextBox.Text);
             this.DeathNumbers = int.Parse(this.deathsTextBox.Text);

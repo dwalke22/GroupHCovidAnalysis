@@ -17,16 +17,16 @@
             <CommandBar.Content>
                 <Grid />
             </CommandBar.Content>
-            <AppBarButton Icon="OpenFile" Label="Load File" Command="{Binding Path=LoadData}" />
+            <AppBarButton Icon="OpenFile" Label="Load File" Click="LoadFile_Click" />
             <AppBarButton Label="Save Data" Click="SaveData_Click" Icon="Save" />
             <AppBarButton Icon="Add" Label="Add Data" Click="AddData_Click" />
-            <AppBarButton Icon="Delete" Label="Clear Data" Command="{Binding Path=ClearCommand}"/>
+            <AppBarButton Icon="Delete" Label="Clear Data" Click="ClearData_Click"/>
             <AppBarButton Icon="Setting" Label="Change Boundaries" Click="ChangeBoundaries_Click" />
             <AppBarButton Label="Change Bin Size" Click="ChangeBinSize_Click" Icon="Setting" />
             <AppBarButton Icon="List" Label="Error Lines" Click="ErrorLines_Click" />
         </CommandBar>
         <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="12,67,0,0" VerticalAlignment="Top"
-                 TextWrapping="Wrap" Text="{Binding Path=SummaryOutput, Mode=TwoWay}" Height="276" Width="600" IsReadOnly="True"
+                 TextWrapping="Wrap" Text="" Height="276" Width="600" IsReadOnly="True"
                  AutomationProperties.Name="summaryTextBlock" />
         <TextBlock HorizontalAlignment="Left" Margin="12,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                    Text="COVID-19 Analysis" />
