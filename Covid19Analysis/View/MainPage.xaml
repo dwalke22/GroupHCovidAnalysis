@@ -20,7 +20,7 @@
             <AppBarButton Icon="OpenFile" Label="Load File" Click="LoadFile_Click" />
             <AppBarButton Label="Save Data" Click="SaveData_Click" Icon="Save" />
             <AppBarButton Icon="Add" Label="Add Data" Click="AddData_Click" />
-            <AppBarButton Icon="Delete" Label="Clear Data" Click="ClearData_Click" />
+            <AppBarButton Icon="Delete" Label="Clear Data" Command="{Binding Path=ClearCommand}"/>
             <AppBarButton Icon="Setting" Label="Change Boundaries" Click="ChangeBoundaries_Click" />
             <AppBarButton Label="Change Bin Size" Click="ChangeBinSize_Click" Icon="Setting" />
             <AppBarButton Icon="List" Label="Error Lines" Click="ErrorLines_Click" />
@@ -31,8 +31,8 @@
         <TextBlock HorizontalAlignment="Left" Margin="12,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                    Text="COVID-19 Analysis" />
         <TextBlock HorizontalAlignment="Left" Margin="630,67,0,0" Text="State Data To Display" TextWrapping="Wrap" VerticalAlignment="Top" Width="151"/>
-        <ComboBox  x:Name="stateComboBox" Margin="630,101,0,0" Width="153" SelectionChanged="stateComboBox_SelectionChanged" ItemsSource="{Binding States, Mode=OneWay}" SelectedItem="{Binding SelectedState}" />
-        <ListView SelectedItem="{Binding Path=SelectedCovidData, Mode=TwoWay}" ItemsSource="{Binding Path=CovidDatas, Mode=TwoWay}" HorizontalAlignment="Left" Height="274" Margin="12,359,0,0" VerticalAlignment="Top" Width="371" BorderBrush="Black" BorderThickness="1">
+        <ComboBox  SelectedIndex="9" x:Name="stateComboBox" Margin="630,101,0,0" Width="153" SelectionChanged="stateComboBox_SelectionChanged" ItemsSource="{Binding States, Mode=OneWay}" SelectedItem="{Binding SelectedState}" />
+        <ListView SelectedItem="{Binding Path=SelectedCovidData, Mode=TwoWay}" ItemsSource="{Binding Path=SelectedStateData, Mode=TwoWay}" HorizontalAlignment="Left" Height="274" Margin="12,359,0,0" VerticalAlignment="Top" Width="371" BorderBrush="Black" BorderThickness="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border>
