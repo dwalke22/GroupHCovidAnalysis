@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Foundation;
@@ -10,10 +11,11 @@ using Windows.Storage.Pickers;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Covid19Analysis.DataHandling;
-using Covid19Analysis.Extensions;
 using Covid19Analysis.Model;
 using Covid19Analysis.ViewModel;
+
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -31,17 +33,26 @@ namespace Covid19Analysis.View
         /// </summary>
         public MainPage()
         {
+            
             this.InitializeComponent();
+            this.DataController = new CovidDataController();
             this.DataCreator = new CovidDataCreator();
             this.LoadedDataCollection = new CovidDataCollection();
             this.UpperBoundaryLimit = GetBoundariesContentDialog.UpperBoundaryDefault;
             this.LowerBoundaryLimit = GetBoundariesContentDialog.LowerBoundaryDefault;
             this.BinSize = BinChangerContentDialog.DefaultBinSize;
-            this.CovidDataController = new CovidDataController();
 
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
+
+            //Binding myBinding = new Binding();
+            //myBinding.Source = this.LoadedDataCollection;
+            //myBinding.Mode = BindingMode.TwoWay;
+            //myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+
+            //this.DataContext = this.DataController;
+            this.DataController = (CovidDataController)this.DataContext;
         }
 
         #endregion
@@ -102,7 +113,6 @@ namespace Covid19Analysis.View
                 else
                 {
                     this.LoadedDataCollection.Add(data);
-
                 }
 
                 this.createNewReportSummary();
@@ -143,6 +153,7 @@ namespace Covid19Analysis.View
         {
             this.LoadedDataCollection.Clear();
             this.summaryTextBox.Text = "";
+            
         }
         private async void LoadFile_Click(object sender, RoutedEventArgs e)
         {
@@ -187,9 +198,9 @@ namespace Covid19Analysis.View
             else
             {
                 this.LoadedDataCollection = stateCovidData;
-                this.CovidDataController.SelectedStateData = stateCovidData.ToObservableCollection();
-
             }
+
+            this.DataController.setObservableCollection(this.LoadedDataCollection);
             this.createNewReportSummary();
         }
 
@@ -363,12 +374,12 @@ namespace Covid19Analysis.View
         /// </summary>
         public CovidDataCreator DataCreator { get; set; }
 
+        public CovidDataController DataController { get; set; }
+
         /// <summary>
         ///     The bin size to be used for histogram
         /// </summary>
         public int BinSize { get; set; }
-
-        public CovidDataController CovidDataController { get; set; }
 
         private const ContentDialogResult Replace = ContentDialogResult.Primary;
 

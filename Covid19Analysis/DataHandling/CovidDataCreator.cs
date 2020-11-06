@@ -78,13 +78,14 @@ namespace Covid19Analysis.DataHandling
                 try
                 {
                     line = fillMissingFields(line);
-                    var covidData = new CovidData(
-                        DateTime.ParseExact(line[DateField], "MM/dd/yyyy", CultureInfo.InvariantCulture),
-                        line[StateField], this.FixNegativeInput(int.Parse(line[PositiveIncreaseField])),
-                        this.FixNegativeInput(int.Parse(line[NegativeIncreaseField])),
-                        this.FixNegativeInput(int.Parse(line[CurrHospitalizedField])),
-                        this.FixNegativeInput(int.Parse(line[DeathNumberField])),
-                        this.FixNegativeInput(int.Parse(line[HospitalizedField])));
+                    var dateTime = DateTime.ParseExact(line[DateField], "M/dd/yyyy", CultureInfo.InvariantCulture);
+                    var state = line[StateField];
+                    var positiveCasesIncrease = this.FixNegativeInput(int.Parse(line[PositiveIncreaseField]));
+                    var negativeCasesIncrease = this.FixNegativeInput(int.Parse(line[NegativeIncreaseField]));
+                    var currentHospitalized = this.FixNegativeInput(int.Parse(line[CurrHospitalizedField]));
+                    var deathIncrease = this.FixNegativeInput(int.Parse(line[DeathNumberField]));
+                    var hospitalizedIncrease = this.FixNegativeInput(int.Parse(line[HospitalizedField]));
+                    var covidData = new CovidData(dateTime, state, positiveCasesIncrease, negativeCasesIncrease, currentHospitalized, deathIncrease, hospitalizedIncrease);
                     this.CovidData.Add(covidData);
                 }
                 catch (Exception)
