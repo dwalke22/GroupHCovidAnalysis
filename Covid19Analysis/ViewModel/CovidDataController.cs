@@ -50,6 +50,7 @@ namespace Covid19Analysis.ViewModel
             {
                 selectedCovidData = value;
                 this.OnPropertyChanged();
+                this.RemoveCommand.OnCanExecuteChanged();
             }
         }
         
@@ -102,7 +103,7 @@ namespace Covid19Analysis.ViewModel
         }
 
         
-        private void toObservableCollection()
+        public void toObservableCollection()
         {
             this.ObservableCovidCollection = this.covidDataCollection.ToObservableCollection();
             
