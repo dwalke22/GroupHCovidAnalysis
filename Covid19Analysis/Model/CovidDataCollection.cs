@@ -63,7 +63,7 @@ namespace Covid19Analysis.Model
         ///     Add all of the data to the collection
         /// </summary>
         /// <param name="data"></param>
-        public void AddAll(CovidDataCollection data)
+        public void AddAll(List<CovidData> data)
         {
             foreach (var covidData in data)
             {

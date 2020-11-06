@@ -122,6 +122,16 @@ namespace Covid19Analysis.Model
             this.HospitalizedNumbers = hospitalizedNumbers;
         }
 
+
+        /// <summary>
+        /// A private parameter-less constructor for a CovidData instance.
+        /// This constructor is for use ONLY with data serialization, and should NOT be used under any other circumstance.
+        /// </summary>
+        private CovidData()
+        {
+
+        }
+
         #endregion
 
         #region Methods

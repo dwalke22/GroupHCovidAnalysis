@@ -11,8 +11,10 @@ using Windows.Storage.Pickers;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Covid19Analysis.DataHandling;
 using Covid19Analysis.Model;
+using Covid19Analysis.ViewModel;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -31,7 +33,9 @@ namespace Covid19Analysis.View
         /// </summary>
         public MainPage()
         {
+            
             this.InitializeComponent();
+            this.DataController = new CovidDataController();
             this.DataCreator = new CovidDataCreator();
             this.LoadedDataCollection = new CovidDataCollection();
             this.UpperBoundaryLimit = GetBoundariesContentDialog.UpperBoundaryDefault;
@@ -41,6 +45,14 @@ namespace Covid19Analysis.View
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
+
+            //Binding myBinding = new Binding();
+            //myBinding.Source = this.LoadedDataCollection;
+            //myBinding.Mode = BindingMode.TwoWay;
+            //myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+
+            //this.DataContext = this.DataController;
+            this.DataController = (CovidDataController)this.DataContext;
         }
 
         #endregion
@@ -141,6 +153,7 @@ namespace Covid19Analysis.View
         {
             this.LoadedDataCollection.Clear();
             this.summaryTextBox.Text = "";
+            
         }
         private async void LoadFile_Click(object sender, RoutedEventArgs e)
         {
@@ -186,6 +199,8 @@ namespace Covid19Analysis.View
             {
                 this.LoadedDataCollection = stateCovidData;
             }
+
+            this.DataController.setObservableCollection(this.LoadedDataCollection);
             this.createNewReportSummary();
         }
 
@@ -358,6 +373,8 @@ namespace Covid19Analysis.View
         ///     The DataCreator for the application
         /// </summary>
         public CovidDataCreator DataCreator { get; set; }
+
+        public CovidDataController DataController { get; set; }
 
         /// <summary>
         ///     The bin size to be used for histogram
