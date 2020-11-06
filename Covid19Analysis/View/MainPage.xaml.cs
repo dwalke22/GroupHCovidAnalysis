@@ -46,12 +46,6 @@ namespace Covid19Analysis.View
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
 
-            //Binding myBinding = new Binding();
-            //myBinding.Source = this.LoadedDataCollection;
-            //myBinding.Mode = BindingMode.TwoWay;
-            //myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-
-            //this.DataContext = this.DataController;
             this.DataController = (CovidDataController)this.DataContext;
         }
 

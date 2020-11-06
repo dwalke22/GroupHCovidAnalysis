@@ -88,10 +88,10 @@ namespace Covid19Analysis.ViewModel
 
         private void loadCommands()
         {
-            this.RemoveCommand = new RelayCommand(DeleteData, CanDeletData);
+            this.RemoveCommand = new RelayCommand(DeleteData, CanDeleteData);
         }
 
-        private bool CanDeletData(object obj)
+        private bool CanDeleteData(object obj)
         {
             return this.SelectedCovidData != null;
         }
