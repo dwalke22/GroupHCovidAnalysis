@@ -403,6 +403,10 @@ namespace Covid19Analysis.View
             }
         }
 
-        
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.LoadedDataCollection.Remove(this.DataController.SelectedCovidData);
+            this.createNewReportSummary();
+        }
     }
 }
