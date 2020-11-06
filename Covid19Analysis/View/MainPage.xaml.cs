@@ -115,6 +115,7 @@ namespace Covid19Analysis.View
                     this.LoadedDataCollection.Add(data);
                 }
 
+                this.DataController.setObservableCollection(this.LoadedDataCollection);
                 this.createNewReportSummary();
             }
         }
@@ -153,7 +154,8 @@ namespace Covid19Analysis.View
         {
             this.LoadedDataCollection.Clear();
             this.summaryTextBox.Text = "";
-            
+            this.DataController.setObservableCollection(this.LoadedDataCollection);
+
         }
         private async void LoadFile_Click(object sender, RoutedEventArgs e)
         {
@@ -241,6 +243,7 @@ namespace Covid19Analysis.View
                 }
             }
 
+            this.DataController.setObservableCollection(this.LoadedDataCollection);
             this.createNewReportSummary();
         }
 
