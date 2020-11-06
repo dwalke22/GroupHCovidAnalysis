@@ -9,7 +9,10 @@ using Covid19Analysis.Model;
 
 namespace Covid19Analysis.ViewModel
 {
-    class CovidDataController : INotifyPropertyChanged
+    /// <summary>
+    ///     The Controller class
+    /// </summary>
+    public class CovidDataController : INotifyPropertyChanged
     {
 
         private CovidDataCreator dataCreator;
@@ -80,10 +83,14 @@ namespace Covid19Analysis.ViewModel
 
 
         /// <summary>
-        /// 
+        ///     The PropertyChanged event handler
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyName"></param>
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

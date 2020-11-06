@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Foundation;
@@ -12,8 +11,9 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Covid19Analysis.DataHandling;
+using Covid19Analysis.Extensions;
 using Covid19Analysis.Model;
-
+using Covid19Analysis.ViewModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -37,6 +37,7 @@ namespace Covid19Analysis.View
             this.UpperBoundaryLimit = GetBoundariesContentDialog.UpperBoundaryDefault;
             this.LowerBoundaryLimit = GetBoundariesContentDialog.LowerBoundaryDefault;
             this.BinSize = BinChangerContentDialog.DefaultBinSize;
+            this.CovidDataController = new CovidDataController();
 
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
@@ -101,6 +102,7 @@ namespace Covid19Analysis.View
                 else
                 {
                     this.LoadedDataCollection.Add(data);
+
                 }
 
                 this.createNewReportSummary();
@@ -185,6 +187,8 @@ namespace Covid19Analysis.View
             else
             {
                 this.LoadedDataCollection = stateCovidData;
+                this.CovidDataController.SelectedStateData = stateCovidData.ToObservableCollection();
+
             }
             this.createNewReportSummary();
         }
@@ -363,6 +367,8 @@ namespace Covid19Analysis.View
         ///     The bin size to be used for histogram
         /// </summary>
         public int BinSize { get; set; }
+
+        public CovidDataController CovidDataController { get; set; }
 
         private const ContentDialogResult Replace = ContentDialogResult.Primary;
 
