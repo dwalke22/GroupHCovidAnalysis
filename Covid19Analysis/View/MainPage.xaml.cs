@@ -374,6 +374,9 @@ namespace Covid19Analysis.View
         /// </summary>
         public CovidDataCreator DataCreator { get; set; }
 
+        /// <summary>
+        ///     The Covid Data Controller
+        /// </summary>
         public CovidDataController DataController { get; set; }
 
         /// <summary>

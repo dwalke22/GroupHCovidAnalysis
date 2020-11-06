@@ -7,6 +7,7 @@ using Covid19Analysis.DataHandling;
 using Covid19Analysis.EnumTypes;
 using Covid19Analysis.Extensions;
 using Covid19Analysis.Model;
+using Covid19Analysis.Utility;
 
 namespace Covid19Analysis.ViewModel
 {
@@ -16,6 +17,10 @@ namespace Covid19Analysis.ViewModel
         private CovidDataCreator dataCreator;
         private CovidDataCollection covidDataCollection;
 
+        /// <summary>
+        ///     The Remove Data Command
+        /// </summary>
+        public RelayCommand RemoveCommand { get; set; }
 
         private ObservableCollection<CovidData> observableCovidCollection;
         
@@ -77,10 +82,27 @@ namespace Covid19Analysis.ViewModel
             this.dataCreator = new CovidDataCreator();
             this.covidDataCollection = new CovidDataCollection();
             this.toObservableCollection();
+            this.loadCommands();
         }
 
+        private void loadCommands()
+        {
+            this.RemoveCommand = new RelayCommand(DeleteData, CanDeletData);
+        }
 
-        public void toObservableCollection()
+        private bool CanDeletData(object obj)
+        {
+            return this.SelectedCovidData != null;
+        }
+
+        private void DeleteData(object obj)
+        {
+            this.covidDataCollection.Remove(this.selectedCovidData);
+            this.toObservableCollection();
+        }
+
+        
+        private void toObservableCollection()
         {
             this.ObservableCovidCollection = this.covidDataCollection.ToObservableCollection();
             
@@ -103,6 +125,10 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyName"></param>
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
