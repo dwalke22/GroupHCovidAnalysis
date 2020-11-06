@@ -425,6 +425,53 @@ namespace Covid19Analysis.Model
         }
 
         /// <summary>
+        ///     Replaces the covid data if the date and state already exist in the collection.
+        /// </summary>
+        /// <param name="covidData">The covid data.</param>
+        /// <exception cref="ArgumentNullException">if covidData is null</exception>
+        public void ReplaceCovidData(CovidData covidData)
+        {
+            if (covidData == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (this.CovidRecords.Count == 0)
+            {
+                throw new Exception();
+            }
+
+            for (var i = this.CovidRecords.Count - 1; i >= 0; i--)
+            {
+                this.compareThenRemove(covidData, i);
+            }
+        }
+
+        private void compareThenRemove(CovidData covidData, int iterationIndex)
+        {
+            if (!compareCovidDataStateAndDate(covidData, this.CovidRecords[iterationIndex]))
+            {
+                return;
+            }
+
+            var index = this.CovidRecords.IndexOf(this.CovidRecords[iterationIndex]);
+
+            this.CovidRecords[index] = covidData;
+        }
+
+        /// <summary>
+        ///     Compares the covid data state and date.
+        /// </summary>
+        /// <param name="firstCovidData">The first covid data.</param>
+        /// <param name="secondCovidData">The second covid data.</param>
+        /// <returns>True if the date and state are the same, false otherwise</returns>
+        private static bool compareCovidDataStateAndDate(CovidData firstCovidData, CovidData secondCovidData)
+        {
+            return secondCovidData.Date.Equals(firstCovidData.Date) &&
+                   secondCovidData.State.Equals(firstCovidData.State);
+        }
+
+        /// <summary>
         /// </summary>
         /// <returns></returns>
         public IEnumerator<CovidData> GetEnumerator()

@@ -121,6 +121,12 @@ namespace Covid19Analysis.ViewModel
             this.covidDataCollection.AddAll(this.ObservableCovidCollection.ToList());
         }
 
+        public void handleSelectionUpdate()
+        {
+            this.covidDataCollection.ReplaceCovidData(this.selectedCovidData);
+            this.toObservableCollection();
+        }
+
         /// <summary>
         /// 
         /// </summary>

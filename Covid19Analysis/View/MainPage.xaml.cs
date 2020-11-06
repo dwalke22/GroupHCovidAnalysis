@@ -13,6 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Covid19Analysis.DataHandling;
+using Covid19Analysis.Extensions;
 using Covid19Analysis.Model;
 using Covid19Analysis.ViewModel;
 
@@ -406,6 +407,24 @@ namespace Covid19Analysis.View
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
             this.LoadedDataCollection.Remove(this.DataController.SelectedCovidData);
+            this.createNewReportSummary();
+        }
+
+        private void UpdateButton_OnClickButton_Click(object sender, RoutedEventArgs e)
+        {
+            var date = this.DataController.SelectedCovidData.Date;
+            var state = this.DataController.SelectedCovidData.State;
+            var positiveCases = int.Parse(this.PositiveCasesTextBox.Text);
+            var negativeCases = int.Parse(this.NegativeCasesTextBox.Text);
+            var currentHospitalized = int.Parse(this.CurrentHospitalizedTextBox.Text);
+            var deaths = int.Parse(this.DeathsTextBox.Text);
+            var hospitalized = int.Parse(this.HospitalizedTextBox.Text);
+
+            var covidData = new CovidData(date, state, positiveCases, negativeCases, currentHospitalized, deaths, hospitalized);
+            this.DataController.SelectedCovidData = covidData;
+            this.LoadedDataCollection.ReplaceCovidData(covidData);
+
+            this.DataController.handleSelectionUpdate();
             this.createNewReportSummary();
         }
     }
