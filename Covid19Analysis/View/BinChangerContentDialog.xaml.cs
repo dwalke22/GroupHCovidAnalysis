@@ -38,6 +38,7 @@ namespace Covid19Analysis.View
         {
             this.InitializeComponent();
             this.BinSize = DefaultBinSize;
+            this.IsPrimaryButtonEnabled = false;
         }
 
         #endregion
@@ -61,6 +62,11 @@ namespace Covid19Analysis.View
             else
             {
                 this.ErrorLabel.Visibility = Visibility.Collapsed;
+            }
+
+            if (!string.IsNullOrEmpty(this.binSizeTextBox.Text))
+            {
+                this.IsPrimaryButtonEnabled = true;
             }
         }
 

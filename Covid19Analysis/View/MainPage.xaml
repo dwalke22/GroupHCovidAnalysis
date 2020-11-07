@@ -61,7 +61,7 @@
         <TextBox x:Name="DeathsTextBox" HorizontalAlignment="Left" Margin="400,640,0,0" Text="{Binding Path=SelectedCovidData.DeathNumbers, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.588,-0.031" Width="129" extensions:TextBoxRegex.Regex="^[0-9]*$" extensions:TextBoxRegex.ValidationMode="Dynamic"/>
         <TextBlock HorizontalAlignment="Left" Margin="400,620,0,0" Text="Deaths" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <Button Command="{Binding Path=RemoveCommand}" Content="Remove" Margin="580,400,0,0" VerticalAlignment="Top" Click="RemoveButton_Click"/>
-        <Button x:Name="UpdateButton" Content="Update" Margin="580,455,0,0" VerticalAlignment="Top" Click="UpdateButton_OnClickButton_Click"/>
+        <Button x:Name="UpdateButton" Command="{Binding Path=EnableCommand}" Content="Update" Margin="580,455,0,0" VerticalAlignment="Top" Click="UpdateButton_OnClickButton_Click"/>
 
 
     </Grid>

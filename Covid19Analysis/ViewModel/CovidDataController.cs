@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -22,6 +23,8 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public RelayCommand RemoveCommand { get; set; }
 
+        public RelayCommand EnableCommand { get; set; }
+
         private ObservableCollection<CovidData> observableCovidCollection;
         
         /// <summary>
@@ -38,6 +41,66 @@ namespace Covid19Analysis.ViewModel
 
         }
 
+        private string positiveIncreasesText;
+
+        public string PositiveIncreasesText
+        {
+            get { return positiveIncreasesText; }
+            set
+            {
+                positiveIncreasesText = value; 
+                this.OnPropertyChanged();
+            }
+        }
+
+        private string negativeIncreasesText;
+
+        public string NegativeIncreasesText
+        {
+            get { return negativeIncreasesText; }
+            set
+            {
+                negativeIncreasesText = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private string currentHospitalizedText;
+
+        public string CurrentHospitalizedText
+        {
+            get { return currentHospitalizedText; }
+            set
+            {
+                currentHospitalizedText = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private string hospitalizedText;
+
+        public string HospitalizedText
+        {
+            get { return hospitalizedText; }
+            set
+            {
+                hospitalizedText = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private string deathsText;
+
+        public string DeathsText
+        {
+            get { return hospitalizedText; }
+            set
+            {
+                deathsText = value;
+                this.OnPropertyChanged();
+            }
+        }
+
         private CovidData selectedCovidData;
         
         /// <summary>
@@ -51,6 +114,7 @@ namespace Covid19Analysis.ViewModel
                 selectedCovidData = value;
                 this.OnPropertyChanged();
                 this.RemoveCommand.OnCanExecuteChanged();
+                this.EnableCommand.OnCanExecuteChanged();
             }
         }
         
@@ -89,6 +153,22 @@ namespace Covid19Analysis.ViewModel
         private void loadCommands()
         {
             this.RemoveCommand = new RelayCommand(DeleteData, CanDeleteData);
+            this.EnableCommand = new RelayCommand(UpdateProperties, ShouldDisable);
+            
+        }
+
+        private bool ShouldDisable(object obj)
+        {
+            return this.selectedCovidData != null;
+        }
+
+        private void UpdateProperties(object obj)
+        {
+            this.PositiveIncreasesText = this.selectedCovidData.PositiveCasesIncrease.ToString();
+            this.NegativeIncreasesText = this.selectedCovidData.NegativeCasesIncrease.ToString();
+            this.CurrentHospitalizedText = this.selectedCovidData.CurrentHospitalized.ToString();
+            this.HospitalizedText = this.selectedCovidData.HospitalizedNumbers.ToString();
+            this.DeathsText = this.selectedCovidData.DeathNumbers.ToString();
         }
 
         private bool CanDeleteData(object obj)
