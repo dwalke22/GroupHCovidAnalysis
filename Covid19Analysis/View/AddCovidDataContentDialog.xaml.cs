@@ -95,7 +95,6 @@ namespace Covid19Analysis.View
             {
                 this.errorLabel.Visibility = Visibility.Visible;
                 this.errorLabel.Text = "Numbers must be greater than or equal to zero";
-                textBox.Text = string.Empty;
             }
             else
             {

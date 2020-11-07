@@ -427,5 +427,7 @@ namespace Covid19Analysis.View
             this.DataController.handleSelectionUpdate();
             this.createNewReportSummary();
         }
+
+        
     }
 }
