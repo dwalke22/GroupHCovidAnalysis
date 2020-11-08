@@ -58,7 +58,7 @@
         </ListView>
         <TextBlock HorizontalAlignment="Left" Margin="400,360,0,0" Text="Selected Day" TextWrapping="Wrap"
                    VerticalAlignment="Top" />
-        <TextBox HorizontalAlignment="Left" Margin="580,360,0,0" Text="{Binding Path=SelectedCovidData.Date}" TextWrapping="Wrap" VerticalAlignment="Top" Width="207" IsReadOnly="True"/>
+        <TextBox x:Name="dateTextBox" HorizontalAlignment="Left" Margin="580,360,0,0" Text="{Binding Path=SelectedCovidData.Date}" TextWrapping="Wrap" VerticalAlignment="Top" Width="207" IsReadOnly="True"/>
         <TextBlock HorizontalAlignment="Left" Margin="400,380,0,0" Text="Positive Cases:" TextWrapping="Wrap"
                    VerticalAlignment="Top" />
         <TextBlock HorizontalAlignment="Left" Margin="400,440,0,0" Text="Negative Cases" TextWrapping="Wrap"

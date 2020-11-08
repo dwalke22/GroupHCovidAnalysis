@@ -493,8 +493,7 @@ namespace Covid19Analysis.Model
                 throw new Exception();
             }
 
-            this.CovidRecords.First(covidData => covidData.Date == replacementCovidData.Date)
-                .UpdateData(replacementCovidData);
+            this.CovidRecords.First(covidData => covidData.Date == replacementCovidData.Date).UpdateData(replacementCovidData);
         }
 
         #endregion
