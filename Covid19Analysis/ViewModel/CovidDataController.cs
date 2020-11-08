@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Covid19Analysis.Annotations;
 using Covid19Analysis.DataHandling;
 using Covid19Analysis.EnumTypes;
 using Covid19Analysis.Extensions;
 using Covid19Analysis.Model;
+using Covid19Analysis.Properties;
 using Covid19Analysis.Utility;
 
 namespace Covid19Analysis.ViewModel
@@ -124,7 +124,7 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public string DeathsText
         {
-            get => this.hospitalizedText;
+            get => this.deathsText;
             set
             {
                 this.deathsText = value;

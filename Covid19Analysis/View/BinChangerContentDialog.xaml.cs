@@ -55,13 +55,13 @@ namespace Covid19Analysis.View
             var numRegex = new Regex("\\d+");
             if (!numRegex.IsMatch(this.binSizeTextBox.Text))
             {
-                this.ErrorLabel.Text = "Number must be greater than zero";
-                this.ErrorLabel.Visibility = Visibility.Visible;
+                this.errorLabel.Text = "Number must be greater than zero";
+                this.errorLabel.Visibility = Visibility.Visible;
                 this.binSizeTextBox.Text = string.Empty;
             }
             else
             {
-                this.ErrorLabel.Visibility = Visibility.Collapsed;
+                this.errorLabel.Visibility = Visibility.Collapsed;
             }
 
             if (!string.IsNullOrEmpty(this.binSizeTextBox.Text))

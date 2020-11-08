@@ -160,13 +160,13 @@ namespace Covid19Analysis.View
             if (file != null && file.FileType.Equals(".xml"))
             {
                 await this.DataCreator.DeserializeCovidData(file);
-                await this.processData();
+                this.processData();
             }
             else if (file != null)
             {
                 var lines = await getFileLines(file);
                 this.DataCreator.CreateCovidData(lines);
-                await this.processData();
+                this.processData();
             }
             else
             {
@@ -174,7 +174,7 @@ namespace Covid19Analysis.View
             }
         }
 
-        private async Task processData()
+        private void processData()
         {
             var state = DefaultStateSelector;
             if (this.stateComboBox.SelectedValue != null)
@@ -350,11 +350,11 @@ namespace Covid19Analysis.View
         {
             var date = this.DataController.SelectedCovidData.Date;
             var state = this.DataController.SelectedCovidData.State;
-            var positiveCases = int.Parse(this.PositiveCasesTextBox.Text);
-            var negativeCases = int.Parse(this.NegativeCasesTextBox.Text);
-            var currentHospitalized = int.Parse(this.CurrentHospitalizedTextBox.Text);
-            var deaths = int.Parse(this.DeathsTextBox.Text);
-            var hospitalized = int.Parse(this.HospitalizedTextBox.Text);
+            var positiveCases = int.Parse(this.positiveCasesTextBox.Text);
+            var negativeCases = int.Parse(this.negativeCasesTextBox.Text);
+            var currentHospitalized = int.Parse(this.currentHospitalizedTextBox.Text);
+            var deaths = int.Parse(this.deathsTextBox.Text);
+            var hospitalized = int.Parse(this.hospitalizedTextBox.Text);
 
             var covidData = new CovidData(date, state, positiveCases, negativeCases, currentHospitalized, deaths,
                 hospitalized);

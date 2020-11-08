@@ -28,6 +28,7 @@ namespace CovidAppTests.CovidCollectionTest
         [TestMethod]
         public void TestNullData()
         {
+            // ReSharper disable once CollectionNeverQueried.Local
             var dataCollection = new CovidDataCollection();
             Assert.ThrowsException<ArgumentNullException>(() => dataCollection.Add(null));
         }

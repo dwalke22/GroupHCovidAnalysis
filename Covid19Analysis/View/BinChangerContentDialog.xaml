@@ -20,7 +20,7 @@
                    VerticalAlignment="Top" Width="79" />
         <TextBlock HorizontalAlignment="Left" Margin="65,0,0,0" Text="Default size is 500" TextWrapping="Wrap"
                    VerticalAlignment="Center" />
-        <TextBlock x:Name="ErrorLabel" HorizontalAlignment="Center" Margin="0,65,0,0" Text="TextBlock"
+        <TextBlock x:Name="errorLabel" HorizontalAlignment="Center" Margin="0,65,0,0" Text="TextBlock"
                    TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Visibility="Collapsed" />
 
     </Grid>

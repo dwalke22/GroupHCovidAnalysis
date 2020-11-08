@@ -62,27 +62,27 @@
                    VerticalAlignment="Top" />
         <TextBlock HorizontalAlignment="Left" Margin="400,440,0,0" Text="Negative Cases" TextWrapping="Wrap"
                    VerticalAlignment="Top" />
-        <TextBox x:Name="PositiveCasesTextBox" HorizontalAlignment="Left" Margin="400,400,0,0"
+        <TextBox x:Name="positiveCasesTextBox" HorizontalAlignment="Left" Margin="400,400,0,0"
                  Text="{Binding Path=SelectedCovidData.PositiveCasesIncrease, Mode=TwoWay}" TextWrapping="Wrap"
                  VerticalAlignment="Top" Width="129" extensions:TextBoxRegex.Regex="^[0-9]*$"
                  extensions:TextBoxRegex.ValidationMode="Dynamic" />
-        <TextBox x:Name="NegativeCasesTextBox" HorizontalAlignment="Left" Margin="400,460,0,0"
+        <TextBox x:Name="negativeCasesTextBox" HorizontalAlignment="Left" Margin="400,460,0,0"
                  Text="{Binding Path=SelectedCovidData.NegativeCasesIncrease, Mode=TwoWay}" TextWrapping="Wrap"
                  VerticalAlignment="Top" Width="129" extensions:TextBoxRegex.Regex="^[0-9]*$"
                  extensions:TextBoxRegex.ValidationMode="Dynamic" />
         <TextBlock HorizontalAlignment="Left" Margin="400,500,0,0" Text="Currently Hospitalized" TextWrapping="Wrap"
                    VerticalAlignment="Top" />
-        <TextBox x:Name="CurrentHospitalizedTextBox" HorizontalAlignment="Left" Margin="400,520,0,0"
+        <TextBox x:Name="currentHospitalizedTextBox" HorizontalAlignment="Left" Margin="400,520,0,0"
                  Text="{Binding Path=SelectedCovidData.CurrentHospitalized, Mode=TwoWay}" TextWrapping="Wrap"
                  VerticalAlignment="Top" Width="129" extensions:TextBoxRegex.Regex="^[0-9]*$"
                  extensions:TextBoxRegex.ValidationMode="Dynamic" />
         <TextBlock HorizontalAlignment="Left" Margin="400,560,0,0" Text="Hospitalized" TextWrapping="Wrap"
                    VerticalAlignment="Top" />
-        <TextBox x:Name="HospitalizedTextBox" HorizontalAlignment="Left" Margin="400,580,0,0"
+        <TextBox x:Name="hospitalizedTextBox" HorizontalAlignment="Left" Margin="400,580,0,0"
                  Text="{Binding Path=SelectedCovidData.HospitalizedNumbers, Mode=TwoWay}" TextWrapping="Wrap"
                  VerticalAlignment="Top" Width="129" extensions:TextBoxRegex.Regex="^[0-9]*$"
                  extensions:TextBoxRegex.ValidationMode="Dynamic" />
-        <TextBox x:Name="DeathsTextBox" HorizontalAlignment="Left" Margin="400,640,0,0"
+        <TextBox x:Name="deathsTextBox" HorizontalAlignment="Left" Margin="400,640,0,0"
                  Text="{Binding Path=SelectedCovidData.DeathNumbers, Mode=TwoWay}" TextWrapping="Wrap"
                  VerticalAlignment="Top" RenderTransformOrigin="0.588,-0.031" Width="129"
                  extensions:TextBoxRegex.Regex="^[0-9]*$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
@@ -90,7 +90,7 @@
                    VerticalAlignment="Top" />
         <Button Command="{Binding Path=RemoveCommand}" Content="Remove" Margin="580,400,0,0" VerticalAlignment="Top"
                 Click="RemoveButton_Click" />
-        <Button x:Name="UpdateButton" Command="{Binding Path=UpdateCommand}" Content="Update" Margin="580,455,0,0"
+        <Button x:Name="updateButton" Command="{Binding Path=UpdateCommand}" Content="Update" Margin="580,455,0,0"
                 VerticalAlignment="Top" Click="UpdateButton_OnClickButton_Click" />
 
 

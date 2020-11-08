@@ -30,8 +30,7 @@ namespace Covid19Analysis.Converter
         /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            int temp;
-            if (string.IsNullOrEmpty((string) value) || !int.TryParse((string) value, out temp))
+            if (string.IsNullOrEmpty((string) value) || !int.TryParse((string) value, out var temp))
             {
                 return null;
             }
