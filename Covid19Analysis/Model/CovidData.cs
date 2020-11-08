@@ -120,17 +120,25 @@ namespace Covid19Analysis.Model
             this.HospitalizedNumbers = hospitalizedNumbers;
         }
 
-        /// <summary>
-        ///     A private parameter-less constructor for a CovidData instance.
-        ///     This constructor is for use ONLY with data serialization, and should NOT be used under any other circumstance.
-        /// </summary>
-        private CovidData()
-        {
-        }
-
         #endregion
 
         #region Methods
+
+        /// <summary>
+        ///     Updates the stats on the given day
+        /// </summary>
+        /// <param name="updatedData"></param>
+        public void UpdateData(CovidData updatedData)
+        {
+            if (updatedData.Date == this.Date)
+            {
+                this.PositiveCasesIncrease = updatedData.PositiveCasesIncrease;
+                this.NegativeCasesIncrease = updatedData.NegativeCasesIncrease;
+                this.CurrentHospitalized = updatedData.CurrentHospitalized;
+                this.DeathNumbers = updatedData.DeathNumbers;
+                this.HospitalizedNumbers = updatedData.HospitalizedNumbers;
+            }
+        }
 
         /// <summary>
         ///     Converts to a string for file writing

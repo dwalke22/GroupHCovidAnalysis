@@ -348,20 +348,7 @@ namespace Covid19Analysis.View
 
         private void UpdateButton_OnClickButton_Click(object sender, RoutedEventArgs e)
         {
-            var date = this.DataController.SelectedCovidData.Date;
-            var state = this.DataController.SelectedCovidData.State;
-            var positiveCases = int.Parse(this.positiveCasesTextBox.Text);
-            var negativeCases = int.Parse(this.negativeCasesTextBox.Text);
-            var currentHospitalized = int.Parse(this.currentHospitalizedTextBox.Text);
-            var deaths = int.Parse(this.deathsTextBox.Text);
-            var hospitalized = int.Parse(this.hospitalizedTextBox.Text);
-
-            var covidData = new CovidData(date, state, positiveCases, negativeCases, currentHospitalized, deaths,
-                hospitalized);
-            this.DataController.SelectedCovidData = covidData;
-            this.LoadedDataCollection.ReplaceCovidData(covidData);
-
-            this.DataController.handleSelectionUpdate();
+            this.LoadedDataCollection.ReplaceCovidData(this.DataController.SelectedCovidData);
             this.createNewReportSummary();
         }
 

@@ -21,19 +21,19 @@ namespace Covid19Analysis.ViewModel
 
         private ObservableCollection<CovidData> observableCovidCollection;
 
-        private string positiveIncreasesText;
-
-        private string negativeIncreasesText;
-
-        private string currentHospitalizedText;
-
-        private string hospitalizedText;
-
-        private string deathsText;
-
         private CovidData selectedCovidData;
 
         private string selectedState;
+
+        private int positiveCaseIncrease;
+
+        private int negativeCaseIncrease;
+
+        private int currentHospitalized;
+
+        private int deaths;
+
+        private int hospitalized;
 
         #endregion
 
@@ -68,71 +68,6 @@ namespace Covid19Analysis.ViewModel
         }
 
         /// <summary>
-        ///     The Positive IncreaseText
-        /// </summary>
-        public string PositiveIncreasesText
-        {
-            get => this.positiveIncreasesText;
-            set
-            {
-                this.positiveIncreasesText = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        ///     the Negative Increase Text property
-        /// </summary>
-        public string NegativeIncreasesText
-        {
-            get => this.negativeIncreasesText;
-            set
-            {
-                this.negativeIncreasesText = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        ///     The Current Hospitalized Text Property
-        /// </summary>
-        public string CurrentHospitalizedText
-        {
-            get => this.currentHospitalizedText;
-            set
-            {
-                this.currentHospitalizedText = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        ///     The Hospitalized Text property
-        /// </summary>
-        public string HospitalizedText
-        {
-            get => this.hospitalizedText;
-            set
-            {
-                this.hospitalizedText = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        ///     the Death Text Property
-        /// </summary>
-        public string DeathsText
-        {
-            get => this.deathsText;
-            set
-            {
-                this.deathsText = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         ///     The Selected CovidDate from the List
         /// </summary>
         public CovidData SelectedCovidData
@@ -141,8 +76,83 @@ namespace Covid19Analysis.ViewModel
             set
             {
                 this.selectedCovidData = value;
+                this.PositiveCaseIncrease = this.selectedCovidData.PositiveCasesIncrease;
+                this.NegativeCaseIncrease = this.selectedCovidData.NegativeCasesIncrease;
+                this.CurrentHopitalized = this.selectedCovidData.CurrentHospitalized;
+                this.Deaths = this.selectedCovidData.DeathNumbers;
+                this.Hospitalized = this.selectedCovidData.HospitalizedNumbers;
                 this.OnPropertyChanged();
                 this.RemoveCommand.OnCanExecuteChanged();
+                this.UpdateCommand.OnCanExecuteChanged();
+            }
+        }
+
+        /// <summary>
+        ///     The number of positive cases
+        /// </summary>
+        public int PositiveCaseIncrease
+        {
+            get => this.positiveCaseIncrease;
+            set
+            {
+                this.positiveCaseIncrease = value;
+                this.OnPropertyChanged();
+                this.UpdateCommand.OnCanExecuteChanged();
+            }
+        }
+
+        /// <summary>
+        ///     The number of Negative cases
+        /// </summary>
+        public int NegativeCaseIncrease
+        {
+            get => this.negativeCaseIncrease;
+            set
+            {
+                this.negativeCaseIncrease = value;
+                this.OnPropertyChanged();
+                this.UpdateCommand.OnCanExecuteChanged();
+            }
+        }
+
+        /// <summary>
+        ///     The number of currently hospitalized
+        /// </summary>
+        public int CurrentHopitalized
+        {
+            get => this.currentHospitalized;
+            set
+            {
+                this.currentHospitalized = value;
+                this.OnPropertyChanged();
+                this.UpdateCommand.OnCanExecuteChanged();
+            }
+        }
+
+        /// <summary>
+        ///     the number of deaths
+        /// </summary>
+        public int Deaths
+        {
+            get => this.deaths;
+            set
+            {
+                this.deaths = value;
+                this.OnPropertyChanged();
+                this.UpdateCommand.OnCanExecuteChanged();
+            }
+        }
+
+        /// <summary>
+        ///     The number of hospitalized
+        /// </summary>
+        public int Hospitalized
+        {
+            get => this.hospitalized;
+            set
+            {
+                this.hospitalized = value;
+                this.OnPropertyChanged();
                 this.UpdateCommand.OnCanExecuteChanged();
             }
         }
@@ -190,21 +200,29 @@ namespace Covid19Analysis.ViewModel
         private void loadCommands()
         {
             this.RemoveCommand = new RelayCommand(this.deleteData, this.canDeleteData);
-            this.UpdateCommand = new RelayCommand(this.updateProperties, this.shouldDisable);
+            this.UpdateCommand = new RelayCommand(this.updateProperties, this.canUpdate);
         }
 
-        private bool shouldDisable(object obj)
+        private bool canUpdate(object obj)
         {
-            return this.selectedCovidData != null;
+            if (this.SelectedCovidData == null)
+            {
+                return false;
+            }
+
+            return this.PositiveCaseIncrease >= 0 && this.NegativeCaseIncrease >= 0 && this.CurrentHopitalized >= 0
+                   && this.Deaths >= 0 && this.Hospitalized >= 0;
         }
 
         private void updateProperties(object obj)
         {
-            this.PositiveIncreasesText = this.selectedCovidData.PositiveCasesIncrease.ToString();
-            this.NegativeIncreasesText = this.selectedCovidData.NegativeCasesIncrease.ToString();
-            this.CurrentHospitalizedText = this.selectedCovidData.CurrentHospitalized.ToString();
-            this.HospitalizedText = this.selectedCovidData.HospitalizedNumbers.ToString();
-            this.DeathsText = this.selectedCovidData.DeathNumbers.ToString();
+            this.SelectedCovidData.PositiveCasesIncrease = this.PositiveCaseIncrease;
+            this.SelectedCovidData.NegativeCasesIncrease = this.NegativeCaseIncrease;
+            this.SelectedCovidData.CurrentHospitalized = this.CurrentHopitalized;
+            this.SelectedCovidData.DeathNumbers = this.Deaths;
+            this.SelectedCovidData.HospitalizedNumbers = this.Hospitalized;
+            this.covidDataCollection.ReplaceCovidData(this.SelectedCovidData);
+            this.toObservableCollection();
         }
 
         private bool canDeleteData(object obj)
@@ -233,14 +251,6 @@ namespace Covid19Analysis.ViewModel
         public void setObservableCollection(CovidDataCollection collection)
         {
             this.covidDataCollection = collection;
-            this.toObservableCollection();
-        }
-
-        /// <summary>
-        /// </summary>
-        public void handleSelectionUpdate()
-        {
-            this.covidDataCollection.ReplaceCovidData(this.selectedCovidData);
             this.toObservableCollection();
         }
 
