@@ -38,7 +38,7 @@ namespace Covid19Analysis.View
         {
             this.InitializeComponent();
             this.BinSize = DefaultBinSize;
-            this.IsPrimaryButtonEnabled = false;
+            IsPrimaryButtonEnabled = false;
         }
 
         #endregion
@@ -66,7 +66,7 @@ namespace Covid19Analysis.View
 
             if (!string.IsNullOrEmpty(this.binSizeTextBox.Text))
             {
-                this.IsPrimaryButtonEnabled = true;
+                IsPrimaryButtonEnabled = true;
             }
         }
 

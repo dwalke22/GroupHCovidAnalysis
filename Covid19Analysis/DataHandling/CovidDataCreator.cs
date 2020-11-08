@@ -85,13 +85,14 @@ namespace Covid19Analysis.DataHandling
                     var currentHospitalized = this.FixNegativeInput(int.Parse(line[CurrHospitalizedField]));
                     var deathIncrease = this.FixNegativeInput(int.Parse(line[DeathNumberField]));
                     var hospitalizedIncrease = this.FixNegativeInput(int.Parse(line[HospitalizedField]));
-                    var covidData = new CovidData(dateTime, state, positiveCasesIncrease, negativeCasesIncrease, currentHospitalized, deathIncrease, hospitalizedIncrease);
+                    var covidData = new CovidData(dateTime, state, positiveCasesIncrease, negativeCasesIncrease,
+                        currentHospitalized, deathIncrease, hospitalizedIncrease);
                     this.CovidData.Add(covidData);
                 }
                 catch (Exception)
                 {
                     this.ErrorLines.Add(i, fileLines[i]);
-                    System.Console.WriteLine(fileLines[i]);
+                    Console.WriteLine(fileLines[i]);
                 }
             }
         }
@@ -102,7 +103,7 @@ namespace Covid19Analysis.DataHandling
             {
                 var newLine = new string[NumberOfFields];
 
-                for (int i = 0; i < line.Length; i++)
+                for (var i = 0; i < line.Length; i++)
                 {
                     if (line[i] == null || line[i].Equals(string.Empty))
                     {
@@ -118,7 +119,7 @@ namespace Covid19Analysis.DataHandling
             }
             catch (Exception)
             {
-                System.Console.WriteLine(line);
+                Console.WriteLine(line);
                 return line;
             }
         }
@@ -156,7 +157,6 @@ namespace Covid19Analysis.DataHandling
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
@@ -168,7 +168,7 @@ namespace Covid19Analysis.DataHandling
             var deserializer = new XmlSerializer(typeof(CovidDataCollection));
 
             var inStream = await file.OpenStreamForReadAsync();
-            var covidDataCollection = (CovidDataCollection)deserializer.Deserialize(inStream);
+            var covidDataCollection = (CovidDataCollection) deserializer.Deserialize(inStream);
 
             this.CovidData.AddRange(covidDataCollection);
 

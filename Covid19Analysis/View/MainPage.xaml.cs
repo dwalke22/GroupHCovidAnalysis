@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Foundation;
@@ -11,12 +10,9 @@ using Windows.Storage.Pickers;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Covid19Analysis.DataHandling;
-using Covid19Analysis.Extensions;
 using Covid19Analysis.Model;
 using Covid19Analysis.ViewModel;
-
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -34,7 +30,6 @@ namespace Covid19Analysis.View
         /// </summary>
         public MainPage()
         {
-            
             this.InitializeComponent();
             this.DataController = new CovidDataController();
             this.DataCreator = new CovidDataCreator();
@@ -47,7 +42,7 @@ namespace Covid19Analysis.View
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
 
-            this.DataController = (CovidDataController)this.DataContext;
+            this.DataController = (CovidDataController) DataContext;
         }
 
         #endregion
@@ -121,15 +116,15 @@ namespace Covid19Analysis.View
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
             savePicker.FileTypeChoices.Add("CSV", new List<string> {".csv"});
-            savePicker.FileTypeChoices.Add("XML", new List<string> { ".xml" });
+            savePicker.FileTypeChoices.Add("XML", new List<string> {".xml"});
             savePicker.SuggestedFileName = "New Document";
 
             var file = await savePicker.PickSaveFileAsync();
             if (file != null && file.FileType.Equals(".xml"))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(CovidDataCollection));
+                var serializer = new XmlSerializer(typeof(CovidDataCollection));
                 var outStream = await file.OpenStreamForWriteAsync();
-                serializer.Serialize(outStream,this.LoadedDataCollection);
+                serializer.Serialize(outStream, this.LoadedDataCollection);
                 outStream.Dispose();
             }
             else if (file != null)
@@ -150,8 +145,8 @@ namespace Covid19Analysis.View
             this.LoadedDataCollection.Clear();
             this.summaryTextBox.Text = "";
             this.DataController.setObservableCollection(this.LoadedDataCollection);
-
         }
+
         private async void LoadFile_Click(object sender, RoutedEventArgs e)
         {
             var openPicker = new FileOpenPicker {
@@ -166,7 +161,6 @@ namespace Covid19Analysis.View
             {
                 await this.DataCreator.DeserializeCovidData(file);
                 await this.processData();
-
             }
             else if (file != null)
             {
@@ -187,6 +181,7 @@ namespace Covid19Analysis.View
             {
                 state = this.stateComboBox.SelectedValue.ToString();
             }
+
             var stateCovidData = this.DataCreator.GetStateCovidData(state);
             if (this.LoadedDataCollection.Count > 0)
             {
@@ -331,7 +326,44 @@ namespace Covid19Analysis.View
             return lines;
         }
 
-        
+        private void stateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedValue = this.stateComboBox.SelectedValue;
+            if (selectedValue != null)
+            {
+                if (this.DataCreator.CovidData.Count > 0)
+                {
+                    var stateData = this.DataCreator.GetStateCovidData(selectedValue.ToString());
+                    this.LoadedDataCollection = stateData;
+                    this.createNewReportSummary();
+                }
+            }
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.LoadedDataCollection.Remove(this.DataController.SelectedCovidData);
+            this.createNewReportSummary();
+        }
+
+        private void UpdateButton_OnClickButton_Click(object sender, RoutedEventArgs e)
+        {
+            var date = this.DataController.SelectedCovidData.Date;
+            var state = this.DataController.SelectedCovidData.State;
+            var positiveCases = int.Parse(this.PositiveCasesTextBox.Text);
+            var negativeCases = int.Parse(this.NegativeCasesTextBox.Text);
+            var currentHospitalized = int.Parse(this.CurrentHospitalizedTextBox.Text);
+            var deaths = int.Parse(this.DeathsTextBox.Text);
+            var hospitalized = int.Parse(this.HospitalizedTextBox.Text);
+
+            var covidData = new CovidData(date, state, positiveCases, negativeCases, currentHospitalized, deaths,
+                hospitalized);
+            this.DataController.SelectedCovidData = covidData;
+            this.LoadedDataCollection.ReplaceCovidData(covidData);
+
+            this.DataController.handleSelectionUpdate();
+            this.createNewReportSummary();
+        }
 
         #endregion
 
@@ -389,45 +421,5 @@ namespace Covid19Analysis.View
         private const string FileHeader = "date, state, positiveCases, negativeCases, death, hospitalized";
 
         #endregion
-
-        private void stateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selectedValue = this.stateComboBox.SelectedValue;
-            if (selectedValue != null )
-            {
-                if (this.DataCreator.CovidData.Count > 0)
-                {
-                    var stateData = this.DataCreator.GetStateCovidData(selectedValue.ToString());
-                    this.LoadedDataCollection = stateData;
-                    this.createNewReportSummary();
-                }
-            }
-        }
-
-        private void RemoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.LoadedDataCollection.Remove(this.DataController.SelectedCovidData);
-            this.createNewReportSummary();
-        }
-
-        private void UpdateButton_OnClickButton_Click(object sender, RoutedEventArgs e)
-        {
-            var date = this.DataController.SelectedCovidData.Date;
-            var state = this.DataController.SelectedCovidData.State;
-            var positiveCases = int.Parse(this.PositiveCasesTextBox.Text);
-            var negativeCases = int.Parse(this.NegativeCasesTextBox.Text);
-            var currentHospitalized = int.Parse(this.CurrentHospitalizedTextBox.Text);
-            var deaths = int.Parse(this.DeathsTextBox.Text);
-            var hospitalized = int.Parse(this.HospitalizedTextBox.Text);
-
-            var covidData = new CovidData(date, state, positiveCases, negativeCases, currentHospitalized, deaths, hospitalized);
-            this.DataController.SelectedCovidData = covidData;
-            this.LoadedDataCollection.ReplaceCovidData(covidData);
-
-            this.DataController.handleSelectionUpdate();
-            this.createNewReportSummary();
-        }
-
-        
     }
 }

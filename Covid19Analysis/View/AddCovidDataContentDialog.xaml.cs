@@ -121,7 +121,7 @@ namespace Covid19Analysis.View
         {
             this.checkForPositiveNumbers(this.currHospitalizedTextBox);
         }
-        #endregion
 
+        #endregion
     }
 }

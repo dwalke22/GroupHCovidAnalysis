@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Globalization;
-using System.Xml.Serialization;
 
 namespace Covid19Analysis.Model
 {
@@ -26,7 +24,7 @@ namespace Covid19Analysis.Model
         /// <value>
         ///     The state
         /// </value>
-        public string State { get; set;}
+        public string State { get; set; }
 
         /// <summary>
         ///     Gets the number of positive cases for the date
@@ -122,14 +120,12 @@ namespace Covid19Analysis.Model
             this.HospitalizedNumbers = hospitalizedNumbers;
         }
 
-
         /// <summary>
-        /// A private parameter-less constructor for a CovidData instance.
-        /// This constructor is for use ONLY with data serialization, and should NOT be used under any other circumstance.
+        ///     A private parameter-less constructor for a CovidData instance.
+        ///     This constructor is for use ONLY with data serialization, and should NOT be used under any other circumstance.
         /// </summary>
         private CovidData()
         {
-
         }
 
         #endregion
@@ -148,6 +144,7 @@ namespace Covid19Analysis.Model
                 $"{this.Date:yyyyMMdd},{this.State},{this.PositiveCasesIncrease},{this.NegativeCasesIncrease}," +
                 $"{this.CurrentHospitalized},{this.DeathNumbers},{this.HospitalizedNumbers}";
         }
+
         #endregion
     }
 }

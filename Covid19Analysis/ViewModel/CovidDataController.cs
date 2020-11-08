@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Covid19Analysis.Annotations;
 using Covid19Analysis.DataHandling;
@@ -12,125 +10,154 @@ using Covid19Analysis.Utility;
 
 namespace Covid19Analysis.ViewModel
 {
+    /// <summary>
+    ///     The CovidDataController class
+    /// </summary>
     public class CovidDataController : INotifyPropertyChanged
     {
+        #region Data members
 
-        private CovidDataCreator dataCreator;
         private CovidDataCollection covidDataCollection;
+
+        private ObservableCollection<CovidData> observableCovidCollection;
+
+        private string positiveIncreasesText;
+
+        private string negativeIncreasesText;
+
+        private string currentHospitalizedText;
+
+        private string hospitalizedText;
+
+        private string deathsText;
+
+        private CovidData selectedCovidData;
+
+        private string selectedState;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     the DataCreator property
+        /// </summary>
+        public CovidDataCreator DataCreator { get; }
 
         /// <summary>
         ///     The Remove Data Command
         /// </summary>
         public RelayCommand RemoveCommand { get; set; }
 
-        public RelayCommand EnableCommand { get; set; }
-
-        private ObservableCollection<CovidData> observableCovidCollection;
-        
         /// <summary>
-        ///     The Collection to be used in the 
+        ///     The Update Command
+        /// </summary>
+        public RelayCommand UpdateCommand { get; set; }
+
+        /// <summary>
+        ///     The Collection to be used in the
         /// </summary>
         public ObservableCollection<CovidData> ObservableCovidCollection
         {
-            get { return this.observableCovidCollection; }
+            get => this.observableCovidCollection;
             set
             {
                 this.observableCovidCollection = value;
                 this.OnPropertyChanged();
             }
-
         }
 
-        private string positiveIncreasesText;
-
+        /// <summary>
+        ///     The Positive IncreaseText
+        /// </summary>
         public string PositiveIncreasesText
         {
-            get { return positiveIncreasesText; }
+            get => this.positiveIncreasesText;
             set
             {
-                positiveIncreasesText = value; 
+                this.positiveIncreasesText = value;
                 this.OnPropertyChanged();
             }
         }
 
-        private string negativeIncreasesText;
-
+        /// <summary>
+        ///     the Negative Increase Text property
+        /// </summary>
         public string NegativeIncreasesText
         {
-            get { return negativeIncreasesText; }
+            get => this.negativeIncreasesText;
             set
             {
-                negativeIncreasesText = value;
+                this.negativeIncreasesText = value;
                 this.OnPropertyChanged();
             }
         }
 
-        private string currentHospitalizedText;
-
+        /// <summary>
+        ///     The Current Hospitalized Text Property
+        /// </summary>
         public string CurrentHospitalizedText
         {
-            get { return currentHospitalizedText; }
+            get => this.currentHospitalizedText;
             set
             {
-                currentHospitalizedText = value;
+                this.currentHospitalizedText = value;
                 this.OnPropertyChanged();
             }
         }
 
-        private string hospitalizedText;
-
+        /// <summary>
+        ///     The Hospitalized Text property
+        /// </summary>
         public string HospitalizedText
         {
-            get { return hospitalizedText; }
+            get => this.hospitalizedText;
             set
             {
-                hospitalizedText = value;
+                this.hospitalizedText = value;
                 this.OnPropertyChanged();
             }
         }
 
-        private string deathsText;
-
+        /// <summary>
+        ///     the Death Text Property
+        /// </summary>
         public string DeathsText
         {
-            get { return hospitalizedText; }
+            get => this.hospitalizedText;
             set
             {
-                deathsText = value;
+                this.deathsText = value;
                 this.OnPropertyChanged();
             }
         }
 
-        private CovidData selectedCovidData;
-        
         /// <summary>
         ///     The Selected CovidDate from the List
         /// </summary>
         public CovidData SelectedCovidData
         {
-            get { return selectedCovidData; }
+            get => this.selectedCovidData;
             set
             {
-                selectedCovidData = value;
+                this.selectedCovidData = value;
                 this.OnPropertyChanged();
                 this.RemoveCommand.OnCanExecuteChanged();
-                this.EnableCommand.OnCanExecuteChanged();
+                this.UpdateCommand.OnCanExecuteChanged();
             }
         }
-        
+
         /// <summary>
         ///     The States to be used in the ComboBox
         /// </summary>
         public string[] States => StateEnum.StatesArray();
-
-        private string selectedState;
 
         /// <summary>
         ///     The Selected State to get data on
         /// </summary>
         public string SelectedState
         {
-            get { return this.selectedState; }
+            get => this.selectedState;
             set
             {
                 this.selectedState = value;
@@ -138,31 +165,40 @@ namespace Covid19Analysis.ViewModel
             }
         }
 
+        #endregion
+
+        #region Constructors
 
         /// <summary>
-        /// 
         /// </summary>
         public CovidDataController()
         {
-            this.dataCreator = new CovidDataCreator();
+            this.DataCreator = new CovidDataCreator();
             this.covidDataCollection = new CovidDataCollection();
             this.toObservableCollection();
             this.loadCommands();
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void loadCommands()
         {
-            this.RemoveCommand = new RelayCommand(DeleteData, CanDeleteData);
-            this.EnableCommand = new RelayCommand(UpdateProperties, ShouldDisable);
-            
+            this.RemoveCommand = new RelayCommand(this.deleteData, this.canDeleteData);
+            this.UpdateCommand = new RelayCommand(this.updateProperties, this.shouldDisable);
         }
 
-        private bool ShouldDisable(object obj)
+        private bool shouldDisable(object obj)
         {
             return this.selectedCovidData != null;
         }
 
-        private void UpdateProperties(object obj)
+        private void updateProperties(object obj)
         {
             this.PositiveIncreasesText = this.selectedCovidData.PositiveCasesIncrease.ToString();
             this.NegativeIncreasesText = this.selectedCovidData.NegativeCasesIncrease.ToString();
@@ -171,36 +207,37 @@ namespace Covid19Analysis.ViewModel
             this.DeathsText = this.selectedCovidData.DeathNumbers.ToString();
         }
 
-        private bool CanDeleteData(object obj)
+        private bool canDeleteData(object obj)
         {
             return this.SelectedCovidData != null;
         }
 
-        private void DeleteData(object obj)
+        private void deleteData(object obj)
         {
             this.covidDataCollection.Remove(this.selectedCovidData);
             this.toObservableCollection();
         }
 
-        
+        /// <summary>
+        ///     Converts a collection to an observable collection
+        /// </summary>
         public void toObservableCollection()
         {
             this.ObservableCovidCollection = this.covidDataCollection.ToObservableCollection();
-            
         }
 
+        /// <summary>
+        ///     Sets an observable collection
+        /// </summary>
+        /// <param name="collection"></param>
         public void setObservableCollection(CovidDataCollection collection)
         {
             this.covidDataCollection = collection;
             this.toObservableCollection();
         }
 
-        public void toCollection()
-        {
-            this.covidDataCollection.Clear();
-            this.covidDataCollection.AddAll(this.ObservableCovidCollection.ToList());
-        }
-
+        /// <summary>
+        /// </summary>
         public void handleSelectionUpdate()
         {
             this.covidDataCollection.ReplaceCovidData(this.selectedCovidData);
@@ -208,18 +245,14 @@ namespace Covid19Analysis.ViewModel
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// 
         /// </summary>
         /// <param name="propertyName"></param>
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        }
+
+        #endregion
+    }
 }

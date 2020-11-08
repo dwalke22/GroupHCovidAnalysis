@@ -46,7 +46,7 @@ namespace Covid19Analysis.View
         public GetBoundariesContentDialog()
         {
             this.InitializeComponent();
-            this.IsPrimaryButtonEnabled = false;
+            IsPrimaryButtonEnabled = false;
         }
 
         #endregion
@@ -83,16 +83,15 @@ namespace Covid19Analysis.View
             this.LowerBoundary = LowerBoundaryDefault;
         }
 
-
-
-        #endregion
-
         private void lowerBoundaryTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.lowerBoundaryTextBox.Text) && !string.IsNullOrEmpty(this.upperBoundaryTextBox.Text))
+            if (!string.IsNullOrEmpty(this.lowerBoundaryTextBox.Text) &&
+                !string.IsNullOrEmpty(this.upperBoundaryTextBox.Text))
             {
-                this.IsPrimaryButtonEnabled = true;
+                IsPrimaryButtonEnabled = true;
             }
         }
+
+        #endregion
     }
 }

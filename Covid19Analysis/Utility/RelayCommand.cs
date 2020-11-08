@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Covid19Analysis.Utility
@@ -12,36 +8,14 @@ namespace Covid19Analysis.Utility
     /// </summary>
     public class RelayCommand : ICommand
     {
-        private Action<object> execute;
-        private Predicate<object> canExecute;
+        #region Data members
 
-        /// <summary>
-        ///     Determines if a method can execute
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
-        public bool CanExecute(object parameter)
-        {
-            bool result = canExecute?.Invoke(parameter) ?? true;
-            return result;
-        }
+        private readonly Action<object> execute;
+        private readonly Predicate<object> canExecute;
 
-        /// <summary>
-        ///     Executes the command
-        /// </summary>
-        /// <param name="parameter"></param>
-        public void Execute(object parameter)
-        {
-            if (CanExecute(parameter))
-            {
-                execute(parameter);
-            }
-        }
+        #endregion
 
-        /// <summary>
-        ///     The CanExecuteChanged event handler
-        /// </summary>
-        public event EventHandler CanExecuteChanged;
+        #region Constructors
 
         /// <summary>
         ///     The Relay command constructor
@@ -54,12 +28,46 @@ namespace Covid19Analysis.Utility
             this.canExecute = canExecute;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
-        /// Typically, protected but made public, so can trigger a manual refresh on the result of CanExecute.
+        ///     Determines if a method can execute
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public bool CanExecute(object parameter)
+        {
+            var result = this.canExecute?.Invoke(parameter) ?? true;
+            return result;
+        }
+
+        /// <summary>
+        ///     Executes the command
+        /// </summary>
+        /// <param name="parameter"></param>
+        public void Execute(object parameter)
+        {
+            if (this.CanExecute(parameter))
+            {
+                this.execute(parameter);
+            }
+        }
+
+        /// <summary>
+        ///     The CanExecuteChanged event handler
+        /// </summary>
+        public event EventHandler CanExecuteChanged;
+
+        /// <summary>
+        ///     Typically, protected but made public, so can trigger a manual refresh on the result of CanExecute.
         /// </summary>
         public virtual void OnCanExecuteChanged()
         {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        #endregion
     }
 }
