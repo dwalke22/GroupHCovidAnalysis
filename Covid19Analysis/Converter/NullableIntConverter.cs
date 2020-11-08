@@ -7,8 +7,6 @@ namespace Covid19Analysis.Converter
     /// </summary>
     public class NullableIntConverter : IValueConverter
     {
-        #region Methods
-
         /// <summary>
         /// </summary>
         /// <param name="value"></param>
@@ -30,14 +28,9 @@ namespace Covid19Analysis.Converter
         /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if (string.IsNullOrEmpty((string) value) || !int.TryParse((string) value, out var temp))
-            {
-                return null;
-            }
-
+            int temp;
+            if (string.IsNullOrEmpty((string) value) || !int.TryParse((string) value, out temp)) return null;
             return temp;
         }
-
-        #endregion
     }
 }

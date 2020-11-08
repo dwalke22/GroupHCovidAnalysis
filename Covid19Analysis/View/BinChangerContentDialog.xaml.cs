@@ -20,6 +20,20 @@ namespace Covid19Analysis.View
 
         #endregion
 
+        #region Constructors
+
+        /// <summary>
+        ///     Instantiates a new BinChangerContentDialog
+        /// </summary>
+        public BinChangerContentDialog()
+        {
+            InitializeComponent();
+            BinSize = DefaultBinSize;
+            IsPrimaryButtonEnabled = false;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -29,45 +43,28 @@ namespace Covid19Analysis.View
 
         #endregion
 
-        #region Constructors
-
-        /// <summary>
-        ///     Instantiates a new BinChangerContentDialog
-        /// </summary>
-        public BinChangerContentDialog()
-        {
-            this.InitializeComponent();
-            this.BinSize = DefaultBinSize;
-            IsPrimaryButtonEnabled = false;
-        }
-
-        #endregion
-
         #region Methods
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            this.BinSize = int.Parse(this.binSizeTextBox.Text);
+            BinSize = int.Parse(BinSizeTextBox.Text);
         }
 
         private void binSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var numRegex = new Regex("\\d+");
-            if (!numRegex.IsMatch(this.binSizeTextBox.Text))
+            if (!numRegex.IsMatch(BinSizeTextBox.Text))
             {
-                this.errorLabel.Text = "Number must be greater than zero";
-                this.errorLabel.Visibility = Visibility.Visible;
-                this.binSizeTextBox.Text = string.Empty;
+                ErrorLabel.Text = "Number must be greater than zero";
+                ErrorLabel.Visibility = Visibility.Visible;
+                BinSizeTextBox.Text = string.Empty;
             }
             else
             {
-                this.errorLabel.Visibility = Visibility.Collapsed;
+                ErrorLabel.Visibility = Visibility.Collapsed;
             }
 
-            if (!string.IsNullOrEmpty(this.binSizeTextBox.Text))
-            {
-                IsPrimaryButtonEnabled = true;
-            }
+            if (!string.IsNullOrEmpty(BinSizeTextBox.Text)) IsPrimaryButtonEnabled = true;
         }
 
         #endregion

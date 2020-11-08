@@ -12,6 +12,24 @@ namespace Covid19Analysis.View
     /// </summary>
     public sealed partial class AddCovidDataContentDialog
     {
+        #region Constructors
+
+        /// <summary>
+        ///     Instantiates a new <see cref="AddCovidDataContentDialog" /> object
+        /// </summary>
+        public AddCovidDataContentDialog()
+        {
+            InitializeComponent();
+            DateDate = new DateTime();
+            State = string.Empty;
+            PositiveCaseIncrease = 0;
+            NegativeCaseIncrease = 0;
+            DeathNumbers = 0;
+            HospitalizedNumbers = 0;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -53,73 +71,59 @@ namespace Covid19Analysis.View
 
         #endregion
 
-        #region Constructors
-
-        /// <summary>
-        ///     Instantiates a new <see cref="AddCovidDataContentDialog" /> object
-        /// </summary>
-        public AddCovidDataContentDialog()
-        {
-            this.InitializeComponent();
-            this.DateDate = new DateTime();
-            this.State = string.Empty;
-            this.PositiveCaseIncrease = 0;
-            this.NegativeCaseIncrease = 0;
-            this.DeathNumbers = 0;
-            this.HospitalizedNumbers = 0;
-        }
-
-        #endregion
-
         #region Methods
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            this.DateDate = this.dataDatePicker.Date.Date;
-            this.State = this.stateComboBox.SelectionBoxItem.ToString();
-            this.PositiveCaseIncrease = int.Parse(this.positiveCasesTextBox.Text);
-            this.NegativeCaseIncrease = int.Parse(this.negativeCasesTextBox.Text);
-            this.DeathNumbers = int.Parse(this.deathsTextBox.Text);
-            this.HospitalizedNumbers = int.Parse(this.hospitalizedTextBox.Text);
-            this.CurrHospitalized = int.Parse(this.currHospitalizedTextBox.Text);
+            DateDate = DataDatePicker.Date.Date;
+            State = StateComboBox.SelectionBoxItem.ToString();
+            PositiveCaseIncrease = int.Parse(PositiveCasesTextBox.Text);
+            NegativeCaseIncrease = int.Parse(NegativeCasesTextBox.Text);
+            DeathNumbers = int.Parse(DeathsTextBox.Text);
+            HospitalizedNumbers = int.Parse(HospitalizedTextBox.Text);
+            CurrHospitalized = int.Parse(CurrHospitalizedTextBox.Text);
         }
 
         private void PositiveCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.checkForPositiveNumbers(this.positiveCasesTextBox);
+            CheckForPositiveNumbers(PositiveCasesTextBox);
         }
 
-        private void checkForPositiveNumbers(TextBox textBox)
+        /// <summary>
+        ///     Checks for positive numbers.
+        /// </summary>
+        /// <param name="textBox">The text box.</param>
+        private void CheckForPositiveNumbers(TextBox textBox)
         {
-            if (!this.NumberRegex.IsMatch(textBox.Text))
+            if (!NumberRegex.IsMatch(textBox.Text))
             {
-                this.errorLabel.Visibility = Visibility.Visible;
-                this.errorLabel.Text = "Numbers must be greater than or equal to zero";
+                ErrorLabel.Visibility = Visibility.Visible;
+                ErrorLabel.Text = "Numbers must be greater than or equal to zero";
             }
             else
             {
-                this.errorLabel.Visibility = Visibility.Collapsed;
+                ErrorLabel.Visibility = Visibility.Collapsed;
             }
         }
 
         private void NegativeCasesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.checkForPositiveNumbers(this.negativeCasesTextBox);
+            CheckForPositiveNumbers(NegativeCasesTextBox);
         }
 
         private void DeathsTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.checkForPositiveNumbers(this.deathsTextBox);
+            CheckForPositiveNumbers(DeathsTextBox);
         }
 
         private void HospitalizedTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.checkForPositiveNumbers(this.hospitalizedTextBox);
+            CheckForPositiveNumbers(HospitalizedTextBox);
         }
 
         private void currHospitalizedTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.checkForPositiveNumbers(this.currHospitalizedTextBox);
+            CheckForPositiveNumbers(CurrHospitalizedTextBox);
         }
 
         #endregion

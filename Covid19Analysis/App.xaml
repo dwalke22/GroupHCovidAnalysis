@@ -5,7 +5,7 @@
     xmlns:converter="using:Covid19Analysis.Converter">
 
     <Application.Resources>
-        <converter:NullableIntConverter x:Key="IntConverter" />
+        <converter:NullableIntConverter x:Key="IntConverter"/>
     </Application.Resources>
 
 </Application>

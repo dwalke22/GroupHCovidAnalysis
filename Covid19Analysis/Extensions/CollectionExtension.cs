@@ -4,12 +4,12 @@ using System.Collections.ObjectModel;
 namespace Covid19Analysis.Extensions
 {
     /// <summary>
+    /// 
     /// </summary>
     public static class CollectionExtension
     {
-        #region Methods
-
         /// <summary>
+        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
@@ -18,7 +18,5 @@ namespace Covid19Analysis.Extensions
         {
             return new ObservableCollection<T>(collection);
         }
-
-        #endregion
     }
 }

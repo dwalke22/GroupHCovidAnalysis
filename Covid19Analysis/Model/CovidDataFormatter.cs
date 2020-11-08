@@ -81,28 +81,27 @@ namespace Covid19Analysis.Model
             {
                 output +=
                     $"First Positive Case in GA: {this.CovidRecords.FindFirstPositiveTest().Date.ToShortDateString()}{Environment.NewLine}";
-                output += this.formatHighestPositiveDay();
-                output += this.formatHighestNegativeDay();
-                output += this.formatHighestTestDay();
-                output += this.formatHighestDeathDay();
-                output += this.formatHighestHospitalizedDay();
-                output += this.formatHighestPositivePercentage();
-                output += this.formatHighestCurrentHospitalization();
-                output += this.formatAveragePositiveTest();
-                output += this.formatOverAllPositivityRate();
-                output += this.formatAverageCurrentHospitalizations();
-                output += this.formatBoundaries(upperBoundary, lowerBoundary);
-                output += this.formatHistogram(binsize);
+                output += this.FormatHighestPositiveDay();
+                output += this.FormatHighestNegativeDay();
+                output += this.FormatHighestTestDay();
+                output += this.FormatHighestDeathDay();
+                output += this.FormatHighestHospitalizedDay();
+                output += this.FormatHighestPositivePercentage();
+                output += this.FormatHighestCurrentHospitalization();
+                output += this.FormatAveragePositiveTest();
+                output += this.FormatOverAllPositivityRate();
+                output += this.FormatAverageCurrentHospitalizations();
+                output += this.FormatBoundaries(upperBoundary, lowerBoundary);
+                output += this.FormatHistogram(binsize);
             }
             else
             {
                 output = "No Data Available";
             }
-
             return output;
         }
 
-        private string formatHighestPositiveDay()
+        private string FormatHighestPositiveDay()
         {
             var highestPositive = this.CovidRecords.FindHighestNumberOfPositiveCasesInSingleDay();
             return
@@ -110,7 +109,7 @@ namespace Covid19Analysis.Model
                 $"with {highestPositive.PositiveCasesIncrease:n0} cases{Environment.NewLine}";
         }
 
-        private string formatHighestNegativeDay()
+        private string FormatHighestNegativeDay()
         {
             var highestNegative = this.CovidRecords.FindHighestNumberOfNegativeCasesInSingleDay();
             return
@@ -118,7 +117,7 @@ namespace Covid19Analysis.Model
                 $"{highestNegative.NegativeCasesIncrease:n0} cases{Environment.NewLine}";
         }
 
-        private string formatHighestTestDay()
+        private string FormatHighestTestDay()
         {
             var highestTest = this.CovidRecords.FindHighestNumberOfTests();
             return
@@ -126,7 +125,7 @@ namespace Covid19Analysis.Model
                 $"{highestTest.TotalTest:n0} tests{Environment.NewLine}";
         }
 
-        private string formatHighestDeathDay()
+        private string FormatHighestDeathDay()
         {
             var highestDeath = this.CovidRecords.FindHighestNumberOfDeaths();
             return
@@ -134,7 +133,7 @@ namespace Covid19Analysis.Model
                 $"{highestDeath.DeathNumbers:n0} deaths{Environment.NewLine}";
         }
 
-        private string formatHighestHospitalizedDay()
+        private string FormatHighestHospitalizedDay()
         {
             var hospitalized = this.CovidRecords.FindHighestNumberOfHospitalizations();
             return
@@ -142,7 +141,7 @@ namespace Covid19Analysis.Model
                 $"{hospitalized.Date.ToShortDateString()} with {hospitalized.HospitalizedNumbers:n0} hospitalized{Environment.NewLine}";
         }
 
-        private string formatHighestPositivePercentage()
+        private string FormatHighestPositivePercentage()
         {
             var positive = this.CovidRecords.FindHighestPositivePercentage();
             return
@@ -151,14 +150,14 @@ namespace Covid19Analysis.Model
                 $"{Environment.NewLine}";
         }
 
-        private string formatHighestCurrentHospitalization()
+        private string FormatHighestCurrentHospitalization()
         {
-            var highestCurrentHosp = this.CovidRecords.findHighestCurrentHospitalization();
+            var highestCurrentHosp = this.CovidRecords.FindHighestCurrentHospitalization();
             return $"Highest Current Hospitalizations: {highestCurrentHosp.Date.ToShortDateString()} with " +
-                   $"{highestCurrentHosp.CurrentHospitalized:n0} currently hospitalized{Environment.NewLine}";
+                $"{highestCurrentHosp.CurrentHospitalized:n0} currently hospitalized{Environment.NewLine}";
         }
 
-        private string formatAveragePositiveTest()
+        private string FormatAveragePositiveTest()
         {
             var average = this.CovidRecords.FindAveragePositiveCasesSinceFirstPositive();
             return
@@ -166,20 +165,20 @@ namespace Covid19Analysis.Model
                 $"{Convert.ToDecimal($"{average: 0.00}"):N} cases per day{Environment.NewLine}";
         }
 
-        private string formatOverAllPositivityRate()
+        private string FormatOverAllPositivityRate()
         {
             var rate = this.CovidRecords.FindOverallPositivityRate();
             return $"Overall Positive rate: {Convert.ToDecimal($"{rate:0.00}"):N}%{Environment.NewLine}";
         }
 
-        private string formatAverageCurrentHospitalizations()
+        private string FormatAverageCurrentHospitalizations()
         {
-            var averageCurrHopsit = this.CovidRecords.findAverageCurrentHospitalization();
+            var averageCurrHopsit = this.CovidRecords.FindAverageCurrentHospitalization();
             return $"Average Current Hospitalizations: {Convert.ToDecimal($"{averageCurrHopsit:0.00}"):n} " +
                    $"hospitalizations per day{Environment.NewLine}";
         }
 
-        private string formatBoundaries(int upperLimit, int lowerLimit)
+        private string FormatBoundaries(int upperLimit, int lowerLimit)
         {
             var output = "";
             output += $"Number of Days With Over {upperLimit:n0} Positive Cases: " +
@@ -189,7 +188,8 @@ namespace Covid19Analysis.Model
             return output;
         }
 
-        private string generateSegmentString(int startCases, int endCases, int segmentCount)
+        // ReSharper disable once UnusedMember.Local
+        private string GenerateSegmentString(int startCases, int endCases, int segmentCount)
         {
             var minFormatted = this.padWithLeadingSpaces($"{startCases:n0}", 10);
             var maxFormatted = this.padWithLeadingSpaces($"{endCases:n0}", 9);
@@ -199,7 +199,7 @@ namespace Covid19Analysis.Model
             return row;
         }
 
-        private string formatHistogram(int binsize)
+        private string FormatHistogram(int binsize)
         {
             var formattedHistogram = $"{Environment.NewLine}";
             var lowerBound = 0;
@@ -208,7 +208,7 @@ namespace Covid19Analysis.Model
             while (!shouldHistogramStop)
             {
                 formattedHistogram +=
-                    $"{this.increaseByOneForNonZero(lowerBound)} - {upperBound}: {this.CovidRecords.FindPositiveCasesBetweenValues(this.increaseByOneForNonZero(lowerBound), upperBound)}" +
+                    $"{increaseByOneForNonZero(lowerBound)} - {upperBound}: {this.CovidRecords.FindPositiveCasesBetweenValues(increaseByOneForNonZero(lowerBound), upperBound)}" +
                     Environment.NewLine;
                 shouldHistogramStop = this.CovidRecords.BoundsContainHighestIncrease(lowerBound, upperBound);
                 lowerBound += binsize;
@@ -228,13 +228,14 @@ namespace Covid19Analysis.Model
             return bound;
         }
 
+
         private string padWithLeadingSpaces(string number, int totalLength)
         {
             var spaces = "";
             var numberSpaces = totalLength - number.Length;
             for (var i = 0; i < numberSpaces; i++)
             {
-                spaces = spaces + " ";
+                spaces += " ";
             }
 
             return spaces + number;
@@ -260,12 +261,12 @@ namespace Covid19Analysis.Model
                     output +=
                         $"{Environment.NewLine}{Environment.NewLine}{DateTimeFormatInfo.InvariantInfo.AbbreviatedMonthNames[i]} {monthlyData.Year} " +
                         $"({monthData.Count} days of date):{Environment.NewLine}";
-                    output += this.formatMonthlyHighestPositiveDay(monthData);
-                    output += this.formatMonthlyLowestPositive(monthData);
-                    output += this.formatMonthlyMostTestInDay(monthData);
-                    output += this.formatLeastTestInDay(monthData);
-                    output += this.formatHighestCurrentHospitalization(monthData);
-                    output += this.formatLeastCurrentHospitalization(monthData);
+                    output += this.FormatMonthlyHighestPositiveDay(monthData);
+                    output += this.FormatMonthlyLowestPositive(monthData);
+                    output += this.FormatMonthlyMostTestInDay(monthData);
+                    output += this.FormatLeastTestInDay(monthData);
+                    output += this.FormatHighestCurrentHospitalization(monthData);
+                    output += this.FormatLeastCurrentHospitalization(monthData);
                     output += this.formatMonthlyAverageTestPerDay(monthData);
                     output += this.formatAverageNumberOfTestPerDay(monthData);
                 }
@@ -302,18 +303,18 @@ namespace Covid19Analysis.Model
             return dayString;
         }
 
-        private string formatMonthlyHighestPositiveDay(CovidDataCollection monthData)
+        private string FormatMonthlyHighestPositiveDay(CovidDataCollection monthData)
         {
             var highestPositive = monthData.FindHighestNumberOfPositiveCasesInSingleDay().PositiveCasesIncrease;
             var daysWithHighest = monthData
-                                  .Where(covidData => covidData.PositiveCasesIncrease == highestPositive)
-                                  .Select(covidData => covidData).ToList();
-            var daysString = this.formatMultipuleDays(daysWithHighest);
+                                           .Where(covidData => covidData.PositiveCasesIncrease == highestPositive)
+                                           .Select(covidData => covidData).ToList();
+            var daysString = this.FormatMultipuleDays(daysWithHighest);
             return
                 $"Highest Positive Cases: {highestPositive:n0} occurred on the {daysString}{Environment.NewLine}";
         }
 
-        private string formatMultipuleDays(List<CovidData> days)
+        private string FormatMultipuleDays(List<CovidData> days)
         {
             var daysString = string.Empty;
             foreach (var day in days)
@@ -332,47 +333,47 @@ namespace Covid19Analysis.Model
             return daysString;
         }
 
-        private string formatMonthlyLowestPositive(CovidDataCollection monthData)
+        private string FormatMonthlyLowestPositive(CovidDataCollection monthData)
         {
             var lowestPositives = monthData.FindLowestPositiveCases().PositiveCasesIncrease;
             var daysWithLowest = monthData
-                                 .Where(covidData => covidData.PositiveCasesIncrease == lowestPositives)
-                                 .Select(covidData => covidData).ToList();
-            var daysString = this.formatMultipuleDays(daysWithLowest);
+                                          .Where(covidData => covidData.PositiveCasesIncrease == lowestPositives)
+                                          .Select(covidData => covidData).ToList();
+            var daysString = this.FormatMultipuleDays(daysWithLowest);
             return
                 $"Lowest Positive Cases: {lowestPositives:n0} occurred on {daysString}{Environment.NewLine}";
         }
 
-        private string formatMonthlyMostTestInDay(CovidDataCollection monthData)
+        private string FormatMonthlyMostTestInDay(CovidDataCollection monthData)
         {
             var mostTest = monthData.FindHighestNumberOfTests().TotalTest;
             var daysWithMostTests = monthData
-                                    .Where(covidData => covidData.TotalTest == mostTest)
-                                    .Select(covidData => covidData).ToList();
-            var daysString = this.formatMultipuleDays(daysWithMostTests);
+                                             .Where(covidData => covidData.TotalTest == mostTest)
+                                             .Select(covidData => covidData).ToList();
+            var daysString = this.FormatMultipuleDays(daysWithMostTests);
             return
                 $"Most Test In Single Day: {mostTest:n0} occurred on {daysString}{Environment.NewLine}";
         }
 
-        private string formatLeastTestInDay(CovidDataCollection monthData)
+        private string FormatLeastTestInDay(CovidDataCollection monthData)
         {
             var leastTest = monthData.FindLowestTotalCases().TotalTest;
             var daysWithLeastTests = monthData
-                                     .Where(covidData => covidData.TotalTest == leastTest)
-                                     .Select(covidData => covidData).ToList();
-            var daysString = this.formatMultipuleDays(daysWithLeastTests);
+                                              .Where(covidData => covidData.TotalTest == leastTest)
+                                              .Select(covidData => covidData).ToList();
+            var daysString = this.FormatMultipuleDays(daysWithLeastTests);
             return
                 $"Least Test in Single Day: {leastTest:n0} occurred on {daysString}{Environment.NewLine}";
         }
 
-        private string formatHighestCurrentHospitalization(CovidDataCollection monthData)
+        private string FormatHighestCurrentHospitalization(CovidDataCollection monthData)
         {
             try
             {
-                var highestCurHops = monthData.findHighestCurrentHospitalization().CurrentHospitalized;
+                var highestCurHops = monthData.FindHighestCurrentHospitalization().CurrentHospitalized;
                 var daysWithHighest = monthData.Where(covidData => covidData.CurrentHospitalized == highestCurHops)
                                                .Select(covidData => covidData).ToList();
-                var daysString = this.formatMultipuleDays(daysWithHighest);
+                var daysString = this.FormatMultipuleDays(daysWithHighest);
                 return
                     $"Highest Current Hospitalizations: {highestCurHops:n0} occurred on {daysString}{Environment.NewLine}";
             }
@@ -382,16 +383,15 @@ namespace Covid19Analysis.Model
             }
         }
 
-        private string formatLeastCurrentHospitalization(CovidDataCollection monthData)
+        private string FormatLeastCurrentHospitalization(CovidDataCollection monthData)
         {
             try
             {
-                var leastCurrHosp = monthData.findLowestCurrentHospitalization().CurrentHospitalized;
+                var leastCurrHosp = monthData.FindLowestCurrentHospitalization().CurrentHospitalized;
                 var daysWithLowest = monthData.Where(covidData => covidData.CurrentHospitalized == leastCurrHosp)
                                               .Select(covidData => covidData).ToList();
-                var daysString = this.formatMultipuleDays(daysWithLowest);
-                return
-                    $"Lowest Current Hospitalizations: {leastCurrHosp:n0} occurred on {daysString}{Environment.NewLine}";
+                var daysString = this.FormatMultipuleDays(daysWithLowest);
+                return $"Lowest Current Hospitalizations: {leastCurrHosp:n0} occurred on {daysString}{Environment.NewLine}";
             }
             catch (Exception)
             {

@@ -30,14 +30,14 @@ namespace Covid19Analysis.Model
         public MonthlyCovidDataCollection(CovidDataCollection covidDataCollection)
         {
             this.Year = covidDataCollection.FindFirstPositiveTest().Year;
-            this.MonthlyCollection = this.getMonthlyCovidData(covidDataCollection);
+            this.MonthlyCollection = this.GetMonthlyCovidData(covidDataCollection);
         }
 
         #endregion
 
         #region Methods
 
-        private CovidDataCollection[] getMonthlyCovidData(CovidDataCollection monthlyCollection)
+        private CovidDataCollection[] GetMonthlyCovidData(CovidDataCollection monthlyCollection)
         {
             var monthlyData = new CovidDataCollection[12];
             this.instanciateNewMonthlyData(monthlyData);

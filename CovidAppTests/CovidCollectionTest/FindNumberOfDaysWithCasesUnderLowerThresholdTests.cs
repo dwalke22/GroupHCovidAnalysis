@@ -13,8 +13,6 @@ namespace CovidAppTests.CovidCollectionTest
     [TestClass]
     public class FindNumberOfDaysWithCasesUnderLowerThresholdTests
     {
-        private const double Delta = 0.0000001;
-
         [TestMethod]
         public void TestEmptyCollection()
         {

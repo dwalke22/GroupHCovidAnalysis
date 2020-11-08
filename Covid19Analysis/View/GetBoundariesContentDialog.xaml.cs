@@ -10,6 +10,25 @@ namespace Covid19Analysis.View
     /// </summary>
     public sealed partial class GetBoundariesContentDialog
     {
+        #region Constructors
+
+        /// <summary>
+        ///     Instantiates a new <see cref="GetBoundariesContentDialog" /> object
+        /// </summary>
+        public GetBoundariesContentDialog()
+        {
+            InitializeComponent();
+            IsPrimaryButtonEnabled = false;
+        }
+
+        #endregion
+
+        private void lowerBoundaryTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(LowerBoundaryTextBox.Text) && !string.IsNullOrEmpty(UpperBoundaryTextBox.Text))
+                IsPrimaryButtonEnabled = true;
+        }
+
         #region Data members
 
         /// <summary>
@@ -38,58 +57,28 @@ namespace Covid19Analysis.View
 
         #endregion
 
-        #region Constructors
-
-        /// <summary>
-        ///     Instantiates a new <see cref="GetBoundariesContentDialog" /> object
-        /// </summary>
-        public GetBoundariesContentDialog()
-        {
-            this.InitializeComponent();
-            IsPrimaryButtonEnabled = false;
-        }
-
-        #endregion
-
         #region Methods
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            var upperBoundary = this.upperBoundaryTextBox.Text;
-            var lowerBoundary = this.lowerBoundaryTextBox.Text;
+            var upperBoundary = UpperBoundaryTextBox.Text;
+            var lowerBoundary = LowerBoundaryTextBox.Text;
             var numberRegex = new Regex("\\d+");
             if (string.IsNullOrEmpty(upperBoundary) | !numberRegex.IsMatch(upperBoundary))
-            {
-                this.UpperBoundary = UpperBoundaryDefault;
-            }
+                UpperBoundary = UpperBoundaryDefault;
             else
-            {
-                this.UpperBoundary = int.Parse(this.upperBoundaryTextBox.Text);
-            }
+                UpperBoundary = int.Parse(UpperBoundaryTextBox.Text);
 
             if (string.IsNullOrEmpty(lowerBoundary) | !numberRegex.IsMatch(lowerBoundary))
-            {
-                this.LowerBoundary = LowerBoundaryDefault;
-            }
+                LowerBoundary = LowerBoundaryDefault;
             else
-            {
-                this.LowerBoundary = int.Parse(this.lowerBoundaryTextBox.Text);
-            }
+                LowerBoundary = int.Parse(LowerBoundaryTextBox.Text);
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            this.UpperBoundary = UpperBoundaryDefault;
-            this.LowerBoundary = LowerBoundaryDefault;
-        }
-
-        private void lowerBoundaryTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(this.lowerBoundaryTextBox.Text) &&
-                !string.IsNullOrEmpty(this.upperBoundaryTextBox.Text))
-            {
-                IsPrimaryButtonEnabled = true;
-            }
+            UpperBoundary = UpperBoundaryDefault;
+            LowerBoundary = LowerBoundaryDefault;
         }
 
         #endregion

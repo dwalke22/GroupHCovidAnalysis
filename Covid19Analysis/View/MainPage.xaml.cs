@@ -14,6 +14,7 @@ using Covid19Analysis.DataHandling;
 using Covid19Analysis.Model;
 using Covid19Analysis.ViewModel;
 
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace Covid19Analysis.View
@@ -30,22 +31,59 @@ namespace Covid19Analysis.View
         /// </summary>
         public MainPage()
         {
-            this.InitializeComponent();
-            this.DataController = new CovidDataController();
-            this.DataCreator = new CovidDataCreator();
-            this.LoadedDataCollection = new CovidDataCollection();
-            this.UpperBoundaryLimit = GetBoundariesContentDialog.UpperBoundaryDefault;
-            this.LowerBoundaryLimit = GetBoundariesContentDialog.LowerBoundaryDefault;
-            this.BinSize = BinChangerContentDialog.DefaultBinSize;
+            InitializeComponent();
+            DataController = new CovidDataController();
+            DataCreator = new CovidDataCreator();
+            LoadedDataCollection = new CovidDataCollection();
+            UpperBoundaryLimit = GetBoundariesContentDialog.UpperBoundaryDefault;
+            LowerBoundaryLimit = GetBoundariesContentDialog.LowerBoundaryDefault;
+            BinSize = BinChangerContentDialog.DefaultBinSize;
 
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
 
-            this.DataController = (CovidDataController) DataContext;
+            DataController = (CovidDataController) DataContext;
         }
 
         #endregion
+
+        private void stateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedValue = StateComboBox.SelectedValue;
+            if (selectedValue != null)
+                if (DataCreator.CovidData.Count > 0)
+                {
+                    var stateData = DataCreator.GetStateCovidData(selectedValue.ToString());
+                    LoadedDataCollection = stateData;
+                    CreateNewReportSummary();
+                }
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoadedDataCollection.Remove(DataController.SelectedCovidData);
+            CreateNewReportSummary();
+        }
+
+        private void UpdateButton_OnClickButton_Click(object sender, RoutedEventArgs e)
+        {
+            var date = DataController.SelectedCovidData.Date;
+            var state = DataController.SelectedCovidData.State;
+            var positiveCases = int.Parse(PositiveCasesTextBox.Text);
+            var negativeCases = int.Parse(NegativeCasesTextBox.Text);
+            var currentHospitalized = int.Parse(CurrentHospitalizedTextBox.Text);
+            var deaths = int.Parse(DeathsTextBox.Text);
+            var hospitalized = int.Parse(HospitalizedTextBox.Text);
+
+            var covidData = new CovidData(date, state, positiveCases, negativeCases, currentHospitalized, deaths,
+                hospitalized);
+            DataController.SelectedCovidData = covidData;
+            LoadedDataCollection.ReplaceCovidData(covidData);
+
+            DataController.HandleSelectionUpdate();
+            CreateNewReportSummary();
+        }
 
         #region Methods
 
@@ -57,12 +95,9 @@ namespace Covid19Analysis.View
 
             if (result == ContentDialogResult.Primary)
             {
-                this.UpperBoundaryLimit = boundaryContentDialog.UpperBoundary;
-                this.LowerBoundaryLimit = boundaryContentDialog.LowerBoundary;
-                if (this.LoadedDataCollection.Count > 0)
-                {
-                    this.createNewReportSummary();
-                }
+                UpperBoundaryLimit = boundaryContentDialog.UpperBoundary;
+                LowerBoundaryLimit = boundaryContentDialog.LowerBoundary;
+                if (LoadedDataCollection.Count > 0) CreateNewReportSummary();
             }
         }
 
@@ -74,11 +109,8 @@ namespace Covid19Analysis.View
 
             if (result == ContentDialogResult.Primary)
             {
-                this.BinSize = binChangerContentDialog.BinSize;
-                if (this.LoadedDataCollection.Count > 0)
-                {
-                    this.createNewReportSummary();
-                }
+                BinSize = binChangerContentDialog.BinSize;
+                if (LoadedDataCollection.Count > 0) CreateNewReportSummary();
             }
         }
 
@@ -96,23 +128,20 @@ namespace Covid19Analysis.View
                     addDataContentDialog.CurrHospitalized,
                     addDataContentDialog.DeathNumbers,
                     addDataContentDialog.HospitalizedNumbers);
-                if (this.LoadedDataCollection.Any(covidData => covidData.Date == data.Date))
-                {
-                    await this.handleDuplicateDay(data);
-                }
+                if (LoadedDataCollection.Any(covidData => covidData.Date == data.Date))
+                    await HandleDuplicateDay(data);
                 else
-                {
-                    this.LoadedDataCollection.Add(data);
-                }
+                    LoadedDataCollection.Add(data);
 
-                this.DataController.setObservableCollection(this.LoadedDataCollection);
-                this.createNewReportSummary();
+                DataController.SetObservableCollection(LoadedDataCollection);
+                CreateNewReportSummary();
             }
         }
 
         private async void SaveData_Click(object sender, RoutedEventArgs e)
         {
-            var savePicker = new FileSavePicker {
+            var savePicker = new FileSavePicker
+            {
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
             savePicker.FileTypeChoices.Add("CSV", new List<string> {".csv"});
@@ -124,17 +153,14 @@ namespace Covid19Analysis.View
             {
                 var serializer = new XmlSerializer(typeof(CovidDataCollection));
                 var outStream = await file.OpenStreamForWriteAsync();
-                serializer.Serialize(outStream, this.LoadedDataCollection);
+                serializer.Serialize(outStream, LoadedDataCollection);
                 outStream.Dispose();
             }
             else if (file != null)
             {
                 CachedFileManager.DeferUpdates(file);
                 var text = FileHeader + Environment.NewLine;
-                foreach (var currData in this.LoadedDataCollection)
-                {
-                    text += currData + Environment.NewLine;
-                }
+                foreach (var currData in LoadedDataCollection) text += currData + Environment.NewLine;
 
                 await FileIO.WriteTextAsync(file, text);
             }
@@ -142,14 +168,15 @@ namespace Covid19Analysis.View
 
         private void ClearData_Click(object sender, RoutedEventArgs e)
         {
-            this.LoadedDataCollection.Clear();
-            this.summaryTextBox.Text = "";
-            this.DataController.setObservableCollection(this.LoadedDataCollection);
+            LoadedDataCollection.Clear();
+            SummaryTextBox.Text = "";
+            DataController.SetObservableCollection(LoadedDataCollection);
         }
 
         private async void LoadFile_Click(object sender, RoutedEventArgs e)
         {
-            var openPicker = new FileOpenPicker {
+            var openPicker = new FileOpenPicker
+            {
                 ViewMode = PickerViewMode.Thumbnail, SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
             openPicker.FileTypeFilter.Add(".csv");
@@ -159,46 +186,41 @@ namespace Covid19Analysis.View
             var file = await openPicker.PickSingleFileAsync();
             if (file != null && file.FileType.Equals(".xml"))
             {
-                await this.DataCreator.DeserializeCovidData(file);
-                this.processData();
+                await DataCreator.DeserializeCovidData(file);
+                //await
+                ProcessData();
             }
             else if (file != null)
             {
-                var lines = await getFileLines(file);
-                this.DataCreator.CreateCovidData(lines);
-                this.processData();
+                var lines = await GetFileLines(file);
+                DataCreator.CreateCovidData(lines);
+                //await
+                ProcessData();
             }
             else
             {
-                this.summaryTextBox.Text = "Operation cancelled.";
+                SummaryTextBox.Text = "Operation cancelled.";
             }
         }
 
-        private void processData()
+        private void ProcessData()
         {
             var state = DefaultStateSelector;
-            if (this.stateComboBox.SelectedValue != null)
-            {
-                state = this.stateComboBox.SelectedValue.ToString();
-            }
-
-            var stateCovidData = this.DataCreator.GetStateCovidData(state);
-            if (this.LoadedDataCollection.Count > 0)
-            {
-                this.handleExistingFileLoading(stateCovidData);
-            }
+            if (StateComboBox.SelectedValue != null) state = StateComboBox.SelectedValue.ToString();
+            var stateCovidData = DataCreator.GetStateCovidData(state);
+            if (LoadedDataCollection.Count > 0)
+                HandleExistingFileLoading(stateCovidData);
             else
-            {
-                this.LoadedDataCollection = stateCovidData;
-            }
+                LoadedDataCollection = stateCovidData;
 
-            this.DataController.setObservableCollection(this.LoadedDataCollection);
-            this.createNewReportSummary();
+            DataController.SetObservableCollection(LoadedDataCollection);
+            CreateNewReportSummary();
         }
 
-        private async void handleExistingFileLoading(CovidDataCollection covidCollection)
+        private async void HandleExistingFileLoading(CovidDataCollection covidCollection)
         {
-            var loadingDialog = new ContentDialog {
+            var loadingDialog = new ContentDialog
+            {
                 Title = "There Is Already A File Loaded",
                 Content = "Do You Wish To Replace Or Merge This File?",
                 PrimaryButtonText = "Replace",
@@ -209,72 +231,59 @@ namespace Covid19Analysis.View
 
             if (result == Replace)
             {
-                this.LoadedDataCollection = covidCollection;
-                this.createNewReportSummary();
+                LoadedDataCollection = covidCollection;
+                CreateNewReportSummary();
             }
 
-            if (result == Merge)
-            {
-                this.mergeFile(covidCollection);
-            }
+            if (result == Merge) MergeFile(covidCollection);
         }
 
-        private async void mergeFile(CovidDataCollection covidCollection)
+        private async void MergeFile(CovidDataCollection covidCollection)
         {
             foreach (var currCovidData in covidCollection)
-            {
-                if (this.LoadedDataCollection.Any(covidData => covidData.Date == currCovidData.Date))
-                {
-                    await this.handleDuplicateDay(currCovidData);
-                }
+                if (LoadedDataCollection.Any(covidData => covidData.Date == currCovidData.Date))
+                    await HandleDuplicateDay(currCovidData);
                 else
-                {
-                    this.LoadedDataCollection.Add(currCovidData);
-                }
-            }
+                    LoadedDataCollection.Add(currCovidData);
 
-            this.DataController.setObservableCollection(this.LoadedDataCollection);
-            this.createNewReportSummary();
+            DataController.SetObservableCollection(LoadedDataCollection);
+            CreateNewReportSummary();
         }
 
-        private async Task handleDuplicateDay(CovidData currCovidData)
+        private async Task HandleDuplicateDay(CovidData currCovidData)
         {
-            var result = await showDuplicateDayDialog();
+            var result = await ShowDuplicateDayDialog();
 
             if (result == Replace)
-            {
-                this.replaceDuplicateDay(currCovidData);
-            }
-            else if (result == Merge)
-            {
-                this.mergeDuplicateDay(currCovidData);
-            }
+                ReplaceDuplicateDay(currCovidData);
+            else if (result == Merge) MergeDuplicateDay(currCovidData);
         }
 
-        private void replaceDuplicateDay(CovidData currCovidData)
+        private void ReplaceDuplicateDay(CovidData currCovidData)
         {
             var duplicateDay = currCovidData.Date;
-            var day = this.LoadedDataCollection.First(covidData =>
+            var day = LoadedDataCollection.First(covidData =>
                 covidData.Date == duplicateDay);
-            var index = this.LoadedDataCollection.IndexOf(day);
-            this.LoadedDataCollection[index] = currCovidData;
+            var index = LoadedDataCollection.IndexOf(day);
+            LoadedDataCollection[index] = currCovidData;
         }
 
-        private void mergeDuplicateDay(CovidData currCovidData)
+        private void MergeDuplicateDay(CovidData currCovidData)
         {
             var duplicateDay = currCovidData.Date;
-            var day = this.LoadedDataCollection.First(covidData => covidData.Date == duplicateDay);
-            var index = this.LoadedDataCollection.IndexOf(day);
+            var day = LoadedDataCollection.First(covidData => covidData.Date == duplicateDay);
+            var index = LoadedDataCollection.IndexOf(day);
             day.PositiveCasesIncrease += currCovidData.PositiveCasesIncrease;
             day.NegativeCasesIncrease += currCovidData.NegativeCasesIncrease;
             day.DeathNumbers += currCovidData.DeathNumbers;
             day.HospitalizedNumbers += currCovidData.HospitalizedNumbers;
-            this.LoadedDataCollection[index] = day;
+            LoadedDataCollection[index] = day;
         }
 
-        private static IAsyncOperation<ContentDialogResult> showDuplicateDayDialog()
+        private static IAsyncOperation<ContentDialogResult> ShowDuplicateDayDialog()
         {
-            var duplicateDayDialog = new ContentDialog {
+            var duplicateDayDialog = new ContentDialog
+            {
                 Title = "Duplicate Day Found",
                 Content = "Do you want to replace day data or merge?",
                 PrimaryButtonText = "Replace",
@@ -285,21 +294,22 @@ namespace Covid19Analysis.View
             return result;
         }
 
-        private void createNewReportSummary()
+        private void CreateNewReportSummary()
         {
-            var stateMonthData = new MonthlyCovidDataCollection(this.LoadedDataCollection);
-            var covidFormatter = new CovidDataFormatter(this.LoadedDataCollection);
-            this.summaryTextBox.Text = "";
-            this.summaryTextBox.Text =
-                covidFormatter.FormatGeneralData(this.UpperBoundaryLimit, this.LowerBoundaryLimit, this.BinSize);
-            this.summaryTextBox.Text += covidFormatter.FormatMonthlyData(stateMonthData);
+            var stateMonthData = new MonthlyCovidDataCollection(LoadedDataCollection);
+            var covidFormatter = new CovidDataFormatter(LoadedDataCollection);
+            SummaryTextBox.Text = "";
+            SummaryTextBox.Text =
+                covidFormatter.FormatGeneralData(UpperBoundaryLimit, LowerBoundaryLimit, BinSize);
+            SummaryTextBox.Text += covidFormatter.FormatMonthlyData(stateMonthData);
         }
 
         private async void ErrorLines_Click(object sender, RoutedEventArgs e)
         {
-            if (this.DataCreator.ErrorLines.Count == 0)
+            if (DataCreator.ErrorLines.Count == 0)
             {
-                var errorDialog = new ContentDialog {
+                var errorDialog = new ContentDialog
+                {
                     Title = "Lines With Errors",
                     Content = "No Lines With Errors",
                     PrimaryButtonText = "Close"
@@ -309,9 +319,10 @@ namespace Covid19Analysis.View
             }
             else
             {
-                var errorDialog = new ContentDialog {
+                var errorDialog = new ContentDialog
+                {
                     Title = "Lines With Errors",
-                    Content = new CovidDataFormatter(this.LoadedDataCollection).ErrorLinesToString(this.DataCreator),
+                    Content = new CovidDataFormatter(LoadedDataCollection).ErrorLinesToString(DataCreator),
                     PrimaryButtonText = "Close"
                 };
 
@@ -319,37 +330,11 @@ namespace Covid19Analysis.View
             }
         }
 
-        private static async Task<string[]> getFileLines(StorageFile file)
+        private static async Task<string[]> GetFileLines(StorageFile file)
         {
             var fileText = await FileIO.ReadTextAsync(file);
             var lines = fileText.Split("\r\n");
             return lines;
-        }
-
-        private void stateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selectedValue = this.stateComboBox.SelectedValue;
-            if (selectedValue != null)
-            {
-                if (this.DataCreator.CovidData.Count > 0)
-                {
-                    var stateData = this.DataCreator.GetStateCovidData(selectedValue.ToString());
-                    this.LoadedDataCollection = stateData;
-                    this.createNewReportSummary();
-                }
-            }
-        }
-
-        private void RemoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.LoadedDataCollection.Remove(this.DataController.SelectedCovidData);
-            this.createNewReportSummary();
-        }
-
-        private void UpdateButton_OnClickButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.LoadedDataCollection.ReplaceCovidData(this.DataController.SelectedCovidData);
-            this.createNewReportSummary();
         }
 
         #endregion

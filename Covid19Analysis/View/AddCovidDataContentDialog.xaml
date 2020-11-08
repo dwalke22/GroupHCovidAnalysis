@@ -8,48 +8,41 @@
     PrimaryButtonText="Add"
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
-
+    
     <ContentDialog.DataContext>
-        <viewModel:CovidDataController />
+        <viewModel:CovidDataController/>
     </ContentDialog.DataContext>
 
     <Grid Height="240" Width="500">
-        <DatePicker x:Name="dataDatePicker" Margin="6,10,0,0" VerticalAlignment="Top" />
+        <DatePicker x:Name="DataDatePicker" Margin="6,10,0,0" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="6,55,0,0" Text="State" TextWrapping="Wrap"
                    VerticalAlignment="Top" Width="37" />
-        <ComboBox SelectedIndex="9" x:Name="stateComboBox" Margin="55,50,0,0" Width="153"
-                  ItemsSource="{Binding States, Mode=OneWay}" PlaceholderText="Pick A State" />
-        <TextBox x:Name="positiveCasesTextBox" HorizontalAlignment="Left" Margin="185,88,0,0"
+        <ComboBox  SelectedIndex="9" x:Name="StateComboBox" Margin="55,50,0,0" Width="153" 
+                    ItemsSource="{Binding States, Mode=OneWay}" PlaceholderText="Pick A State" />
+        <TextBox x:Name="PositiveCasesTextBox" HorizontalAlignment="Left" Margin="185,88,0,0"
                  TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" Width="75"
-                 InputScope="Number" extensions:TextBoxRegex.Regex="^[0-9]*$"
-                 extensions:TextBoxRegex.ValidationMode="Dynamic" TextChanged="PositiveCasesTextBox_TextChanged" />
+                 InputScope="Number" extensions:TextBoxRegex.Regex="^[0-9]*$" extensions:TextBoxRegex.ValidationMode="Dynamic" TextChanged="PositiveCasesTextBox_TextChanged"/>
         <TextBlock HorizontalAlignment="Left" Margin="6,91,0,0" Text="Positive Cases Increase" TextWrapping="Wrap"
                    VerticalAlignment="Top" Height="18" FontSize="14" />
-        <TextBox x:Name="negativeCasesTextBox" HorizontalAlignment="Left" Margin="420,88,0,0"
+        <TextBox x:Name="NegativeCasesTextBox" HorizontalAlignment="Left" Margin="420,88,0,0"
                  TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" Width="75"
-                 InputScope="Number" extensions:TextBoxRegex.Regex="^[0-9]*$"
-                 extensions:TextBoxRegex.ValidationMode="Dynamic" TextChanged="NegativeCasesTextBox_TextChanged" />
+                 InputScope="Number" extensions:TextBoxRegex.Regex="^[0-9]*$" extensions:TextBoxRegex.ValidationMode="Dynamic" TextChanged="NegativeCasesTextBox_TextChanged"/>
         <TextBlock HorizontalAlignment="Right" Margin="0,94,81,0" Text="Negative Cases Increase" TextWrapping="Wrap"
                    VerticalAlignment="Top" Height="19" FontSize="14" Width="155" />
-        <TextBox x:Name="deathsTextBox" HorizontalAlignment="Left" Margin="185,127,0,0" TextWrapping="Wrap"
+        <TextBox x:Name="DeathsTextBox" HorizontalAlignment="Left" Margin="185,127,0,0" TextWrapping="Wrap"
                  VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" Width="75" InputScope="Number"
-                 extensions:TextBoxRegex.Regex="^[0-9]*$" extensions:TextBoxRegex.ValidationMode="Dynamic"
-                 TextChanged="DeathsTextBox_TextChanged" />
+                 extensions:TextBoxRegex.Regex="^[0-9]*$" extensions:TextBoxRegex.ValidationMode="Dynamic" TextChanged="DeathsTextBox_TextChanged"/>
         <TextBlock HorizontalAlignment="Left" Margin="6,135,0,0" Text="Death Numbers" TextWrapping="Wrap"
                    VerticalAlignment="Top" Height="18" FontSize="14" />
-        <TextBox x:Name="hospitalizedTextBox" HorizontalAlignment="Left" Margin="420,127,0,0"
+        <TextBox x:Name="HospitalizedTextBox" HorizontalAlignment="Left" Margin="420,127,0,0"
                  TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="i.e. 1000" Height="34" Width="75"
-                 InputScope="Number" extensions:TextBoxRegex.Regex="^[0-9]*$"
-                 extensions:TextBoxRegex.ValidationMode="Dynamic" TextChanged="HospitalizedTextBox_TextChanged" />
+                 InputScope="Number" extensions:TextBoxRegex.Regex="^[0-9]*$" extensions:TextBoxRegex.ValidationMode="Dynamic" TextChanged="HospitalizedTextBox_TextChanged"/>
         <TextBlock HorizontalAlignment="Left" Margin="265,135,0,0" Text="Hospitalized Numbers" TextWrapping="Wrap"
                    VerticalAlignment="Top" Height="18" FontSize="14" />
-        <TextBlock HorizontalAlignment="Left" Margin="6,174,0,0" Text="Current Hospitalized" TextWrapping="Wrap"
-                   VerticalAlignment="Top" />
-        <TextBox x:Name="currHospitalizedTextBox" HorizontalAlignment="Left" Margin="185,166,0,0" TextWrapping="Wrap"
-                 VerticalAlignment="Top" PlaceholderText="i.e. 1000" Width="75"
-                 extensions:TextBoxRegex.Regex="^[0-9]*$" extensions:TextBoxRegex.ValidationMode="Dynamic"
-                 TextChanged="currHospitalizedTextBox_TextChanged" />
-        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="6,205,0,0" Text="TextBlock"
+        <TextBlock HorizontalAlignment="Left" Margin="6,174,0,0" Text="Current Hospitalized" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="CurrHospitalizedTextBox" HorizontalAlignment="Left" Margin="185,166,0,0" TextWrapping="Wrap" 
+                 VerticalAlignment="Top" PlaceholderText="i.e. 1000" Width="75" extensions:TextBoxRegex.Regex="^[0-9]*$" extensions:TextBoxRegex.ValidationMode="Dynamic" TextChanged="currHospitalizedTextBox_TextChanged" />
+        <TextBlock x:Name="ErrorLabel" HorizontalAlignment="Left" Margin="6,205,0,0" Text="TextBlock"
                    TextWrapping="WrapWholeWords" VerticalAlignment="Top" Height="25" Width="485" Visibility="Collapsed" />
 
     </Grid>

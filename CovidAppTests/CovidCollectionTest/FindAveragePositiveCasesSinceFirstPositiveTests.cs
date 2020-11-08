@@ -14,8 +14,6 @@ namespace CovidAppTests.CovidCollectionTest
     [TestClass]
     public class FindAveragePositiveCasesSinceFirstPositiveTests
     {
-        private const double Delta = 0.0000001;
-
         [TestMethod]
         public void TestIntegerAverageNoZeroes()
         {

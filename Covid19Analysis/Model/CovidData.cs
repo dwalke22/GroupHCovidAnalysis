@@ -24,7 +24,7 @@ namespace Covid19Analysis.Model
         /// <value>
         ///     The state
         /// </value>
-        public string State { get; set; }
+        public string State { get; set;}
 
         /// <summary>
         ///     Gets the number of positive cases for the date
@@ -120,25 +120,20 @@ namespace Covid19Analysis.Model
             this.HospitalizedNumbers = hospitalizedNumbers;
         }
 
+
+        /// <summary>
+        /// A private parameter-less constructor for a CovidData instance.
+        /// This constructor is for use ONLY with data serialization, and should NOT be used under any other circumstance.
+        /// </summary>
+        // ReSharper disable once UnusedMember.Local
+        private CovidData()
+        {
+
+        }
+
         #endregion
 
         #region Methods
-
-        /// <summary>
-        ///     Updates the stats on the given day
-        /// </summary>
-        /// <param name="updatedData"></param>
-        public void UpdateData(CovidData updatedData)
-        {
-            if (updatedData.Date == this.Date)
-            {
-                this.PositiveCasesIncrease = updatedData.PositiveCasesIncrease;
-                this.NegativeCasesIncrease = updatedData.NegativeCasesIncrease;
-                this.CurrentHospitalized = updatedData.CurrentHospitalized;
-                this.DeathNumbers = updatedData.DeathNumbers;
-                this.HospitalizedNumbers = updatedData.HospitalizedNumbers;
-            }
-        }
 
         /// <summary>
         ///     Converts to a string for file writing
@@ -151,6 +146,27 @@ namespace Covid19Analysis.Model
             return
                 $"{this.Date:yyyyMMdd},{this.State},{this.PositiveCasesIncrease},{this.NegativeCasesIncrease}," +
                 $"{this.CurrentHospitalized},{this.DeathNumbers},{this.HospitalizedNumbers}";
+        }
+
+        /// <summary>
+        /// Updates the data.
+        /// </summary>
+        /// <param name="updatedData">The updated data.</param>
+        public void UpdateData(CovidData updatedData)
+        {
+            if (updatedData.Date == this.Date)
+            {
+                this.PositiveCasesIncrease = updatedData.PositiveCasesIncrease;
+                this.NegativeCasesIncrease = updatedData.NegativeCasesIncrease;
+                this.CurrentHospitalized = updatedData.CurrentHospitalized;
+                this.DeathNumbers = updatedData.DeathNumbers;
+                this.HospitalizedNumbers = updatedData.HospitalizedNumbers;
+            }
+        }
+
+        public int testMethod()
+        {
+            return 2 + 2;
         }
 
         #endregion

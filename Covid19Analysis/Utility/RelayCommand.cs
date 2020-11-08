@@ -8,14 +8,8 @@ namespace Covid19Analysis.Utility
     /// </summary>
     public class RelayCommand : ICommand
     {
-        #region Data members
-
-        private readonly Action<object> execute;
         private readonly Predicate<object> canExecute;
-
-        #endregion
-
-        #region Constructors
+        private readonly Action<object> execute;
 
         /// <summary>
         ///     The Relay command constructor
@@ -28,10 +22,6 @@ namespace Covid19Analysis.Utility
             this.canExecute = canExecute;
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         ///     Determines if a method can execute
         /// </summary>
@@ -39,7 +29,7 @@ namespace Covid19Analysis.Utility
         /// <returns></returns>
         public bool CanExecute(object parameter)
         {
-            var result = this.canExecute?.Invoke(parameter) ?? true;
+            var result = canExecute?.Invoke(parameter) ?? true;
             return result;
         }
 
@@ -49,10 +39,7 @@ namespace Covid19Analysis.Utility
         /// <param name="parameter"></param>
         public void Execute(object parameter)
         {
-            if (this.CanExecute(parameter))
-            {
-                this.execute(parameter);
-            }
+            if (CanExecute(parameter)) execute(parameter);
         }
 
         /// <summary>
@@ -65,9 +52,7 @@ namespace Covid19Analysis.Utility
         /// </summary>
         public virtual void OnCanExecuteChanged()
         {
-            this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
-
-        #endregion
     }
 }
