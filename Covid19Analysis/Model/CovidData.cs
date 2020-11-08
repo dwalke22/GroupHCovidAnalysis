@@ -164,11 +164,6 @@ namespace Covid19Analysis.Model
             }
         }
 
-        public int testMethod()
-        {
-            return 2 + 2;
-        }
-
         #endregion
     }
 }

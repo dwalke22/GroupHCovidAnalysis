@@ -8,8 +8,8 @@ namespace Covid19Analysis.Utility
     /// </summary>
     public class RelayCommand : ICommand
     {
-        private readonly Predicate<object> canExecute;
-        private readonly Action<object> execute;
+        private readonly Predicate<object> _canExecute;
+        private readonly Action<object> _execute;
 
         /// <summary>
         ///     The Relay command constructor
@@ -18,8 +18,8 @@ namespace Covid19Analysis.Utility
         /// <param name="canExecute"></param>
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            this.execute = execute;
-            this.canExecute = canExecute;
+            this._execute = execute;
+            this._canExecute = canExecute;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Covid19Analysis.Utility
         /// <returns></returns>
         public bool CanExecute(object parameter)
         {
-            var result = canExecute?.Invoke(parameter) ?? true;
+            var result = _canExecute?.Invoke(parameter) ?? true;
             return result;
         }
 
@@ -39,7 +39,7 @@ namespace Covid19Analysis.Utility
         /// <param name="parameter"></param>
         public void Execute(object parameter)
         {
-            if (CanExecute(parameter)) execute(parameter);
+            if (CanExecute(parameter)) _execute(parameter);
         }
 
         /// <summary>

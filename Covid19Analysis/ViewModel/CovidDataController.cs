@@ -15,31 +15,31 @@ namespace Covid19Analysis.ViewModel
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public class CovidDataController : INotifyPropertyChanged
     {
-        private CovidDataCollection covidDataCollection;
+        private CovidDataCollection _covidDataCollection;
 
-        private string currentHospitalizedText;
+        private string _currentHospitalizedText;
 
 
-        private string deathsText;
+        private string _deathsText;
 
-        private string hospitalizedText;
+        private string _hospitalizedText;
 
-        private string negativeIncreasesText;
+        private string _negativeIncreasesText;
 
-        private ObservableCollection<CovidData> observableCovidCollection;
+        private ObservableCollection<CovidData> _observableCovidCollection;
 
-        private string positiveIncreasesText;
+        private string _positiveIncreasesText;
 
-        private CovidData selectedCovidData;
+        private CovidData _selectedCovidData;
 
-        private string selectedState;
+        private string _selectedState;
 
 
         /// <summary>
         /// </summary>
         public CovidDataController()
         {
-            covidDataCollection = new CovidDataCollection();
+            _covidDataCollection = new CovidDataCollection();
             ToObservableCollection();
             LoadCommands();
         }
@@ -62,10 +62,10 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public ObservableCollection<CovidData> ObservableCovidCollection
         {
-            get => observableCovidCollection;
+            get => _observableCovidCollection;
             set
             {
-                observableCovidCollection = value;
+                _observableCovidCollection = value;
                 OnPropertyChanged();
             }
         }
@@ -78,10 +78,10 @@ namespace Covid19Analysis.ViewModel
         /// </value>
         public string PositiveIncreasesText
         {
-            get => positiveIncreasesText;
+            get => _positiveIncreasesText;
             set
             {
-                positiveIncreasesText = value;
+                _positiveIncreasesText = value;
                 OnPropertyChanged();
             }
         }
@@ -94,10 +94,10 @@ namespace Covid19Analysis.ViewModel
         /// </value>
         public string NegativeIncreasesText
         {
-            get => negativeIncreasesText;
+            get => _negativeIncreasesText;
             set
             {
-                negativeIncreasesText = value;
+                _negativeIncreasesText = value;
                 OnPropertyChanged();
             }
         }
@@ -110,10 +110,10 @@ namespace Covid19Analysis.ViewModel
         /// </value>
         public string CurrentHospitalizedText
         {
-            get => currentHospitalizedText;
+            get => _currentHospitalizedText;
             set
             {
-                currentHospitalizedText = value;
+                _currentHospitalizedText = value;
                 OnPropertyChanged();
             }
         }
@@ -126,10 +126,10 @@ namespace Covid19Analysis.ViewModel
         /// </value>
         public string HospitalizedText
         {
-            get => hospitalizedText;
+            get => _hospitalizedText;
             set
             {
-                hospitalizedText = value;
+                _hospitalizedText = value;
                 OnPropertyChanged();
             }
         }
@@ -142,10 +142,10 @@ namespace Covid19Analysis.ViewModel
         /// </value>
         public string DeathsText
         {
-            get => deathsText;
+            get => _deathsText;
             set
             {
-                deathsText = value;
+                _deathsText = value;
                 OnPropertyChanged();
             }
         }
@@ -155,10 +155,10 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public CovidData SelectedCovidData
         {
-            get => selectedCovidData;
+            get => _selectedCovidData;
             set
             {
-                selectedCovidData = value;
+                _selectedCovidData = value;
                 OnPropertyChanged();
                 RemoveCommand.OnCanExecuteChanged();
                 EnableCommand.OnCanExecuteChanged();
@@ -175,10 +175,10 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public string SelectedState
         {
-            get => selectedState;
+            get => _selectedState;
             set
             {
-                selectedState = value;
+                _selectedState = value;
                 OnPropertyChanged();
             }
         }
@@ -195,16 +195,16 @@ namespace Covid19Analysis.ViewModel
 
         private bool ShouldDisable(object obj)
         {
-            return selectedCovidData != null;
+            return _selectedCovidData != null;
         }
 
         private void UpdateProperties(object obj)
         {
-            PositiveIncreasesText = selectedCovidData.PositiveCasesIncrease.ToString();
-            NegativeIncreasesText = selectedCovidData.NegativeCasesIncrease.ToString();
-            CurrentHospitalizedText = selectedCovidData.CurrentHospitalized.ToString();
-            HospitalizedText = selectedCovidData.HospitalizedNumbers.ToString();
-            DeathsText = selectedCovidData.DeathNumbers.ToString();
+            PositiveIncreasesText = _selectedCovidData.PositiveCasesIncrease.ToString();
+            NegativeIncreasesText = _selectedCovidData.NegativeCasesIncrease.ToString();
+            CurrentHospitalizedText = _selectedCovidData.CurrentHospitalized.ToString();
+            HospitalizedText = _selectedCovidData.HospitalizedNumbers.ToString();
+            DeathsText = _selectedCovidData.DeathNumbers.ToString();
         }
 
         private bool CanDeleteData(object obj)
@@ -214,7 +214,7 @@ namespace Covid19Analysis.ViewModel
 
         private void DeleteData(object obj)
         {
-            covidDataCollection.Remove(selectedCovidData);
+            _covidDataCollection.Remove(_selectedCovidData);
             ToObservableCollection();
         }
 
@@ -224,7 +224,7 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public void ToObservableCollection()
         {
-            ObservableCovidCollection = covidDataCollection.ToObservableCollection();
+            ObservableCovidCollection = _covidDataCollection.ToObservableCollection();
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Covid19Analysis.ViewModel
         /// <param name="collection">The collection.</param>
         public void SetObservableCollection(CovidDataCollection collection)
         {
-            covidDataCollection = collection;
+            _covidDataCollection = collection;
             ToObservableCollection();
         }
 
@@ -242,8 +242,8 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public void ToCollection()
         {
-            covidDataCollection.Clear();
-            covidDataCollection.AddAll(ObservableCovidCollection.ToList());
+            _covidDataCollection.Clear();
+            _covidDataCollection.AddAll(ObservableCovidCollection.ToList());
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace Covid19Analysis.ViewModel
         /// </summary>
         public void HandleSelectionUpdate()
         {
-            covidDataCollection.ReplaceCovidData(selectedCovidData);
+            _covidDataCollection.ReplaceCovidData(_selectedCovidData);
             ToObservableCollection();
         }
 
